@@ -1,0 +1,407 @@
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f2f5;
+  padding: 20px;
+}
+
+.register-brand-title {
+  font-size: 42px;
+  font-weight: bold;
+  color: #1877f2;
+  margin-bottom: 20px;
+}
+
+.register-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 430px;
+  padding: 16px;
+}
+
+.register-header {
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #dadde1;
+  margin-bottom: 16px;
+}
+
+.register-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1c1e21;
+  margin-bottom: 4px;
+}
+
+.register-header p {
+  font-size: 15px;
+  color: #606770;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.name-row {
+  display: flex;
+  gap: 12px;
+}
+
+.name-row .input-wrapper {
+  flex: 1;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.input-wrapper.full-width {
+  width: 100%;
+}
+
+.field-tooltip {
+  position: absolute;
+  left: -160px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #be4b49;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.field-tooltip::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-left-color: #be4b49;
+  border-right: none;
+}
+
+.gender-tooltip {
+  background-color: #be4b49;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.register-input {
+  padding: 11px;
+  border: 1px solid #ccd0d5;
+  border-radius: 5px;
+  font-size: 15px;
+  color: #1c1e21;
+  background-color: #f5f6f7;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.register-input:focus {
+  outline: none;
+  border-color: #1877f2;
+  box-shadow: 0 0 0 2px #e7f3ff;
+  background-color: white;
+}
+
+.register-input::placeholder {
+  color: #90949c;
+}
+
+.register-input.input-error {
+  border-color: #be4b49;
+  background-color: white;
+}
+
+.register-input.input-error:focus {
+  box-shadow: 0 0 0 2px rgba(190, 75, 73, 0.2);
+}
+
+.error-icon {
+  position: absolute;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background-color: #be4b49;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.gender-error {
+  position: static;
+  margin-left: auto;
+}
+
+.form-section {
+  margin-top: 4px;
+}
+
+.section-label {
+  font-size: 12px;
+  color: #606770;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.age-label-row,
+.gender-label-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.age-label-row .section-label,
+.gender-label-row .section-label {
+  margin-bottom: 0;
+}
+
+.age-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.age-input-wrapper {
+  flex: 1;
+  max-width: 150px;
+}
+
+.use-dob-link {
+  color: #1877f2;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.use-dob-link:hover {
+  text-decoration: underline;
+}
+
+.gender-row {
+  display: flex;
+  gap: 12px;
+}
+
+.gender-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px;
+  border: 1px solid #ccd0d5;
+  border-radius: 5px;
+  font-size: 15px;
+  color: #1c1e21;
+  cursor: pointer;
+  background-color: white;
+}
+
+.gender-option-error {
+  border-color: #be4b49;
+}
+
+.gender-option input {
+  cursor: pointer;
+}
+
+.terms-text {
+  font-size: 11px;
+  color: #777;
+  line-height: 1.4;
+  margin-top: 8px;
+}
+
+.terms-text a {
+  color: #1877f2;
+  text-decoration: none;
+}
+
+.terms-text a:hover {
+  text-decoration: underline;
+}
+
+.signup-btn {
+  background-color: #42b72a;
+  color: white;
+  padding: 10px 32px;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 16px auto 0;
+  display: block;
+  width: auto;
+}
+
+.signup-btn:hover {
+  background-color: #36a420;
+}
+
+.already-account-link {
+  display: block;
+  text-align: center;
+  color: #1877f2;
+  font-size: 17px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.already-account-link:hover {
+  text-decoration: underline;
+}
+
+/* Confirmation Modal */
+.confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirmation-modal {
+  background-color: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 420px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.confirmation-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.confirmation-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1c1e21;
+  margin-bottom: 8px;
+}
+
+.confirmation-text {
+  font-size: 16px;
+  color: #606770;
+  margin-bottom: 16px;
+}
+
+.confirmation-email {
+  font-size: 14px;
+  color: #606770;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.confirmation-email strong {
+  color: #1c1e21;
+}
+
+.confirmation-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.confirmation-cancel-btn,
+.confirmation-confirm-btn {
+  padding: 10px 28px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.confirmation-cancel-btn {
+  background-color: #e4e6eb;
+  color: #1c1e21;
+  border: none;
+}
+
+.confirmation-cancel-btn:hover {
+  background-color: #d8dadf;
+}
+
+.confirmation-confirm-btn {
+  background-color: #1877f2;
+  color: white;
+  border: none;
+}
+
+.confirmation-confirm-btn:hover {
+  background-color: #166fe5;
+}
+
+@media (max-width: 600px) {
+  .field-tooltip {
+    position: static;
+    transform: none;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  .field-tooltip::after {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-brand-title {
+    font-size: 32px;
+  }
+
+  .register-card {
+    padding: 12px;
+  }
+
+  .name-row {
+    flex-direction: column;
+  }
+
+  .gender-row {
+    flex-direction: column;
+  }
+
+  .age-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .age-input-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+}

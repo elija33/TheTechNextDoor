@@ -1,0 +1,199 @@
+.carousel-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Tab styles */
+.carousel-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.carousel-tab {
+  padding: 14px 32px;
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: #606770;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.carousel-tab:hover {
+  color: #2c3e50;
+}
+
+.carousel-tab.active {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.carousel-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #3498db;
+}
+
+.carousel-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carousel-page-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.carousel-upload-area {
+  background-color: white;
+  border: 2px dashed #d0d5dd;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.carousel-upload-area:hover {
+  border-color: #3498db;
+  background-color: #f8fbff;
+}
+
+.carousel-upload-icon {
+  color: #9aa0a6;
+  margin-bottom: 12px;
+}
+
+.carousel-upload-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.carousel-upload-hint {
+  font-size: 13px;
+  color: #606770;
+}
+
+.carousel-upload-input {
+  display: none;
+}
+
+.carousel-images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.carousel-image-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-image-preview {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-image-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.carousel-image-name {
+  font-size: 13px;
+  color: #2c3e50;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 160px;
+}
+
+.carousel-image-delete {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-image-delete:hover {
+  background-color: #fdedec;
+}
+
+.carousel-empty {
+  background-color: white;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  color: #606770;
+  font-size: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.carousel-submit-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.carousel-submit-btn {
+  padding: 12px 40px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.carousel-submit-btn:hover:not(:disabled) {
+  background-color: #219a52;
+}
+
+.carousel-submit-btn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.carousel-submit-success {
+  color: #27ae60;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .carousel-images-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel-upload-area {
+    padding: 24px;
+  }
+}

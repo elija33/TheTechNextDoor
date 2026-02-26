@@ -1,0 +1,139 @@
+.overview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.stat-icon.orders {
+  background-color: #3498db;
+}
+
+.stat-icon.services {
+  background-color: #27ae60;
+}
+
+.stat-icon.messages {
+  background-color: #f39c12;
+}
+
+.stat-icon.revenue {
+  background-color: #9b59b6;
+}
+
+.stat-info h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.stat-info p {
+  font-size: 13px;
+  color: #606770;
+}
+
+.recent-orders-section {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.recent-orders-section h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 16px;
+}
+
+.recent-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recent-orders-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #606770;
+  text-transform: uppercase;
+  border-bottom: 2px solid #f0f2f5;
+}
+
+.recent-orders-table td {
+  padding: 12px;
+  font-size: 14px;
+  color: #2c3e50;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.table-status {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.table-status.pending {
+  background-color: #fef3cd;
+  color: #856404;
+}
+
+.table-status.confirmed {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.table-status.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.table-status.cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recent-orders-table {
+    font-size: 12px;
+  }
+}

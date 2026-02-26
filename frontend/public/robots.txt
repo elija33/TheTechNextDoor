@@ -1,0 +1,10 @@
+# robots.txt for TheTechNextDoor
+User-agent: *
+Allow: /
+
+# Disallow admin pages from being indexed
+Disallow: /admin
+Disallow: /admin/
+
+# Allow search engines to find the sitemap
+Sitemap: https://thetechnextdoor.com/sitemap.xml

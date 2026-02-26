@@ -1,0 +1,250 @@
+.messages-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.messages-page h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.messages-list {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.message-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f2f5;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.message-item:last-child {
+  border-bottom: none;
+}
+
+.message-item:hover {
+  background-color: #f8f9fa;
+}
+
+.message-item.unread {
+  background-color: #ebf5fb;
+}
+
+.message-item.unread:hover {
+  background-color: #d4e6f1;
+}
+
+.message-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #3498db;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.message-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.message-sender {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.message-time {
+  font-size: 12px;
+  color: #606770;
+  flex-shrink: 0;
+}
+
+.message-subject {
+  font-size: 13px;
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 2px;
+}
+
+.message-preview {
+  font-size: 13px;
+  color: #606770;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.unread-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #3498db;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.messages-empty {
+  background-color: white;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  color: #606770;
+  font-size: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.message-detail-header {
+  margin-bottom: 16px;
+}
+
+.message-back-btn {
+  background: none;
+  border: none;
+  color: #3498db;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.message-back-btn:hover {
+  color: #2980b9;
+}
+
+.message-detail {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.message-detail-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.message-detail-top .message-avatar {
+  width: 56px;
+  height: 56px;
+  font-size: 20px;
+}
+
+.message-detail-info h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 6px 0;
+}
+
+.message-detail-contact {
+  font-size: 14px;
+  color: #606770;
+  margin: 0 0 4px 0;
+}
+
+.message-detail-method {
+  font-size: 13px;
+  color: #606770;
+  margin: 0 0 4px 0;
+}
+
+.message-detail-time {
+  font-size: 12px;
+  color: #9aa0a6;
+  margin: 0;
+}
+
+.message-detail-body {
+  padding: 20px;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.message-detail-body h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 10px 0;
+}
+
+.message-detail-body p {
+  font-size: 14px;
+  color: #2c3e50;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.message-detail-images {
+  padding: 20px;
+}
+
+.message-detail-images h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 12px 0;
+}
+
+.message-images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.message-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.message-image:hover {
+  transform: scale(1.02);
+}
+
+@media (max-width: 600px) {
+  .message-item {
+    padding: 12px 14px;
+  }
+
+  .message-preview {
+    display: none;
+  }
+
+  .message-detail-top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .message-images-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,634 @@
+/* Senior Tech Service Styles */
+
+.senior-tech-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.senior-tech-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.senior-tech-back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.senior-tech-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.senior-tech-title {
+  font-size: 2.5rem;
+  font-family: serif;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.senior-tech-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.senior-tech-services {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: nowrap;
+}
+
+.senior-tech-dropdown-group {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.senior-tech-dropdown {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  color: #1e293b;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.senior-tech-dropdown .dropdown-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.senior-tech-dropdown .dropdown-arrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  color: #64748b;
+}
+
+.senior-tech-dropdown .dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.senior-tech-dropdown:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.senior-tech-dropdown.open {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.senior-tech-dropdown.has-selection {
+  background: #f0fdf4;
+  border-color: #10b981;
+  color: #059669;
+}
+
+.senior-tech-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 2px solid #3b82f6;
+  border-top: none;
+  border-radius: 0 0 0.75rem 0.75rem;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.senior-tech-checkbox-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  gap: 0.75rem;
+}
+
+.senior-tech-checkbox-item:hover {
+  background: #f8fafc;
+}
+
+.senior-tech-checkbox-item input[type="checkbox"] {
+  display: none;
+}
+
+.senior-tech-checkbox-item .checkbox-custom {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cbd5e1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.senior-tech-checkbox-item input[type="checkbox"]:checked + .checkbox-custom {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.senior-tech-checkbox-item
+  input[type="checkbox"]:checked
+  + .checkbox-custom::after {
+  content: "";
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+.senior-tech-checkbox-item .checkbox-label {
+  font-size: 0.9rem;
+  color: #1e293b;
+  flex: 1;
+}
+
+/* Requested Service Section */
+.senior-tech-requested-service {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.senior-tech-requested-service.selected {
+  background: #f0fdf4;
+  border-color: #10b981;
+  text-align: left;
+}
+
+.senior-tech-service-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0 0;
+}
+
+.senior-tech-service-list li {
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+  color: #1e293b;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.senior-tech-service-list li:last-child {
+  border-bottom: none;
+}
+
+.senior-tech-service-list .service-category {
+  font-weight: 600;
+  color: #059669;
+}
+
+.senior-tech-form {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  margin-bottom: 2rem;
+}
+
+.senior-tech-form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.senior-tech-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.senior-tech-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.senior-tech-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  color: #1e293b;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.senior-tech-input:hover:not(:disabled) {
+  border-color: #10b981;
+}
+
+.senior-tech-input:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.senior-tech-input:disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.senior-tech-input::placeholder {
+  color: #94a3b8;
+}
+
+.senior-tech-submit-container {
+  display: flex;
+  justify-content: center;
+}
+
+.senior-tech-submit-btn {
+  padding: 1rem 3rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.senior-tech-submit-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+}
+
+.senior-tech-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Modal Styles */
+.senior-tech-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.senior-tech-modal {
+  background: white;
+  border-radius: 1rem;
+  padding: 2.5rem;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.senior-tech-modal-icon {
+  color: #10b981;
+  margin-bottom: 1rem;
+}
+
+.senior-tech-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.75rem 0;
+}
+
+.senior-tech-modal-text {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+.senior-tech-modal-btn {
+  padding: 0.75rem 2.5rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.senior-tech-modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+/* Appointment Section */
+.senior-tech-appointment {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  margin-bottom: 2rem;
+}
+
+.senior-tech-appointment-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.senior-tech-appointment-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid #1e293b;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+.senior-tech-appointment-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.senior-tech-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 0.5rem;
+}
+
+.senior-tech-calendar-icon {
+  color: #64748b;
+}
+
+.senior-tech-hint {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+.senior-tech-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231e293b' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.senior-tech-requested-time {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.senior-tech-requested-time.selected {
+  background: #f0fdf4;
+  border-color: #10b981;
+}
+
+.senior-tech-requested-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.senior-tech-requested-text {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.senior-tech-requested-time.selected .senior-tech-requested-text {
+  color: #059669;
+  font-weight: 500;
+}
+
+.senior-tech-message-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.senior-tech-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #1e293b;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  resize: vertical;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.senior-tech-textarea:hover:not(:disabled) {
+  border-color: #10b981;
+}
+
+.senior-tech-textarea:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.senior-tech-textarea:disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.senior-tech-textarea::placeholder {
+  color: #94a3b8;
+}
+
+.senior-tech-character-count {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Location inline layout override (only in SeniorTechService) */
+.senior-tech-location-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  text-align: center;
+  margin: 1rem 0 1rem 0;
+  padding-bottom: 0.75rem;
+  position: relative;
+}
+
+.senior-tech-location-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10rem;
+  height: 1px;
+  background-color: #0f0f10;
+}
+
+.senior-tech-location-inline .location-container h2 {
+  display: none;
+}
+
+.senior-tech-location-inline .location-container {
+  padding: 0;
+  max-width: 100%;
+}
+
+.senior-tech-location-inline .location-form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.senior-tech-location-inline .location-label {
+  display: block;
+  min-width: 140px;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.senior-tech-location-inline .location-input {
+  flex: 1;
+  width: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .senior-tech-title {
+    font-size: 2rem;
+  }
+
+  .senior-tech-services {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .senior-tech-dropdown-group {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .senior-tech-form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .senior-tech-form {
+    padding: 1.5rem;
+  }
+
+  .senior-tech-appointment {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .senior-tech-container {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .senior-tech-title {
+    font-size: 1.75rem;
+  }
+
+  .senior-tech-subtitle {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,351 @@
+.getaguotline {
+  margin: 0 auto 1rem;
+  max-width: 200px;
+  border: none;
+  border-top: 3px solid #3b82f6;
+  opacity: 0.8;
+}
+
+.quote-summary {
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.25rem;
+  margin-top: 2rem;
+  margin-bottom: 0;
+}
+
+.quote-summary strong {
+  color: #3b82f6;
+}
+
+.quote-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.quote-input-row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5rem;
+  flex-wrap: wrap;
+  padding-left: 2.5rem;
+}
+
+.quote-input-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 180px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.quote-input-group .quote-label {
+  flex-shrink: 0;
+  min-width: 140px;
+  width: 140px;
+}
+
+.quote-input-group .quote-input {
+  flex: 1;
+  min-width: 59rem;
+}
+
+.quote-label {
+  font-size: larger;
+  font-weight: 600;
+  color: #ffffff;
+  min-width: 140px;
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.quote-input {
+  display: block;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  color: #1e293b;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.quote-input:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.quote-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.quote-input::placeholder {
+  color: #94a3b8;
+}
+
+.quote-input:disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.quote-input:disabled:hover {
+  border-color: #e2e8f0;
+  box-shadow: none;
+}
+
+.quote-dropdown-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.quote-dropdown-group {
+  flex: 1;
+  min-width: 180px;
+  max-width: 250px;
+}
+
+.quote-dropdown {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  color: #261e3b;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231e293b' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.quote-dropdown:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.quote-dropdown:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.quote-dropdown:disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.quote-dropdown option {
+  padding: 0.5rem;
+}
+
+/* Selection Card */
+.quote-selection-card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  margin: 2rem auto;
+  max-width: 400px;
+  animation: cardSlideIn 0.3s ease-out;
+}
+
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quote-card-image {
+  height: 120px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.quote-card-body {
+  padding: 1.5rem;
+}
+
+.quote-card-device {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.quote-card-brand {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #3b82f6;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quote-card-model {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.quote-card-service {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.quote-card-description {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+}
+
+.quote-card-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #10b981;
+}
+
+/* Success Modal */
+.quote-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: quoteModalFadeIn 0.2s ease-out;
+}
+
+@keyframes quoteModalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.quote-modal {
+  background: white;
+  border-radius: 1rem;
+  padding: 2.5rem;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: quoteModalSlideUp 0.3s ease-out;
+}
+
+@keyframes quoteModalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quote-modal-icon {
+  color: #10b981;
+  margin-bottom: 1rem;
+}
+
+.quote-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.75rem 0;
+}
+
+.quote-modal-text {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+.quote-modal-text strong {
+  color: #3b82f6;
+}
+
+.quote-modal-btn {
+  padding: 0.75rem 2.5rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quote-modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .quote-input-row {
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 0;
+  }
+
+  .quote-input-group {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .quote-input-group .quote-label {
+    margin-bottom: 0.5rem;
+    min-width: auto;
+  }
+
+  .quote-input-group .quote-input {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .quote-dropdown-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .quote-dropdown-group {
+    width: 100%;
+    max-width: 100%;
+  }
+}
