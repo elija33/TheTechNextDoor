@@ -36,7 +36,7 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <CartProvider>
-      <Router>
+      <Router basename="/TheTechNextDoor">
         <AppContent />
       </Router>
     </CartProvider>
