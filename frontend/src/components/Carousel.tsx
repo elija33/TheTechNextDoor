@@ -36,9 +36,39 @@ function Carousel(): JSX.Element {
     return () => clearInterval(timer);
   }, [images.length]);
 
-  // Don't render if no images uploaded
+  // Show fallback hero when no images have been uploaded yet
   if (images.length === 0) {
-    return <></>;
+    return (
+      <div className="carousel-container">
+        <div className="carousel-wrapper">
+          <div
+            className="carousel"
+            style={{
+              background: "linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e3a5f 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              gap: "1rem",
+              textAlign: "center",
+              padding: "2rem",
+            }}
+          >
+            <img
+              src="logo.png"
+              alt="The Tech Next Door"
+              style={{ width: "100px", height: "100px", objectFit: "contain", borderRadius: "50%", background: "rgba(255,255,255,0.1)", padding: "0.5rem" }}
+            />
+            <h1 style={{ color: "#ffffff", fontSize: "2.5rem", fontWeight: 700, fontFamily: "serif", margin: 0 }}>
+              The Tech Next Door
+            </h1>
+            <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "1.1rem", maxWidth: "500px", margin: 0 }}>
+              Professional phone repair services in Columbus, Ohio. Fast, reliable, and affordable.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
