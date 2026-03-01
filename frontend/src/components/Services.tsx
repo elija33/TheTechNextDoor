@@ -56,7 +56,7 @@ function Services(): JSX.Element {
   }
 
   return (
-    <div id="services-section" className="py-20 px-6">
+    <div className="py-20 px-6">
       <h2 className="text-4xl font-serif font-bold text-center mb-16" style={{ textAlign: "center", color: "white" }}>
         Services
       </h2>

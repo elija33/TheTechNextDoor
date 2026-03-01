@@ -1,15 +1,29 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const PHONE_NUMBER = "(609) 555-0123";
 
 const Navbar: React.FC = () => {
   const [showNumber, setShowNumber] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleCallClick = (e: React.MouseEvent) => {
     if (!showNumber) {
       e.preventDefault();
       setShowNumber(true);
+    }
+  };
+
+  const handleServicesClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      document.getElementById("services-section")?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById("services-section")?.scrollIntoView({ behavior: "smooth" });
+      }, 150);
     }
   };
 
@@ -24,9 +38,9 @@ const Navbar: React.FC = () => {
           <Link to="/" className="nav-link">
             Home
           </Link>
-          <Link to="/" className="nav-link">
+          <a href="#services-section" className="nav-link" onClick={handleServicesClick}>
             Services
-          </Link>
+          </a>
           <Link to="/contactus" className="nav-link">
             Contact Us
           </Link>

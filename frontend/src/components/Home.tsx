@@ -27,7 +27,7 @@ function Home(): JSX.Element {
           <div style={{ marginBottom: "3rem" }}>
             <Schedulebutton onClick={() => setActiveSection("schedule")} />
           </div>
-          <div style={{ marginTop: "2rem" }}>
+          <div id="services-section" style={{ marginTop: "2rem" }}>
             <Services />
           </div>
           <section>
