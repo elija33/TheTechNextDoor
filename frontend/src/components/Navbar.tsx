@@ -35,16 +35,16 @@ const Navbar: React.FC = () => {
           The Tech Next Door
         </Link>
         <div className="navbar-links">
-          <Link to="/" className="nav-link">
+          <Link to="/" className={`nav-link ${location.pathname === "/" ? "nav-link-active" : ""}`}>
             Home
           </Link>
           <a href="#services-section" className="nav-link" onClick={handleServicesClick}>
             Services
           </a>
-          <Link to="/contactus" className="nav-link">
+          <Link to="/contactus" className={`nav-link ${location.pathname === "/contactus" ? "nav-link-active" : ""}`}>
             Contact Us
           </Link>
-          <Link to="/getaquote" className="nav-link">
+          <Link to="/getaquote" className={`nav-link ${location.pathname === "/getaquote" ? "nav-link-active" : ""}`}>
             Get A Quote
           </Link>
           <a
