@@ -21,16 +21,12 @@ const Navbar: React.FC = () => {
           The Tech Next Door
         </Link>
         <div className="navbar-links">
-          <a
-            href="/"
-            className="nav-link"
-            onClick={() => (window.location.href = "/")}
-          >
+          <Link to="/" className="nav-link">
             Home
-          </a>
-          <a href="/#services-section" className="nav-link">
+          </Link>
+          <Link to="/" className="nav-link">
             Services
-          </a>
+          </Link>
           <Link to="/contactus" className="nav-link">
             Contact Us
           </Link>
