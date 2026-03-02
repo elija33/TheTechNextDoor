@@ -68,12 +68,9 @@
 /* Responsive styling */
 @media (max-width: 1200px) {
   .services-container {
-    overflow-x: auto;
-    justify-content: flex-start;
-  }
-
-  .service-box {
-    flex-shrink: 0;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 
@@ -81,6 +78,8 @@
   .services-container {
     flex-direction: column;
     align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
   }
 
   .service-box {

@@ -51,7 +51,7 @@
 
 .quote-input-group .quote-input {
   flex: 1;
-  min-width: 59rem;
+  min-width: 0;
 }
 
 .quote-label {

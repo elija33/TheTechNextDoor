@@ -36,6 +36,18 @@ button {
   padding: 20px;
 }
 
+@media (max-width: 768px) {
+  .main-content {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 8px;
+  }
+}
+
 .loading {
   text-align: center;
   padding: 50px;
