@@ -39,15 +39,15 @@
 }
 
 .location-input {
-  width: 44rem;
+  width: 100%;
   padding: 0.8rem;
-  border: 2px solid #cbd5e1;
+  border: 2px solid #cbd5e1;
   border-radius: 0.25rem;
   box-sizing: border-box;
   font-size: 1rem;
   color: #1e293b;
   background: #ffffff;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease;
   outline: none;
 }
 

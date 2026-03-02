@@ -617,6 +617,22 @@
   .senior-tech-appointment {
     padding: 1.5rem;
   }
+
+  /* Stack label above input on tablets */
+  .senior-tech-location-inline .location-form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .senior-tech-location-inline .location-label {
+    min-width: unset;
+    width: 100%;
+    margin-bottom: 0.4rem;
+  }
+
+  .senior-tech-location-inline .location-input {
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -630,5 +646,21 @@
 
   .senior-tech-subtitle {
     font-size: 1rem;
+  }
+
+  /* Stack label above input on small screens */
+  .senior-tech-location-inline .location-form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .senior-tech-location-inline .location-label {
+    min-width: unset;
+    width: 100%;
+    margin-bottom: 0.4rem;
+  }
+
+  .senior-tech-location-inline .location-input {
+    width: 100%;
   }
 }
