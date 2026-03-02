@@ -33,7 +33,7 @@ function Footer(): JSX.Element {
           <h4 className="footer-heading">Connect With Us</h4>
           <div className="footer-social">
             <a
-              href="https://www.facebook.com/eli.amponsa"
+              href="https://www.facebook.com/thetechnextdoors"
               target="_blank"
               rel="noopener noreferrer"
             >
