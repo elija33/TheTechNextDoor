@@ -89,6 +89,7 @@ function Informationform({
   onSuccess,
 }: InformationformProps): JSX.Element {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [submittedName, setSubmittedName] = useState("");
   const [submittedDevice, setSubmittedDevice] = useState<DeviceInfo | null>(null);
   const [submittedServiceData, setSubmittedServiceData] = useState<Service | null>(null);
@@ -303,7 +304,13 @@ function Informationform({
         zipPostalCode: locationData.zipPostalCode,
       };
 
-      await saveOrder(order);
+      try {
+        await saveOrder(order);
+      } catch {
+        setSubmitError("Failed to submit appointment. Please try again.");
+        return;
+      }
+      setSubmitError("");
       setSubmittedName(`${formData.firstName} ${formData.lastName}`);
       setSubmittedDevice(deviceInfo);
       setSubmittedServiceData(matchedService);
@@ -467,6 +474,9 @@ function Informationform({
         />
       </div>
 
+      {submitError && (
+        <div style={{ color: "red", marginBottom: 8 }}>{submitError}</div>
+      )}
       <button
         className="info-form-button"
         onClick={handleSubmit}
