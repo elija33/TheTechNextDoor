@@ -1,6 +1,6 @@
 import { JSX, useEffect, useState } from "react";
 import "../style/video.css";
-import { settingsApi } from "../services/api";
+import { videoApi } from "../services/api";
 
 interface VideoProps {
   src?: string;
@@ -11,8 +11,6 @@ interface VideoProps {
   controls?: boolean;
 }
 
-const VIDEO_SETTING_KEY = "videoUrl";
-
 function Video({
   src,
   poster,
@@ -21,20 +19,20 @@ function Video({
   muted = false,
   controls = true,
 }: VideoProps): JSX.Element {
-  const [apiUrl, setApiUrl] = useState<string | null>(null);
+  const [apiSrc, setApiSrc] = useState<string | null>(null);
 
   useEffect(() => {
     if (!src) {
-      settingsApi.get(VIDEO_SETTING_KEY)
+      videoApi.get()
         .then((response) => {
-          const url = response.data as string;
-          if (url) setApiUrl(url);
+          const val = response.data as string;
+          if (val) setApiSrc(val);
         })
         .catch(() => {});
     }
   }, [src]);
 
-  const effectiveSrc = src || apiUrl || undefined;
+  const effectiveSrc = src || apiSrc || undefined;
 
   if (!effectiveSrc) return <></>;
 

@@ -68,4 +68,17 @@ export const settingsApi = {
   save: (key: string, value: string) => api.put(`/settings/${key}`, { value }),
 };
 
+// Video API
+export const videoApi = {
+  get: () => api.get<string>('/video'),
+  upload: (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return api.post('/video/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  delete: () => api.delete('/video'),
+};
+
 export default api;

@@ -2,9 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { JSX } from "react";
 import Video from "../video";
 import "../../style/video.css";
-import { settingsApi } from "../../services/api";
-
-const VIDEO_SETTING_KEY = "videoUrl";
+import { videoApi } from "../../services/api";
 
 function DashboardVideo(): JSX.Element {
   const [savedSrc, setSavedSrc] = useState<string | null>(null);
@@ -14,7 +12,7 @@ function DashboardVideo(): JSX.Element {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    settingsApi.get(VIDEO_SETTING_KEY)
+    videoApi.get()
       .then((response) => {
         const val = response.data as string;
         if (val) setSavedSrc(val);
@@ -36,31 +34,29 @@ function DashboardVideo(): JSX.Element {
     setUploading(true);
     setMessage("Uploading video...");
 
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const base64 = reader.result as string;
-      try {
-        await settingsApi.save(VIDEO_SETTING_KEY, base64);
-        setSavedSrc(base64);
+    videoApi.upload(file)
+      .then((response) => {
+        const src = (response.data as string) || "";
+        videoApi.get().then((r) => {
+          const val = r.data as string;
+          if (val) setSavedSrc(val);
+        }).catch(() => {});
+        setSavedSrc(src || savedSrc);
         setMessage("Video saved successfully.");
-      } catch {
-        setMessage("Failed to save video.");
-      } finally {
+      })
+      .catch(() => {
+        setMessage("Failed to upload video. Try a smaller file.");
+      })
+      .finally(() => {
         setUploading(false);
-      }
-    };
-    reader.onerror = () => {
-      setMessage("Failed to read video file.");
-      setUploading(false);
-    };
-    reader.readAsDataURL(file);
+      });
 
     e.target.value = "";
   };
 
   const handleRemove = async () => {
     try {
-      await settingsApi.save(VIDEO_SETTING_KEY, "");
+      await videoApi.delete();
       setSavedSrc(null);
       setMessage("Video removed.");
     } catch {
