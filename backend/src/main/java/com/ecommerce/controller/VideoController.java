@@ -24,7 +24,7 @@ public class VideoController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Void> upload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
         try {
             byte[] bytes = file.getBytes();
             String base64 = Base64.getEncoder().encodeToString(bytes);
@@ -33,7 +33,7 @@ public class VideoController {
             repository.save(new AppSetting("videoUrl", dataUrl));
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError().body(e.getClass().getSimpleName() + ": " + e.getMessage());
         }
     }
 
