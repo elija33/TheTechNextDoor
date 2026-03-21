@@ -2,6 +2,7 @@ import { JSX, useState, useEffect } from "react";
 import { Plus, Edit, Trash2, Smartphone, X, Check, Save, Monitor, Tablet, Laptop, Watch, Headphones, Tv, Camera, Gamepad2, Speaker, Printer, Cpu, HardDrive, Wifi, Battery, Wrench, Settings, Zap } from "lucide-react";
 import "../../style/DashboardServices.css";
 import { getServices, saveService, Service } from "../../utils/serviceStorage";
+import { serviceCardsApi } from "../../services/api";
 
 // Icon options for service cards
 const ICON_OPTIONS: Array<{ name: string; icon?: typeof Smartphone; emoji?: string }> = [
@@ -70,14 +71,18 @@ function DashboardServices(): JSX.Element {
   const [toastFading, setToastFading] = useState(false);
 
   // Service Cards state
-  const [serviceCards, setServiceCards] = useState<ServiceCard[]>(() => {
-    const saved = localStorage.getItem("serviceCards");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [serviceCards, setServiceCards] = useState<ServiceCard[]>([]);
   const [showAddCardModal, setShowAddCardModal] = useState(false);
   const [newCard, setNewCard] = useState({ title: "", description: "", icon: "Smartphone" });
   const [editingCard, setEditingCard] = useState<ServiceCard | null>(null);
   const [hasCardChanges, setHasCardChanges] = useState(false);
+
+  // Load service cards from API on mount
+  useEffect(() => {
+    serviceCardsApi.getAll().then((response) => {
+      setServiceCards(response.data as ServiceCard[]);
+    }).catch(() => {});
+  }, []);
 
   // Load services from IndexedDB on mount
   useEffect(() => {
@@ -223,13 +228,13 @@ function DashboardServices(): JSX.Element {
     setHasCardChanges(true);
   };
 
-  const handleSaveAllCards = () => {
+  const handleSaveAllCards = async () => {
     // Convert icon names to display emojis for the public page
     const cardsToSave = serviceCards.map((card) => ({
       ...card,
       icon: getDisplayIcon(card.icon),
     }));
-    localStorage.setItem("serviceCards", JSON.stringify(cardsToSave));
+    await serviceCardsApi.saveAll(cardsToSave);
     setHasCardChanges(false);
     setShowToast(true);
     setToastFading(false);

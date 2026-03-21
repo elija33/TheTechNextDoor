@@ -1,6 +1,7 @@
 import { JSX, useState, useEffect } from "react";
 import "../style/carousel.css";
 import "../style/Services.css";
+import { serviceCardsApi } from "../services/api";
 
 interface ServiceCard {
   id: string;
@@ -39,16 +40,14 @@ function Services(): JSX.Element {
   const [services, setServices] = useState<ServiceCard[]>([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem("serviceCards");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      // Convert icon names to emojis if needed
+    serviceCardsApi.getAll().then((response) => {
+      const parsed = response.data as ServiceCard[];
       const converted = parsed.map((card: ServiceCard) => ({
         ...card,
         icon: ICON_MAP[card.icon] || card.icon,
       }));
       setServices(converted);
-    }
+    }).catch(() => {});
   }, []);
 
   if (services.length === 0) {
