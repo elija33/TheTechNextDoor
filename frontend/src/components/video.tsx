@@ -1,5 +1,6 @@
-import { JSX, useEffect, useRef, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import "../style/video.css";
+import { settingsApi } from "../services/api";
 
 interface VideoProps {
   src?: string;
@@ -10,35 +11,7 @@ interface VideoProps {
   controls?: boolean;
 }
 
-const DB_NAME = "thetechnextdoor";
-const DB_VERSION = 1;
-const STORE_NAME = "videos";
-const VIDEO_KEY = "dashboardVideo";
-
-function openDB(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME);
-      }
-    };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-async function getVideoFromDB(): Promise<Blob | undefined> {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, "readonly");
-    const store = tx.objectStore(STORE_NAME);
-    const req = store.get(VIDEO_KEY);
-    req.onsuccess = () => resolve(req.result as Blob | undefined);
-    req.onerror = () => reject(req.error);
-  });
-}
+const VIDEO_SETTING_KEY = "videoUrl";
 
 function Video({
   src,
@@ -48,38 +21,22 @@ function Video({
   muted = false,
   controls = true,
 }: VideoProps): JSX.Element {
-  const [dbUrl, setDbUrl] = useState<string | null>(null);
-  const revokedRef = useRef<string | null>(null);
+  const [apiUrl, setApiUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    let mounted = true;
-
-    // Only load from IndexedDB when no external src provided
     if (!src) {
-      getVideoFromDB()
-        .then((blob) => {
-          if (!mounted) return;
-          if (blob) {
-            const url = URL.createObjectURL(blob);
-            revokedRef.current = url;
-            setDbUrl(url);
-          }
+      settingsApi.get(VIDEO_SETTING_KEY)
+        .then((response) => {
+          const url = response.data as string;
+          if (url) setApiUrl(url);
         })
-        .catch(() => {
-          // ignore errors silently
-        });
+        .catch(() => {});
     }
-
-    return () => {
-      mounted = false;
-      if (revokedRef.current) {
-        URL.revokeObjectURL(revokedRef.current);
-        revokedRef.current = null;
-      }
-    };
   }, [src]);
 
-  const effectiveSrc = src || dbUrl || undefined;
+  const effectiveSrc = src || apiUrl || undefined;
+
+  if (!effectiveSrc) return <></>;
 
   return (
     <div className="video-section">
