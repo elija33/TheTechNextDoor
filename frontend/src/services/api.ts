@@ -75,7 +75,10 @@ export const videoApi = {
     const formData = new FormData();
     formData.append('file', file);
     return api.post('/video/upload', formData, {
-      headers: { 'Content-Type': undefined },
+      transformRequest: [(_data, headers) => {
+        if (headers) delete headers['Content-Type'];
+        return formData;
+      }],
     });
   },
   delete: () => api.delete('/video'),

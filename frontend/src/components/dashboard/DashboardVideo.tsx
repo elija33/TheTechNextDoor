@@ -44,8 +44,11 @@ function DashboardVideo(): JSX.Element {
         setSavedSrc(src || savedSrc);
         setMessage("Video saved successfully.");
       })
-      .catch(() => {
-        setMessage("Failed to upload video. Try a smaller file.");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .catch((error: any) => {
+        const status = error?.response?.status;
+        const detail = error?.response?.data ?? error?.message ?? "network error";
+        setMessage(`Upload failed (${status ?? "no response"}): ${JSON.stringify(detail)}`);
       })
       .finally(() => {
         setUploading(false);
