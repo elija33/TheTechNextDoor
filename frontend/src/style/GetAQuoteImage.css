@@ -78,6 +78,18 @@
 }
 
 /* Responsive adjustments */
+@media (min-width: 1280px) {
+  .quote-image-wrapper {
+    height: 500px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .quote-image-wrapper {
+    height: 450px;
+  }
+}
+
 @media (max-width: 768px) {
   .quote-image-container {
     margin-bottom: 3rem;
