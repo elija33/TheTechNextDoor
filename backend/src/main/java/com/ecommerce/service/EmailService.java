@@ -1,6 +1,7 @@
 package com.ecommerce.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,18 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
+    @Value("${spring.mail.username:}")
+    private String mailUsername;
+
+    private boolean isConfigured() {
+        return mailUsername != null && !mailUsername.isEmpty();
+    }
+
     public void sendConfirmationEmail(String to, String firstName, String lastName) {
+        if (!isConfigured()) {
+            System.out.println("Email not sent - mail not configured. Would send to: " + to);
+            return;
+        }
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject("Confirm Your Account - The Tech Next Door");
@@ -27,6 +39,10 @@ public class EmailService {
     }
 
     public void sendStatusUpdateEmail(String to, String customerName, String model, String service, String date, String time, String status) {
+        if (!isConfigured()) {
+            System.out.println("Email not sent - mail not configured. Would send to: " + to);
+            return;
+        }
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
 
