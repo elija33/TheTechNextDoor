@@ -39,8 +39,8 @@ export const repairOrdersApi = {
   getAll: () => api.get('/repair-orders'),
   save: (order: object) => api.post('/repair-orders', order),
   updateStatus: (id: string, status: string) =>
-    api.put(`/repair-orders/${id}/status`, { status }),
-  delete: (id: string) => api.delete(`/repair-orders/${id}`),
+    api.put(`/repair-orders/${encodeURIComponent(id)}/status`, { status }),
+  delete: (id: string) => api.delete(`/repair-orders/${encodeURIComponent(id)}`),
   getBookedTimes: (date: string) =>
     api.get('/repair-orders/booked-times', { params: { date } }),
 };
@@ -49,8 +49,8 @@ export const repairOrdersApi = {
 export const contactMessagesApi = {
   getAll: () => api.get('/contact-messages'),
   save: (message: object) => api.post('/contact-messages', message),
-  markAsRead: (id: string) => api.put(`/contact-messages/${id}/read`),
-  delete: (id: string) => api.delete(`/contact-messages/${id}`),
+  markAsRead: (id: string) => api.put(`/contact-messages/${encodeURIComponent(id)}/read`),
+  delete: (id: string) => api.delete(`/contact-messages/${encodeURIComponent(id)}`),
 };
 
 // Quote Requests API
@@ -58,8 +58,8 @@ export const quoteRequestsApi = {
   getAll: () => api.get('/quote-requests'),
   save: (quote: object) => api.post('/quote-requests', quote),
   updateStatus: (id: string, status: string) =>
-    api.put(`/quote-requests/${id}/status`, { status }),
-  delete: (id: string) => api.delete(`/quote-requests/${id}`),
+    api.put(`/quote-requests/${encodeURIComponent(id)}/status`, { status }),
+  delete: (id: string) => api.delete(`/quote-requests/${encodeURIComponent(id)}`),
 };
 
 // Settings API (video URL, quote options, etc.)
