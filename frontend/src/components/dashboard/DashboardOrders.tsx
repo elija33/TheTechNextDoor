@@ -64,7 +64,7 @@ function DashboardOrders(): JSX.Element {
 
   const sendConfirmationSms = async (order: Order) => {
     try {
-      const response = await fetch("http://localhost:8081/api/sms/send-confirmation", {
+      const response = await fetch("https://api.thetechnextdoors.com/api/sms/send-confirmation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,14 +92,17 @@ function DashboardOrders(): JSX.Element {
   const handleStatusChange = async (id: string, newStatus: Order["status"]) => {
     const order = orders.find((o) => o.id === id);
 
-    await updateOrderStatus(id, newStatus);
-    setOrders((prev) =>
-      prev.map((o) => (o.id === id ? { ...o, status: newStatus } : o)),
-    );
-
-    // Send SMS if status changed to confirmed and textConfirmation is enabled
-    if (newStatus === "confirmed" && order?.textConfirmation) {
-      await sendConfirmationSms(order);
+    try {
+      await updateOrderStatus(id, newStatus);
+      setOrders((prev) =>
+        prev.map((o) => (o.id === id ? { ...o, status: newStatus } : o)),
+      );
+      // Send SMS if status changed to confirmed and textConfirmation is enabled
+      if (newStatus === "confirmed" && order?.textConfirmation) {
+        await sendConfirmationSms(order);
+      }
+    } catch {
+      console.error("Failed to update order status");
     }
   };
 

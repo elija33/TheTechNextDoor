@@ -45,7 +45,7 @@ export async function deleteOrder(id: string): Promise<void> {
 
 export function generateOrderId(): string {
   const random = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
-  return `#ORD-${random}`;
+  return `ORD-${random}`;
 }
 
 export async function getBookedTimesForDate(date: string): Promise<string[]> {
