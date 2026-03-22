@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { JSX } from "react";
 import { Upload, Trash2 } from "lucide-react";
 import { CarouselImage, getCarouselImages, saveCarouselImages } from "../../utils/carouselStorage";
+import { quoteImagesApi } from "../../services/api";
 import "../../style/DashboardCarousel.css";
 
 interface QuoteImage {
@@ -27,11 +28,7 @@ function DashboardCarousel(): JSX.Element {
 
   useEffect(() => {
     getCarouselImages().then(setImages);
-    // Load quote images from localStorage
-    const savedQuoteImages = localStorage.getItem("quoteImages");
-    if (savedQuoteImages) {
-      setQuoteImages(JSON.parse(savedQuoteImages));
-    }
+    quoteImagesApi.getAll().then((res) => setQuoteImages(res.data)).catch(() => {});
   }, []);
 
   const handleUploadClick = () => {
@@ -105,8 +102,8 @@ function DashboardCarousel(): JSX.Element {
     setQuoteSubmitted(false);
   };
 
-  const handleQuoteSubmit = () => {
-    localStorage.setItem("quoteImages", JSON.stringify(quoteImages));
+  const handleQuoteSubmit = async () => {
+    await quoteImagesApi.saveAll(quoteImages);
     setHasQuoteChanges(false);
     setQuoteSubmitted(true);
   };

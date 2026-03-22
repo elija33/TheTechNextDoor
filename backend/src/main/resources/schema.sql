@@ -45,6 +45,13 @@ CREATE TABLE IF NOT EXISTS `contact_messages` (
     PRIMARY KEY (`id`)
 );
 
+CREATE TABLE IF NOT EXISTS `quote_images` (
+    `id` VARCHAR(255) NOT NULL,
+    `name` VARCHAR(255),
+    `data` LONGTEXT,
+    PRIMARY KEY (`id`)
+);
+
 CREATE TABLE IF NOT EXISTS `quote_requests` (
     `id` VARCHAR(255) NOT NULL,
     `brand` VARCHAR(255),

@@ -34,6 +34,12 @@ export const carouselImagesApi = {
   saveAll: (images: object[]) => api.post('/carousel-images/batch', images),
 };
 
+// Quote Images API
+export const quoteImagesApi = {
+  getAll: () => api.get('/quote-images'),
+  saveAll: (images: object[]) => api.post('/quote-images/batch', images),
+};
+
 // Repair Orders API
 export const repairOrdersApi = {
   getAll: () => api.get('/repair-orders'),

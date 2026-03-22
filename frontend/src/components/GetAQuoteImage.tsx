@@ -1,4 +1,5 @@
 import { JSX, useState, useEffect } from "react";
+import { quoteImagesApi } from "../services/api";
 import "../style/GetAQuoteImage.css";
 
 interface QuoteImage {
@@ -12,10 +13,7 @@ function GetAQuoteImage(): JSX.Element {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const saved = localStorage.getItem("quoteImages");
-    if (saved) {
-      setImages(JSON.parse(saved));
-    }
+    quoteImagesApi.getAll().then((res) => setImages(res.data)).catch(() => {});
   }, []);
 
   // Auto-rotate images if there are multiple
