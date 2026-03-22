@@ -62,30 +62,30 @@ function DashboardOrders(): JSX.Element {
       ? orders
       : orders.filter((o) => o.status === activeFilter.toLowerCase());
 
-  const sendConfirmationSms = async (order: Order) => {
-    try {
-      const response = await fetch("https://api.thetechnextdoors.com/api/sms/send-confirmation", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phoneNumber: order.phone,
-          customerName: order.customer,
-          service: order.service,
-          date: order.date,
-          time: order.time,
-        }),
-      });
+  const sendStatusNotifications = async (order: Order, newStatus: Order["status"]) => {
+    const body = {
+      customerName: order.customer,
+      model: order.model,
+      service: order.service,
+      date: order.date,
+      time: order.time,
+      status: newStatus,
+    };
 
-      const result = await response.json();
-      if (result.success) {
-        console.log("SMS sent successfully");
-      } else {
-        console.error("Failed to send SMS:", result.message);
-      }
-    } catch (error) {
-      console.error("Error sending SMS:", error);
+    // Always send email
+    fetch("https://api.thetechnextdoors.com/api/email/send-status-update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...body, email: order.email }),
+    }).catch((e) => console.error("Failed to send status email:", e));
+
+    // Send SMS only if customer opted in
+    if (order.textConfirmation) {
+      fetch("https://api.thetechnextdoors.com/api/sms/send-status-update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...body, phoneNumber: order.phone }),
+      }).catch((e) => console.error("Failed to send status SMS:", e));
     }
   };
 
@@ -97,9 +97,8 @@ function DashboardOrders(): JSX.Element {
       setOrders((prev) =>
         prev.map((o) => (o.id === id ? { ...o, status: newStatus } : o)),
       );
-      // Send SMS if status changed to confirmed and textConfirmation is enabled
-      if (newStatus === "confirmed" && order?.textConfirmation) {
-        await sendConfirmationSms(order);
+      if (order && (newStatus === "confirmed" || newStatus === "completed" || newStatus === "cancelled")) {
+        await sendStatusNotifications(order, newStatus);
       }
     } catch {
       console.error("Failed to update order status");

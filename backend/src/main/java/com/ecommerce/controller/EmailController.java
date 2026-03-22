@@ -25,4 +25,19 @@ public class EmailController {
 
         return ResponseEntity.ok(Map.of("message", "Confirmation email sent to " + email));
     }
+
+    @PostMapping("/send-status-update")
+    public ResponseEntity<Map<String, String>> sendStatusUpdate(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String customerName = request.get("customerName");
+        String model = request.get("model");
+        String service = request.get("service");
+        String date = request.get("date");
+        String time = request.get("time");
+        String status = request.get("status");
+
+        emailService.sendStatusUpdateEmail(email, customerName, model, service, date, time, status);
+
+        return ResponseEntity.ok(Map.of("message", "Status update email sent to " + email));
+    }
 }

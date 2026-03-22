@@ -64,4 +64,27 @@ public class SmsService {
 
         System.out.println("SMS sent with SID: " + message.getSid());
     }
+
+    public void sendStatusUpdateSms(String toPhoneNumber, String customerName, String model, String service, String date, String time, String status) {
+        String capitalizedStatus = status.substring(0, 1).toUpperCase() + status.substring(1);
+        String messageBody = "Hello " + customerName + ", your " + model + " " + service +
+            " appointment at " + date + " " + time + " is " + capitalizedStatus + ".";
+        if (status.equalsIgnoreCase("confirmed")) {
+            messageBody += " See you!";
+        }
+
+        if (!isConfigured) {
+            System.out.println("SMS not sent - Twilio not configured. Would send to: " + toPhoneNumber);
+            System.out.println("Message: " + messageBody);
+            return;
+        }
+
+        Message message = Message.creator(
+            new PhoneNumber(toPhoneNumber),
+            new PhoneNumber(twilioPhoneNumber),
+            messageBody
+        ).create();
+
+        System.out.println("SMS sent with SID: " + message.getSid());
+    }
 }

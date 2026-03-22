@@ -25,4 +25,22 @@ public class EmailService {
 
         mailSender.send(message);
     }
+
+    public void sendStatusUpdateEmail(String to, String customerName, String model, String service, String date, String time, String status) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+
+        String capitalizedStatus = status.substring(0, 1).toUpperCase() + status.substring(1);
+        message.setSubject("Appointment " + capitalizedStatus + " - The Tech Next Door");
+
+        String body = "Hello " + customerName + ", your " + model + " " + service +
+            " appointment at " + date + " " + time + " is " + capitalizedStatus + ".";
+        if (status.equalsIgnoreCase("confirmed")) {
+            body += " See you!";
+        }
+        body += "\n\nBest regards,\nThe Tech Next Door Team";
+
+        message.setText(body);
+        mailSender.send(message);
+    }
 }
