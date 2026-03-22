@@ -85,11 +85,11 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .quote-image-container {
-    margin: 3rem auto;
+    margin-bottom: 3rem;
   }
 
   .quote-image-wrapper {
-    height: 300px;
+    height: 280px;
   }
 
   .quote-image-title {
@@ -103,12 +103,11 @@
 
 @media (max-width: 480px) {
   .quote-image-container {
-    margin: 2rem auto;
-    padding: 0 1rem;
+    margin-bottom: 2rem;
   }
 
   .quote-image-wrapper {
-    height: 250px;
+    height: 200px;
   }
 
   .quote-image-title {
@@ -120,6 +119,6 @@
   }
 
   .quote-image-content {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 }
