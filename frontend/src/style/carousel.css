@@ -94,7 +94,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(220, 38, 38, 0.85);
+  background: rgba(52, 152, 219, 0.85);
   border: none;
   border-radius: 50%;
   width: 36px;
@@ -109,7 +109,7 @@
 }
 
 .carousel-pause-btn:hover {
-  background: rgba(185, 28, 28, 0.95);
+  background: rgba(41, 128, 185, 0.95);
 }
 
 /* Dot Indicators */

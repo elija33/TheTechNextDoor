@@ -16,7 +16,9 @@
   border-radius: 0;
   overflow: hidden;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .quote-image-wrapper:hover {
@@ -85,7 +87,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(220, 38, 38, 0.85);
+  background: rgba(52, 152, 219, 0.85);
   border: none;
   border-radius: 50%;
   width: 36px;
@@ -100,7 +102,7 @@
 }
 
 .quote-image-pause-btn:hover {
-  background: rgba(185, 28, 28, 0.95);
+  background: rgba(41, 128, 185, 0.95);
 }
 
 /* Responsive adjustments */
