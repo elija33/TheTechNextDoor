@@ -79,8 +79,9 @@
 
 .quote-image-pause-btn {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: rgba(220, 38, 38, 0.85);
   border: none;
   border-radius: 50%;
