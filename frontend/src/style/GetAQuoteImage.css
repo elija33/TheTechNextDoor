@@ -81,7 +81,7 @@
   position: absolute;
   bottom: 12px;
   right: 12px;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(220, 38, 38, 0.85);
   border: none;
   border-radius: 50%;
   width: 36px;
@@ -96,7 +96,7 @@
 }
 
 .quote-image-pause-btn:hover {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(185, 28, 28, 0.95);
 }
 
 /* Responsive adjustments */
