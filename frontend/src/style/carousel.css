@@ -104,8 +104,15 @@
   justify-content: center;
   color: #ffffff;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: opacity 0.25s ease, background 0.2s;
   z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.carousel:hover .carousel-pause-btn {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .carousel-pause-btn:hover {

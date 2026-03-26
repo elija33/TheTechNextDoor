@@ -97,8 +97,15 @@
   justify-content: center;
   color: #ffffff;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: opacity 0.25s ease, background 0.2s;
   z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.quote-image-wrapper:hover .quote-image-pause-btn {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .quote-image-pause-btn:hover {
