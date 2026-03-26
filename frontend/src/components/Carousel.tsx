@@ -7,6 +7,7 @@ import "../style/carousel.css";
 function Carousel(): JSX.Element {
   const [current, setCurrent] = useState<number>(0);
   const [images, setImages] = useState<string[]>([]);
+  const [paused, setPaused] = useState(false);
 
   // Load uploaded images from IndexedDB
   useEffect(() => {
@@ -29,12 +30,14 @@ function Carousel(): JSX.Element {
 
   // Auto-advance carousel every 4 seconds
   useEffect(() => {
+    if (images.length <= 1 || paused) return;
+
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
     }, 4000);
 
     return () => clearInterval(timer);
-  }, [images.length]);
+  }, [images.length, paused]);
 
   // Show fallback hero when no images have been uploaded yet
   if (images.length === 0) {
@@ -131,6 +134,26 @@ function Carousel(): JSX.Element {
           >
             <ChevronRight size={24} />
           </button>
+
+          {/* Pause/Play Button */}
+          {images.length > 1 && (
+            <button
+              className="carousel-pause-btn"
+              onClick={() => setPaused((p) => !p)}
+              aria-label={paused ? "Play slideshow" : "Pause slideshow"}
+            >
+              {paused ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5,3 19,12 5,21" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="4" width="4" height="16" />
+                  <rect x="14" y="4" width="4" height="16" />
+                </svg>
+              )}
+            </button>
+          )}
 
           {/* Dots */}
           <div
