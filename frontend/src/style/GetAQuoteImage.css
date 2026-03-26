@@ -1,9 +1,12 @@
 /* Get A Quote Image Styles */
 
 .quote-image-container {
-  width: 100%;
+  width: 100vw;
   margin: 0 0 4rem 0;
   padding: 0;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
 }
 
 .quote-image-wrapper {
