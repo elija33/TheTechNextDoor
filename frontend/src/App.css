@@ -125,6 +125,16 @@
 
   .navbar-container {
     position: relative;
+    justify-content: center;
+  }
+
+  .navbar-brand {
+    text-align: center;
+  }
+
+  .navbar-hamburger {
+    position: absolute;
+    right: 20px;
   }
 
 }
