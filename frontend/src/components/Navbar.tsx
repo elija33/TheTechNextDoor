@@ -15,8 +15,9 @@ const Navbar: React.FC = () => {
     if (!showNumber) {
       e.preventDefault();
       setShowNumber(true);
+    } else {
+      closeMenu();
     }
-    closeMenu();
   };
 
   const handleServicesClick = (e: React.MouseEvent) => {
