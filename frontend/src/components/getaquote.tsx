@@ -101,9 +101,9 @@ function GetAQuote(): JSX.Element {
         title="Get A Quote - The Tech Next Door"
         description="Get a free quote for your phone, tablet, or device repair. Fast and affordable repair services from The Tech Next Door."
       />
+      <GetAQuoteImage />
       <div className="min-h-screen flex items-center justify-center py-20 px-6">
         <div className="w-full max-w-3xl">
-          <GetAQuoteImage />
           <div className="text-center mb-12">
             <h2
               className="text-4xl font-serif font-bold mb-4"

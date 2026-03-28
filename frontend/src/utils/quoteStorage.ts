@@ -77,10 +77,10 @@ export async function getQuoteOptions(): Promise<QuoteOptions> {
     if (response.data) {
       const saved = JSON.parse(response.data) as Partial<QuoteOptions>;
       return {
-        brands: saved.brands?.length ? saved.brands : DEFAULT_OPTIONS.brands,
-        groupings: saved.groupings?.length ? saved.groupings : DEFAULT_OPTIONS.groupings,
-        models: saved.models?.length ? saved.models : DEFAULT_OPTIONS.models,
-        services: saved.services?.length ? saved.services : DEFAULT_OPTIONS.services,
+        brands: Array.isArray(saved.brands) ? saved.brands : DEFAULT_OPTIONS.brands,
+        groupings: Array.isArray(saved.groupings) ? saved.groupings : DEFAULT_OPTIONS.groupings,
+        models: Array.isArray(saved.models) ? saved.models : DEFAULT_OPTIONS.models,
+        services: Array.isArray(saved.services) ? saved.services : DEFAULT_OPTIONS.services,
       };
     }
     return DEFAULT_OPTIONS;
