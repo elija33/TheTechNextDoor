@@ -75,7 +75,9 @@ export async function getQuoteOptions(): Promise<QuoteOptions> {
   try {
     const response = await settingsApi.get('quoteOptions');
     if (response.data) {
-      const saved = JSON.parse(response.data) as Partial<QuoteOptions>;
+      const saved = (typeof response.data === 'string'
+        ? JSON.parse(response.data)
+        : response.data) as Partial<QuoteOptions>;
       return {
         brands: Array.isArray(saved.brands) ? saved.brands : DEFAULT_OPTIONS.brands,
         groupings: Array.isArray(saved.groupings) ? saved.groupings : DEFAULT_OPTIONS.groupings,
