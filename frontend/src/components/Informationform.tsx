@@ -8,6 +8,7 @@ import {
 } from "../utils/orderStorage";
 import { getServices, Service } from "../utils/serviceStorage";
 import LoadingImages from "./loadingimages";
+import { compressImage } from "../utils/imageCompressor";
 
 interface InformationFormData {
   email: string;
@@ -75,12 +76,7 @@ const SERVICE_PRICES: Record<string, string> = {
 };
 
 function fileToBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+  return compressImage(file, 1200, 900, 0.80);
 }
 
 function Informationform({

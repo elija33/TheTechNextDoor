@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import SEO from "./SEO";
 import { saveContactMessage, ContactMessage } from "../utils/messageStorage";
 import LoadingImagesContact from "./LoadingImagesContact";
+import { compressImage } from "../utils/imageCompressor";
 
 interface FormDataContact {
   firstname: string;
@@ -40,15 +41,9 @@ function Contact(): JSX.Element {
   ): Promise<void> => {
     e.preventDefault();
 
-    const imageDataPromises = uploadedImages.map((file) => {
-      return new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.readAsDataURL(file);
-      });
-    });
-
-    const imageDataUrls = await Promise.all(imageDataPromises);
+    const imageDataUrls = await Promise.all(
+      uploadedImages.map((file) => compressImage(file, 1200, 900, 0.80))
+    );
 
     const message: ContactMessage = {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),

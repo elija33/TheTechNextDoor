@@ -3,6 +3,7 @@ import { JSX } from "react";
 import { Upload, Trash2 } from "lucide-react";
 import { CarouselImage, getCarouselImages, saveCarouselImages } from "../../utils/carouselStorage";
 import { quoteImagesApi } from "../../services/api";
+import { compressImage } from "../../utils/imageCompressor";
 import "../../style/DashboardCarousel.css";
 
 interface QuoteImage {
@@ -40,18 +41,16 @@ function DashboardCarousel(): JSX.Element {
     if (!files) return;
 
     Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = () => {
+      compressImage(file, 1920, 1080, 0.82).then((data) => {
         const newImage: CarouselImage = {
           id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
           name: file.name,
-          data: reader.result as string,
+          data,
         };
         setImages((prev) => [...prev, newImage]);
         setHasChanges(true);
         setSubmitted(false);
-      };
-      reader.readAsDataURL(file);
+      });
     });
 
     e.target.value = "";
@@ -79,18 +78,16 @@ function DashboardCarousel(): JSX.Element {
     if (!files) return;
 
     Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = () => {
+      compressImage(file, 1920, 1080, 0.82).then((data) => {
         const newImage: QuoteImage = {
           id: Date.now().toString() + Math.random().toString(36).substring(2, 11),
           name: file.name,
-          data: reader.result as string,
+          data,
         };
         setQuoteImages((prev) => [...prev, newImage]);
         setHasQuoteChanges(true);
         setQuoteSubmitted(false);
-      };
-      reader.readAsDataURL(file);
+      });
     });
 
     e.target.value = "";
