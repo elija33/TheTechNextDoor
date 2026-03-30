@@ -314,6 +314,43 @@
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
 }
 
+.quote-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.quote-modal-btn--outline {
+  background: transparent;
+  border: 2px solid #6b7280;
+  color: #6b7280;
+}
+
+.quote-modal-btn--outline:hover {
+  background: #f3f4f6;
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+
+.quote-modal-btn--cancel {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.quote-modal-btn--cancel:hover {
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+.quote-modal-icon--warn svg {
+  stroke: #f59e0b;
+}
+
+.quote-modal-text {
+  color: #4b5563;
+  margin: 0.5rem 0 1.5rem;
+  line-height: 1.5;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .quote-input-row {
