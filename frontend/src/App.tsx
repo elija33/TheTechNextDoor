@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar";
+import { usePageTracking } from "./hooks/usePageTracking";
 import "./App.css";
 
 const Home              = lazy(() => import("./components/Home"));
@@ -22,6 +23,7 @@ const PageLoader = () => (
 const AppContent: React.FC = () => {
   const location = useLocation();
   const hideNavbar = location.pathname.startsWith("/admin");
+  usePageTracking();
 
   return (
     <div className="app">

@@ -90,4 +90,17 @@ export const videoApi = {
   delete: () => api.delete('/video'),
 };
 
+// Analytics API
+export interface AnalyticsSummary {
+  totalVisits: number;
+  todayVisits: number;
+  weekVisits: number;
+  topPages: { page: string; count: number }[];
+}
+
+export const analyticsApi = {
+  track: (page: string) => api.post('/analytics/track', { page }),
+  getSummary: () => api.get<AnalyticsSummary>('/analytics/summary'),
+};
+
 export default api;
