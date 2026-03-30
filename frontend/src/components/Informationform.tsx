@@ -85,6 +85,7 @@ function Informationform({
   onSuccess,
 }: InformationformProps): JSX.Element {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [submittedName, setSubmittedName] = useState("");
   const [submittedDevice, setSubmittedDevice] = useState<DeviceInfo | null>(null);
@@ -484,69 +485,109 @@ function Informationform({
       {showSuccessModal && (
         <div
           className="info-form-modal-overlay"
-          onClick={() => setShowSuccessModal(false)}
+          onClick={() => { setShowSuccessModal(false); setShowCancelConfirm(false); }}
         >
           <div className="info-form-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="info-form-modal-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="36"
-                height="36"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-              </svg>
-            </div>
-            <h3 className="info-form-modal-title">
-              Thank You {submittedName}!
-            </h3>
-            <div className="info-form-modal-card">
-              <div className="info-form-modal-card-header">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="44"
-                  height="44"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                  <line x1="12" y1="18" x2="12.01" y2="18" strokeWidth="2.5"></line>
-                </svg>
-              </div>
-              <div className="info-form-modal-card-body">
-                <p className="info-form-modal-brand">{submittedDevice?.brand}</p>
-                <p className="info-form-modal-model">
-                  {submittedDevice?.grouping} - {submittedDevice?.model}
+            {showCancelConfirm ? (
+              <>
+                <div className="info-form-modal-icon info-form-modal-icon--warn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                </div>
+                <h3 className="info-form-modal-title">Cancel Request?</h3>
+                <p className="info-form-modal-cancel-text">
+                  Hello {submittedName}, are you sure you want to cancel it?
                 </p>
-                <p className="info-form-modal-service">{submittedDevice?.service}</p>
-                {submittedServiceData?.description && (
-                  <p className="info-form-modal-description">
-                    {submittedServiceData.description}
-                  </p>
-                )}
-                <p className="info-form-modal-price">
-                  {submittedServiceData?.price ||
-                    SERVICE_PRICES[submittedDevice?.service ?? ""] ||
-                    "TBD"}
-                </p>
-              </div>
-            </div>
-            <button
-              className="info-form-modal-btn"
-              onClick={() => setShowSuccessModal(false)}
-            >
-              OK
-            </button>
+                <div className="info-form-modal-actions">
+                  <button
+                    className="info-form-modal-btn info-form-modal-btn--cancel"
+                    onClick={() => { setShowSuccessModal(false); setShowCancelConfirm(false); }}
+                  >
+                    Yes, Cancel
+                  </button>
+                  <button
+                    className="info-form-modal-btn info-form-modal-btn--outline"
+                    onClick={() => setShowCancelConfirm(false)}
+                  >
+                    No, Keep It
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="info-form-modal-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <h3 className="info-form-modal-title">
+                  Thank You {submittedName}!
+                </h3>
+                <div className="info-form-modal-card">
+                  <div className="info-form-modal-card-header">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="44"
+                      height="44"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                      <line x1="12" y1="18" x2="12.01" y2="18" strokeWidth="2.5"></line>
+                    </svg>
+                  </div>
+                  <div className="info-form-modal-card-body">
+                    <p className="info-form-modal-brand">{submittedDevice?.brand}</p>
+                    <p className="info-form-modal-model">
+                      {submittedDevice?.grouping} - {submittedDevice?.model}
+                    </p>
+                    <p className="info-form-modal-service">{submittedDevice?.service}</p>
+                    {submittedServiceData?.description && (
+                      <p className="info-form-modal-description">
+                        {submittedServiceData.description}
+                      </p>
+                    )}
+                    <p className="info-form-modal-price">
+                      {submittedServiceData?.price ||
+                        SERVICE_PRICES[submittedDevice?.service ?? ""] ||
+                        "TBD"}
+                    </p>
+                  </div>
+                </div>
+                <div className="info-form-modal-actions">
+                  <button
+                    className="info-form-modal-btn"
+                    onClick={() => setShowSuccessModal(false)}
+                  >
+                    OK
+                  </button>
+                  <button
+                    className="info-form-modal-btn info-form-modal-btn--outline"
+                    onClick={() => setShowCancelConfirm(true)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
