@@ -161,6 +161,7 @@ function SeniorTechService(): JSX.Element {
   const [message, setMessage] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [submittedName, setSubmittedName] = useState({ first: "", last: "" });
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   const maxMessageLength = 400;
   const today = new Date().toISOString().split("T")[0];
@@ -441,38 +442,78 @@ function SeniorTechService(): JSX.Element {
       {showSuccessModal && (
         <div
           className="senior-tech-modal-overlay"
-          onClick={() => setShowSuccessModal(false)}
+          onClick={() => { setShowSuccessModal(false); setShowCancelConfirm(false); }}
         >
           <div
             className="senior-tech-modal"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="senior-tech-modal-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-              </svg>
-            </div>
-            <h3 className="senior-tech-modal-title">Request Submitted!</h3>
-            <p className="senior-tech-modal-text">
-              Thank you {submittedName.first} {submittedName.last} for reaching out. You will receive a confirmation email soon about your appointment.
-            </p>
-            <button
-              className="senior-tech-modal-btn"
-              onClick={() => setShowSuccessModal(false)}
-            >
-              OK
-            </button>
+            {showCancelConfirm ? (
+              <>
+                <div className="senior-tech-modal-icon senior-tech-modal-icon--warn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                </div>
+                <h3 className="senior-tech-modal-title">Cancel Request?</h3>
+                <p className="senior-tech-modal-text">
+                  Hello {submittedName.first} {submittedName.last}, are you sure you want to cancel it?
+                </p>
+                <div className="senior-tech-modal-actions">
+                  <button
+                    className="senior-tech-modal-btn senior-tech-modal-btn--cancel"
+                    onClick={() => { setShowSuccessModal(false); setShowCancelConfirm(false); }}
+                  >
+                    Yes, Cancel
+                  </button>
+                  <button
+                    className="senior-tech-modal-btn"
+                    onClick={() => setShowCancelConfirm(false)}
+                  >
+                    No, Keep It
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="senior-tech-modal-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <h3 className="senior-tech-modal-title">Request Submitted!</h3>
+                <p className="senior-tech-modal-text">
+                  Thank you {submittedName.first} {submittedName.last} for reaching out. You will receive a confirmation email soon about your appointment.
+                </p>
+                <div className="senior-tech-modal-actions">
+                  <button
+                    className="senior-tech-modal-btn"
+                    onClick={() => setShowSuccessModal(false)}
+                  >
+                    OK
+                  </button>
+                  <button
+                    className="senior-tech-modal-btn senior-tech-modal-btn--outline"
+                    onClick={() => setShowCancelConfirm(true)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
