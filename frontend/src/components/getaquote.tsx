@@ -32,7 +32,6 @@ function GetAQuote(): JSX.Element {
   const [phone, setPhone] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [submittedName, setSubmittedName] = useState({ first: "", last: "" });
-  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [submittedQuote, setSubmittedQuote] = useState({
     brand: "",
     grouping: "",
@@ -288,98 +287,58 @@ function GetAQuote(): JSX.Element {
       {showSuccessModal && (
         <div
           className="quote-modal-overlay"
-          onClick={() => { setShowSuccessModal(false); setShowCancelConfirm(false); }}
+          onClick={() => setShowSuccessModal(false)}
         >
           <div className="quote-modal" onClick={(e) => e.stopPropagation()}>
-            {showCancelConfirm ? (
-              <>
-                <div className="quote-modal-icon quote-modal-icon--warn">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                  </svg>
+            <div className="quote-modal-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <h3 className="quote-modal-title">
+              Thank You {submittedName.first} {submittedName.last}!
+            </h3>
+            <div className="quote-selection-card" style={{ margin: "1rem 0" }}>
+              <div className="quote-card-image">
+                <Smartphone size={48} />
+              </div>
+              <div className="quote-card-body">
+                <div className="quote-card-device">
+                  <span className="quote-card-brand">
+                    {submittedQuote.brand}
+                  </span>
+                  <span className="quote-card-model">
+                    {submittedQuote.grouping} - {submittedQuote.model}
+                  </span>
                 </div>
-                <h3 className="quote-modal-title">Cancel Request?</h3>
-                <p className="quote-modal-text">
-                  Hello {submittedName.first} {submittedName.last}, are you sure you want to cancel it?
+                <h3 className="quote-card-service">{submittedQuote.service}</h3>
+                <p className="quote-card-description">
+                  {serviceDescriptions[submittedQuote.service] ||
+                    "Service description"}
                 </p>
-                <div className="quote-modal-actions">
-                  <button
-                    className="quote-modal-btn quote-modal-btn--cancel"
-                    onClick={() => { setShowSuccessModal(false); setShowCancelConfirm(false); }}
-                  >
-                    Yes, Cancel
-                  </button>
-                  <button
-                    className="quote-modal-btn quote-modal-btn--outline"
-                    onClick={() => setShowCancelConfirm(false)}
-                  >
-                    No, Keep It
-                  </button>
+                <div className="quote-card-price">
+                  {servicePrices[submittedQuote.service] ||
+                    "Contact for quote"}
                 </div>
-              </>
-            ) : (
-              <>
-                <div className="quote-modal-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="48"
-                    height="48"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                  </svg>
-                </div>
-                <h3 className="quote-modal-title">
-                  Thank You {submittedName.first} {submittedName.last}!
-                </h3>
-                <div className="quote-selection-card" style={{ margin: "1rem 0" }}>
-                  <div className="quote-card-image">
-                    <Smartphone size={48} />
-                  </div>
-                  <div className="quote-card-body">
-                    <div className="quote-card-device">
-                      <span className="quote-card-brand">
-                        {submittedQuote.brand}
-                      </span>
-                      <span className="quote-card-model">
-                        {submittedQuote.grouping} - {submittedQuote.model}
-                      </span>
-                    </div>
-                    <h3 className="quote-card-service">{submittedQuote.service}</h3>
-                    <p className="quote-card-description">
-                      {serviceDescriptions[submittedQuote.service] ||
-                        "Service description"}
-                    </p>
-                    <div className="quote-card-price">
-                      {servicePrices[submittedQuote.service] ||
-                        "Contact for quote"}
-                    </div>
-                  </div>
-                </div>
-                <div className="quote-modal-actions">
-                  <button
-                    className="quote-modal-btn"
-                    onClick={() => setShowSuccessModal(false)}
-                  >
-                    OK
-                  </button>
-                  <button
-                    className="quote-modal-btn quote-modal-btn--outline"
-                    onClick={() => setShowCancelConfirm(true)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </>
-            )}
+              </div>
+            </div>
+            <button
+              className="quote-modal-btn"
+              onClick={() => setShowSuccessModal(false)}
+            >
+              OK
+            </button>
           </div>
         </div>
       )}
