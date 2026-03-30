@@ -3,6 +3,7 @@ import "../style/Contact.css";
 import Footer from "./Footer";
 import SEO from "./SEO";
 import { saveContactMessage, ContactMessage } from "../utils/messageStorage";
+import { emailApi } from "../services/api";
 import LoadingImagesContact from "./LoadingImagesContact";
 import { compressImage } from "../utils/imageCompressor";
 
@@ -59,6 +60,14 @@ function Contact(): JSX.Element {
     };
 
     await saveContactMessage(message);
+
+    emailApi.sendContactNotification({
+      customerName: `${formData.firstname} ${formData.lastname}`,
+      email: formData.email,
+      phone: formData.phone,
+      contactMethod: formData.contactMethod,
+      message: formData.message,
+    }).catch(() => {});
 
     setSubmittedName({ first: formData.firstname, last: formData.lastname });
     setFormData({

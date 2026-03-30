@@ -73,6 +73,28 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendContactNotification(String customerName, String email, String phone,
+                                         String contactMethod, String message) {
+        if (!isConfigured()) {
+            System.out.println("Email not sent - mail not configured. New contact from: " + customerName);
+            return;
+        }
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo("thetechnextdoors@gmail.com");
+        msg.setSubject("New Contact Message - " + customerName);
+        msg.setText(
+            "A new contact message has been submitted.\n\n" +
+            "--- Customer ---\n" +
+            "Name:             " + customerName + "\n" +
+            "Email:            " + email + "\n" +
+            "Phone:            " + phone + "\n" +
+            "Preferred Contact: " + contactMethod + "\n\n" +
+            "--- Message ---\n" + message + "\n\n" +
+            "Log in to the dashboard to view and respond to this message."
+        );
+        mailSender.send(msg);
+    }
+
     public void sendStatusUpdateEmail(String to, String customerName, String model, String service, String date, String time, String status) {
         if (!isConfigured()) {
             System.out.println("Email not sent - mail not configured. Would send to: " + to);

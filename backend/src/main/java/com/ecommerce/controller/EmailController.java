@@ -52,6 +52,22 @@ public class EmailController {
         }
     }
 
+    @PostMapping("/send-contact-notification")
+    public ResponseEntity<Map<String, String>> sendContactNotification(@RequestBody Map<String, String> request) {
+        try {
+            emailService.sendContactNotification(
+                request.get("customerName"),
+                request.get("email"),
+                request.get("phone"),
+                request.get("contactMethod"),
+                request.get("message")
+            );
+            return ResponseEntity.ok(Map.of("message", "Notification sent"));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @PostMapping("/send-status-update")
     public ResponseEntity<Map<String, String>> sendStatusUpdate(@RequestBody Map<String, String> request) {
         try {

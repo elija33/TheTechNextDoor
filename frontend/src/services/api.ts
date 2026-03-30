@@ -19,6 +19,10 @@ export const emailApi = {
     date: string; time: string; notes: string; amount: string;
     streetAddress: string; city: string; zip: string;
   }) => api.post('/email/send-schedule-notification', data),
+  sendContactNotification: (data: {
+    customerName: string; email: string; phone: string;
+    contactMethod: string; message: string;
+  }) => api.post('/email/send-contact-notification', data),
 };
 
 // Repair Services API
