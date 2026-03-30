@@ -9,6 +9,7 @@ import {
 import { getServices, Service } from "../utils/serviceStorage";
 import LoadingImages from "./loadingimages";
 import { compressImage } from "../utils/imageCompressor";
+import { emailApi } from "../services/api";
 
 interface InformationFormData {
   email: string;
@@ -307,6 +308,24 @@ function Informationform({
         setSubmitError("Failed to submit appointment. Please try again.");
         return;
       }
+
+      emailApi.sendScheduleNotification({
+        customerName: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        phone: formData.phoneNumber,
+        brand: deviceInfo.brand,
+        grouping: deviceInfo.grouping,
+        model: deviceInfo.model,
+        service: deviceInfo.service,
+        date: calendarData.date,
+        time: calendarData.time,
+        notes: calendarData.notes || "",
+        amount: matchedService?.price || SERVICE_PRICES[deviceInfo.service] || "TBD",
+        streetAddress: locationData.streetAddress,
+        city: locationData.city,
+        zip: locationData.zipPostalCode,
+      }).catch(() => {});
+
       setSubmitError("");
       setSubmittedName(`${formData.firstName} ${formData.lastName}`);
       setSubmittedDevice(deviceInfo);

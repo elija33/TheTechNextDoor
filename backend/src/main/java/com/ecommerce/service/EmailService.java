@@ -38,6 +38,41 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendScheduleNotification(String customerName, String email, String phone,
+                                          String brand, String grouping, String model,
+                                          String service, String date, String time,
+                                          String notes, String amount,
+                                          String streetAddress, String city, String zip) {
+        if (!isConfigured()) {
+            System.out.println("Email not sent - mail not configured. New schedule from: " + customerName);
+            return;
+        }
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo("thetechnextdoors@gmail.com");
+        message.setSubject("New Service Request - " + customerName);
+        message.setText(
+            "A new service appointment has been scheduled.\n\n" +
+            "--- Customer ---\n" +
+            "Name:    " + customerName + "\n" +
+            "Email:   " + email + "\n" +
+            "Phone:   " + phone + "\n\n" +
+            "--- Device & Service ---\n" +
+            "Brand:   " + brand + "\n" +
+            "Series:  " + grouping + "\n" +
+            "Model:   " + model + "\n" +
+            "Service: " + service + "\n" +
+            "Amount:  " + amount + "\n\n" +
+            "--- Appointment ---\n" +
+            "Date:    " + date + "\n" +
+            "Time:    " + time + "\n\n" +
+            "--- Address ---\n" +
+            streetAddress + ", " + city + " " + zip + "\n\n" +
+            (notes != null && !notes.isBlank() ? "--- Notes ---\n" + notes + "\n\n" : "") +
+            "Log in to the dashboard to view and manage this request."
+        );
+        mailSender.send(message);
+    }
+
     public void sendStatusUpdateEmail(String to, String customerName, String model, String service, String date, String time, String status) {
         if (!isConfigured()) {
             System.out.println("Email not sent - mail not configured. Would send to: " + to);

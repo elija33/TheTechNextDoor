@@ -13,6 +13,12 @@ const api = axios.create({
 export const emailApi = {
   sendConfirmation: (data: { email: string; firstName: string; lastName: string }) =>
     api.post('/email/send-confirmation', data),
+  sendScheduleNotification: (data: {
+    customerName: string; email: string; phone: string;
+    brand: string; grouping: string; model: string; service: string;
+    date: string; time: string; notes: string; amount: string;
+    streetAddress: string; city: string; zip: string;
+  }) => api.post('/email/send-schedule-notification', data),
 };
 
 // Repair Services API

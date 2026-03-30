@@ -27,6 +27,31 @@ public class EmailController {
         }
     }
 
+    @PostMapping("/send-schedule-notification")
+    public ResponseEntity<Map<String, String>> sendScheduleNotification(@RequestBody Map<String, String> request) {
+        try {
+            emailService.sendScheduleNotification(
+                request.get("customerName"),
+                request.get("email"),
+                request.get("phone"),
+                request.get("brand"),
+                request.get("grouping"),
+                request.get("model"),
+                request.get("service"),
+                request.get("date"),
+                request.get("time"),
+                request.get("notes"),
+                request.get("amount"),
+                request.get("streetAddress"),
+                request.get("city"),
+                request.get("zip")
+            );
+            return ResponseEntity.ok(Map.of("message", "Notification sent"));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @PostMapping("/send-status-update")
     public ResponseEntity<Map<String, String>> sendStatusUpdate(@RequestBody Map<String, String> request) {
         try {
