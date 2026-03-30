@@ -1,7 +1,7 @@
 import { JSX, useState, useEffect } from "react";
 import { Plus, Edit, Trash2, Smartphone, X, Check, Save, Monitor, Tablet, Laptop, Watch, Headphones, Tv, Camera, Gamepad2, Speaker, Printer, Cpu, HardDrive, Wifi, Battery, Wrench, Settings, Zap } from "lucide-react";
 import "../../style/DashboardServices.css";
-import { getServices, saveService, Service } from "../../utils/serviceStorage";
+import { getServices, saveService, deleteService, Service } from "../../utils/serviceStorage";
 import { serviceCardsApi } from "../../services/api";
 
 // Icon options for service cards
@@ -181,6 +181,7 @@ function DashboardServices(): JSX.Element {
   };
 
   const handleDeleteService = (id: number) => {
+    deleteService(id.toString()).catch(() => {});
     setServices((prev) => prev.filter((s) => s.id !== id));
     setHasChanges(true);
   };
