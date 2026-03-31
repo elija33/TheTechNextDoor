@@ -295,35 +295,37 @@ function DashboardServices(): JSX.Element {
 
       {activeTab === "manage" && (
         <>
-          <div className="services-page-header">
-            <h2>Manage Services ({services.length})</h2>
-            <div className="services-header-actions">
-              <button className="add-service-btn" onClick={() => setShowAddModal(true)}>
-                <Plus size={18} />
-                Add Service
-              </button>
-              <button
-                className="save-services-btn"
-                onClick={handleSaveAll}
-                disabled={!hasChanges}
-              >
-                <Save size={18} />
-                Save All
-              </button>
+          <div className="services-sticky-header">
+            <div className="services-page-header">
+              <h2>Manage Services ({services.length})</h2>
+              <div className="services-header-actions">
+                <button className="add-service-btn" onClick={() => setShowAddModal(true)}>
+                  <Plus size={18} />
+                  Add Service
+                </button>
+                <button
+                  className="save-services-btn"
+                  onClick={handleSaveAll}
+                  disabled={!hasChanges}
+                >
+                  <Save size={18} />
+                  Save All
+                </button>
+              </div>
+            </div>
+
+            <div className="services-filter-buttons">
+              {SERVICE_TYPES.map((type) => (
+                <button
+                  key={type}
+                  className={`filter-btn ${filter === type ? "active" : ""}`}
+                  onClick={() => setFilter(type)}
+                >
+                  {type}
+                </button>
+              ))}
             </div>
           </div>
-
-          <div className="services-filter-buttons">
-        {SERVICE_TYPES.map((type) => (
-          <button
-            key={type}
-            className={`filter-btn ${filter === type ? "active" : ""}`}
-            onClick={() => setFilter(type)}
-          >
-            {type}
-          </button>
-        ))}
-      </div>
 
           <div className="services-grid">
             {filteredServices.map((service) => (

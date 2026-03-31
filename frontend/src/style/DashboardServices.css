@@ -43,10 +43,21 @@
   background-color: #3498db;
 }
 
+.services-sticky-header {
+  position: sticky;
+  top: -24px;
+  padding-top: 24px;
+  background-color: #f0f2f5;
+  z-index: 10;
+  padding-bottom: 4px;
+  margin-bottom: -4px;
+}
+
 .services-page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .services-page-header h2 {
@@ -107,7 +118,6 @@
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  margin-left: 15rem;
 }
 
 .filter-btn {
