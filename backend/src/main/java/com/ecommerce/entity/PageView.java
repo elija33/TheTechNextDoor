@@ -22,4 +22,7 @@ public class PageView {
 
     @Column(nullable = false)
     private LocalDateTime visitedAt;
+
+    @Column(nullable = true)
+    private String city;
 }

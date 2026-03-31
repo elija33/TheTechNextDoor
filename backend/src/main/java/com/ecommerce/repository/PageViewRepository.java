@@ -12,4 +12,7 @@ public interface PageViewRepository extends JpaRepository<PageView, Long> {
 
     @Query("SELECT p.page, COUNT(p) FROM PageView p GROUP BY p.page ORDER BY COUNT(p) DESC")
     List<Object[]> findPageCounts();
+
+    @Query("SELECT COALESCE(p.city, 'Unknown'), COUNT(p) FROM PageView p WHERE p.visitedAt >= :after GROUP BY p.city ORDER BY COUNT(p) DESC")
+    List<Object[]> findLocationCountsAfter(LocalDateTime after);
 }

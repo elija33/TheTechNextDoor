@@ -1,5 +1,5 @@
 import { JSX, useState, useEffect } from "react";
-import { ShoppingCart, Wrench, MessageSquare, Users, TrendingUp, Eye } from "lucide-react";
+import { ShoppingCart, Wrench, MessageSquare, Users, TrendingUp, Eye, MapPin, X } from "lucide-react";
 import "../../style/DashboardOverview.css";
 import { repairOrdersApi, repairServicesApi, contactMessagesApi, analyticsApi, AnalyticsSummary } from "../../services/api";
 
@@ -16,6 +16,7 @@ function DashboardOverview(): JSX.Element {
   const [unreadMessages, setUnreadMessages] = useState<number | null>(null);
   const [analytics, setAnalytics] = useState<AnalyticsSummary | null>(null);
   const [recentOrders, setRecentOrders] = useState<{ id: string; customer: string; service: string; date: string; amount: string; status: string }[]>([]);
+  const [showLocations, setShowLocations] = useState(false);
 
   useEffect(() => {
     repairOrdersApi.getAll()
@@ -40,7 +41,7 @@ function DashboardOverview(): JSX.Element {
 
     analyticsApi.getSummary()
       .then((res) => setAnalytics(res.data))
-      .catch(() => setAnalytics({ totalVisits: 0, todayVisits: 0, weekVisits: 0, topPages: [] }));
+      .catch(() => setAnalytics({ totalVisits: 0, todayVisits: 0, weekVisits: 0, topPages: [], todayLocations: [] }));
   }, []);
 
   const maxPageCount = analytics?.topPages?.[0]?.count ?? 1;
@@ -94,13 +95,40 @@ function DashboardOverview(): JSX.Element {
         <h2 className="analytics-section-title">Site Analytics</h2>
 
         <div className="analytics-visit-cards">
-          <div className="analytics-visit-card">
+          <div
+            className="analytics-visit-card analytics-visit-card--clickable"
+            onClick={() => setShowLocations(!showLocations)}
+            title="Click to see today's visitor locations"
+          >
             <Eye size={18} className="analytics-visit-icon" />
             <div>
               <span className="analytics-visit-number">{analytics?.todayVisits ?? "—"}</span>
               <span className="analytics-visit-label">Today</span>
             </div>
+            <MapPin size={14} className="analytics-location-hint" />
           </div>
+
+          {showLocations && (
+            <div className="analytics-locations-panel">
+              <div className="analytics-locations-header">
+                <span>Today's Visitor Locations</span>
+                <button className="analytics-locations-close" onClick={() => setShowLocations(false)}>
+                  <X size={14} />
+                </button>
+              </div>
+              {!analytics?.todayLocations?.length ? (
+                <p className="analytics-empty">No location data yet for today.</p>
+              ) : (
+                analytics.todayLocations.map((loc) => (
+                  <div key={loc.city} className="analytics-location-row">
+                    <MapPin size={13} className="analytics-location-pin" />
+                    <span className="analytics-location-city">{loc.city}</span>
+                    <span className="analytics-location-count">{loc.count}</span>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
           <div className="analytics-visit-card">
             <TrendingUp size={18} className="analytics-visit-icon" />
             <div>

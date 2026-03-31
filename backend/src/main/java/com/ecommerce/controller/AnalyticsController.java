@@ -20,7 +20,12 @@ public class AnalyticsController {
     public ResponseEntity<Void> track(@RequestBody Map<String, String> body) {
         String page = body.get("page");
         if (page == null || page.isBlank()) return ResponseEntity.badRequest().build();
-        repository.save(new PageView(null, page, LocalDateTime.now()));
+        String city = body.get("city");
+        PageView view = new PageView();
+        view.setPage(page);
+        view.setVisitedAt(LocalDateTime.now());
+        view.setCity(city);
+        repository.save(view);
         return ResponseEntity.ok().build();
     }
 
@@ -42,11 +47,21 @@ public class AnalyticsController {
             topPages.add(entry);
         }
 
+        List<Object[]> locationRows = repository.findLocationCountsAfter(startOfDay);
+        List<Map<String, Object>> todayLocations = new ArrayList<>();
+        for (Object[] row : locationRows) {
+            Map<String, Object> entry = new HashMap<>();
+            entry.put("city", row[0]);
+            entry.put("count", row[1]);
+            todayLocations.add(entry);
+        }
+
         Map<String, Object> result = new HashMap<>();
         result.put("totalVisits", totalVisits);
         result.put("todayVisits", todayVisits);
         result.put("weekVisits", weekVisits);
         result.put("topPages", topPages);
+        result.put("todayLocations", todayLocations);
 
         return ResponseEntity.ok(result);
     }

@@ -106,10 +106,11 @@ export interface AnalyticsSummary {
   todayVisits: number;
   weekVisits: number;
   topPages: { page: string; count: number }[];
+  todayLocations: { city: string; count: number }[];
 }
 
 export const analyticsApi = {
-  track: (page: string) => api.post('/analytics/track', { page }),
+  track: (page: string, city?: string | null) => api.post('/analytics/track', { page, city }),
   getSummary: () => api.get<AnalyticsSummary>('/analytics/summary'),
 };
 
