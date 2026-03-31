@@ -7,6 +7,181 @@
   padding: 4px 0;
 }
 
+/* List header */
+.dt-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.dt-btn-add {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dt-btn-add:hover {
+  background: #2980b9;
+}
+
+/* Empty state */
+.dt-empty {
+  background: white;
+  border-radius: 10px;
+  padding: 48px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  color: #606770;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.dt-empty-icon {
+  color: #dee2e6;
+}
+
+/* Cards grid */
+.dt-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.dt-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dt-card-photo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid #e9ecef;
+}
+
+.dt-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dt-card-initials {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #3498db, #2c80b4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.dt-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dt-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dt-card-role {
+  font-size: 12px;
+  color: #3498db;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dt-card-exp {
+  font-size: 11px;
+  color: #adb5bd;
+}
+
+.dt-card-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.dt-card-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+}
+
+.dt-card-btn--edit {
+  background: #eef4fb;
+  color: #3498db;
+}
+
+.dt-card-btn--edit:hover {
+  background: #d6eaf8;
+}
+
+.dt-card-btn--delete {
+  background: #fdf2f2;
+  color: #e74c3c;
+  padding: 6px 8px;
+}
+
+.dt-card-btn--delete:hover {
+  background: #fadbd8;
+}
+
+/* Back button */
+.dt-btn-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #3498db;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.dt-btn-back:hover {
+  color: #2980b9;
+}
+
 .dt-layout {
   display: grid;
   grid-template-columns: 1fr 340px;
