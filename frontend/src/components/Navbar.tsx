@@ -24,11 +24,15 @@ const Navbar: React.FC = () => {
     e.preventDefault();
     closeMenu();
     if (location.pathname === "/") {
-      document.getElementById("services-section")?.scrollIntoView({ behavior: "smooth" });
+      document
+        .getElementById("services-section")
+        ?.scrollIntoView({ behavior: "smooth" });
     } else {
       navigate("/");
       setTimeout(() => {
-        document.getElementById("services-section")?.scrollIntoView({ behavior: "smooth" });
+        document
+          .getElementById("services-section")
+          ?.scrollIntoView({ behavior: "smooth" });
       }, 150);
     }
   };
@@ -53,24 +57,40 @@ const Navbar: React.FC = () => {
         </button>
 
         <div className={`navbar-links ${menuOpen ? "navbar-links-open" : ""}`}>
-          <Link to="/" className={`nav-link ${location.pathname === "/" ? "nav-link-active" : ""}`} onClick={closeMenu}>
+          <Link
+            to="/"
+            className={`nav-link ${location.pathname === "/" ? "nav-link-active" : ""}`}
+            onClick={closeMenu}
+          >
             Home
           </Link>
-          <a href="#services-section" className="nav-link" onClick={handleServicesClick}>
+          <a
+            href="#services-section"
+            className="nav-link"
+            onClick={handleServicesClick}
+          >
             Services
           </a>
-          <Link to="/contactus" className={`nav-link ${location.pathname === "/contactus" ? "nav-link-active" : ""}`} onClick={closeMenu}>
+          <Link
+            to="/contactus"
+            className={`nav-link ${location.pathname === "/contactus" ? "nav-link-active" : ""}`}
+            onClick={closeMenu}
+          >
             Contact Us
           </Link>
-          <Link to="/getaquote" className={`nav-link ${location.pathname === "/getaquote" ? "nav-link-active" : ""}`} onClick={closeMenu}>
-            Get A Quote
+          <Link
+            to="/getaquote"
+            className={`nav-link ${location.pathname === "/getaquote" ? "nav-link-active" : ""}`}
+            onClick={closeMenu}
+          >
+            Get Free Quote
           </Link>
           <a
             href="tel:+16095550123"
             className={`nav-link call-us-btn ${showNumber ? "showing-number" : ""}`}
             onClick={handleCallClick}
           >
-            {showNumber ? PHONE_NUMBER : "Call Us"}
+            {showNumber ? PHONE_NUMBER : "Call Now!"}
           </a>
         </div>
       </div>
