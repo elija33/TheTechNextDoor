@@ -45,9 +45,7 @@
 
 .services-sticky-header {
   position: sticky;
-  top: -24px;
-  padding-top: 24px;
-  margin-top: -20px;
+  top: 0;
   background-color: #f0f2f5;
   z-index: 10;
   padding-bottom: 16px;
