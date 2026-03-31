@@ -12,7 +12,7 @@ interface SEOProps {
 const DEFAULT_TITLE = "TheTechNextDoor | Professional Phone Repair Services";
 const DEFAULT_DESCRIPTION = "Expert iPhone repair and senior citizen tech services in Columbus, Westerville, Dublin, Upper Arlington, Worthington, Grandview Heights, and Bexley, Ohio. Screen repair, battery replacement, and more. Fast, reliable, and affordable. We come to you.";
 const DEFAULT_KEYWORDS = "phone repair Columbus Ohio, iPhone repair Columbus Ohio, iPhone repair Westerville, iPhone repair Dublin Ohio, iPhone repair Upper Arlington, iPhone repair Worthington Ohio, iPhone repair Grandview Heights, iPhone repair Bexley Ohio, screen repair, battery replacement, charging port repair, phone fix, mobile repair Columbus, senior tech service Columbus, senior citizen tech help Westerville, senior citizen tech help Dublin, senior citizen tech help Upper Arlington, senior citizen tech help Worthington, senior citizen tech help Grandview Heights, senior citizen tech help Bexley, tech support for seniors Ohio, We come to you";
-const SITE_URL = "https://thetechnextdoor.com";
+const SITE_URL = "https://thetechnextdoors.com";
 
 function SEO({
   title,
