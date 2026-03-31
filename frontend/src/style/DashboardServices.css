@@ -47,10 +47,10 @@
   position: sticky;
   top: -24px;
   padding-top: 24px;
+  margin-top: -20px;
   background-color: #f0f2f5;
   z-index: 10;
-  padding-bottom: 4px;
-  margin-bottom: -4px;
+  padding-bottom: 16px;
 }
 
 .services-page-header {
