@@ -43,18 +43,37 @@ function DashboardTechnician(): JSX.Element {
     setProfile((p) => ({ ...p, [field]: value }));
   };
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const resizeImage = (file: File, maxSize: number): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = new Image();
+        img.onload = () => {
+          const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+          const w = Math.round(img.width * scale);
+          const h = Math.round(img.height * scale);
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext("2d")!.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL("image/jpeg", 0.85));
+        };
+        img.onerror = reject;
+        img.src = ev.target!.result as string;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-      setMessage({ text: "Photo must be under 2MB.", type: "error" });
-      return;
+    try {
+      const resized = await resizeImage(file, 600);
+      setProfile((p) => ({ ...p, photoUrl: resized }));
+    } catch {
+      setMessage({ text: "Failed to process photo.", type: "error" });
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      setProfile((p) => ({ ...p, photoUrl: reader.result as string }));
-    };
-    reader.readAsDataURL(file);
     e.target.value = "";
   };
 
@@ -117,7 +136,7 @@ function DashboardTechnician(): JSX.Element {
                   Remove
                 </button>
               )}
-              <p className="dt-photo-hint">Max 2MB. JPG or PNG recommended.</p>
+              <p className="dt-photo-hint">Auto-resized to 600px. JPG or PNG.</p>
             </div>
           </div>
 
