@@ -10,6 +10,7 @@ import {
   Users,
   Video,
   PanelBottom,
+  UserCircle,
 } from "lucide-react";
 import "../style/AdminSidebar.css";
 
@@ -26,6 +27,7 @@ const navItems = [
   { id: "messages", label: "Messages", icon: MessageSquare },
   { id: "quotes", label: "Get A Quote", icon: FileText },
   { id: "seniortech", label: "Senior Tech", icon: Users },
+  { id: "technician", label: "Technician", icon: UserCircle },
   { id: "carousel", label: "Carousel Images", icon: ImageIcon },
   { id: "video", label: "Video", icon: Video },
   { id: "footer", label: "Footer", icon: PanelBottom },

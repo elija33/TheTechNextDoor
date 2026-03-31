@@ -11,6 +11,7 @@ import DashboardCarousel from "./dashboard/DashboardCarousel";
 import DashboardQuotes from "./dashboard/DashboardQuotes";
 import DashboardSeniorTech from "./dashboard/DashboardSeniorTech";
 import DashboardVideo from "./dashboard/DashboardVideo";
+import DashboardTechnician from "./dashboard/DashboardTechnician";
 import "../style/AdminDashboard.css";
 import DashboardFooter from "./dashboard/DashboardFooter";
 
@@ -18,6 +19,7 @@ const sectionTitles: Record<string, string> = {
   overview: "Dashboard",
   orders: "Orders",
   services: "Services",
+  technician: "Technician Profile",
   messages: "Messages",
   quotes: "Get A Quote",
   seniortech: "Senior Tech Service",
@@ -63,6 +65,8 @@ function AdminDashboard(): JSX.Element {
         return <DashboardCarousel />;
       case "video":
         return <DashboardVideo />;
+      case "technician":
+        return <DashboardTechnician />;
       case "footer":
         return <DashboardFooter />;
       default:

@@ -9,6 +9,7 @@ import MapSection from "./GetInTouch";
 import GetAQuote from "./getaquote";
 import Schedule from "./Schedule";
 import SEO from "./SEO";
+import MeetTheTechnician from "./MeetTheTechnician";
 
 type Section = "home" | "services" | "contact" | "quote" | "schedule";
 
@@ -30,6 +31,7 @@ function Home(): JSX.Element {
           <div id="services-section" style={{ marginTop: "2rem" }}>
             <Services />
           </div>
+          <MeetTheTechnician />
           <section>
             <h2 style={{ textAlign: "center", color: "white" }}>
               How our services work
