@@ -52,12 +52,16 @@ function DashboardTechnician(): JSX.Element {
           setLoading(false);
           return;
         }
-        // Fall back to old "technician" key and migrate
+        // Fall back to old "technician" key and auto-migrate to new key
         return settingsApi.get("technician")
           .then((r) => {
             const oldVal = r.data as string;
             const oldList = oldVal ? parseList(oldVal) : null;
-            if (oldList) setTechnicians(oldList);
+            if (oldList) {
+              setTechnicians(oldList);
+              // Migrate: save under new key so future loads work
+              settingsApi.save("technicians", JSON.stringify(oldList)).catch(() => {});
+            }
           })
           .catch(() => {})
           .finally(() => setLoading(false));
