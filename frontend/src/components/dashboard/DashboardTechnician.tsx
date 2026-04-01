@@ -33,11 +33,13 @@ function DashboardTechnician(): JSX.Element {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const parseList = (val: string): TechnicianProfile[] | null => {
+    const parseList = (val: unknown): TechnicianProfile[] | null => {
       try {
-        const parsed = JSON.parse(val);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-        if (parsed && typeof parsed === "object" && parsed.name) return [{ id: "1", ...parsed }];
+        // axios may auto-parse valid JSON responses into objects/arrays
+        const parsed = typeof val === "string" ? JSON.parse(val) : val;
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed as TechnicianProfile[];
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed) && (parsed as Record<string, unknown>).name)
+          return [{ id: "1", ...(parsed as Omit<TechnicianProfile, "id">) }];
       } catch { /* ignore */ }
       return null;
     };
@@ -45,8 +47,7 @@ function DashboardTechnician(): JSX.Element {
     // Try the current key first, then fall back to old singular key
     settingsApi.get("technicians")
       .then((res) => {
-        const val = res.data as string;
-        const list = val ? parseList(val) : null;
+        const list = res.data != null && res.data !== "" ? parseList(res.data) : null;
         if (list) {
           setTechnicians(list);
           setLoading(false);
@@ -55,8 +56,7 @@ function DashboardTechnician(): JSX.Element {
         // Fall back to old "technician" key and auto-migrate to new key
         return settingsApi.get("technician")
           .then((r) => {
-            const oldVal = r.data as string;
-            const oldList = oldVal ? parseList(oldVal) : null;
+            const oldList = r.data != null && r.data !== "" ? parseList(r.data) : null;
             if (oldList) {
               setTechnicians(oldList);
               // Migrate: save under new key so future loads work

@@ -16,21 +16,23 @@ function MeetTheTechnician(): JSX.Element | null {
   const [technicians, setTechnicians] = useState<TechnicianProfile[]>([]);
 
   useEffect(() => {
-    const parseList = (val: string): TechnicianProfile[] | null => {
+    const parseList = (val: unknown): TechnicianProfile[] | null => {
       try {
-        const parsed = JSON.parse(val);
-        if (Array.isArray(parsed)) return parsed.filter((t) => t.name);
-        if (parsed?.name) return [{ id: "1", ...parsed }];
+        // axios may auto-parse valid JSON responses into objects/arrays
+        const parsed = typeof val === "string" ? JSON.parse(val) : val;
+        if (Array.isArray(parsed)) return (parsed as TechnicianProfile[]).filter((t) => t.name);
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed) && (parsed as Record<string, unknown>).name)
+          return [{ id: "1", ...(parsed as Omit<TechnicianProfile, "id">) }];
       } catch { /* ignore */ }
       return null;
     };
 
     settingsApi.get("technicians")
       .then((res) => {
-        const list = res.data ? parseList(res.data as string) : null;
+        const list = res.data != null && res.data !== "" ? parseList(res.data) : null;
         if (list?.length) { setTechnicians(list); return; }
         return settingsApi.get("technician")
-          .then((r) => { const old = r.data ? parseList(r.data as string) : null; if (old?.length) setTechnicians(old); })
+          .then((r) => { const old = r.data != null && r.data !== "" ? parseList(r.data) : null; if (old?.length) setTechnicians(old); })
           .catch(() => {});
       })
       .catch(() => {});
