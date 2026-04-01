@@ -33,23 +33,41 @@ function DashboardTechnician(): JSX.Element {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    const parseList = (val: string): TechnicianProfile[] | null => {
+      try {
+        const parsed = JSON.parse(val);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (parsed && typeof parsed === "object" && parsed.name) return [{ id: "1", ...parsed }];
+      } catch { /* ignore */ }
+      return null;
+    };
+
+    // Try the current key first, then fall back to old singular key
     settingsApi.get("technicians")
       .then((res) => {
         const val = res.data as string;
-        if (val) {
-          try {
-            const parsed = JSON.parse(val);
-            // support legacy single-object format
-            setTechnicians(Array.isArray(parsed) ? parsed : [{ id: "1", ...parsed }]);
-          } catch { /* ignore */ }
+        const list = val ? parseList(val) : null;
+        if (list) {
+          setTechnicians(list);
+          setLoading(false);
+          return;
         }
+        // Fall back to old "technician" key and migrate
+        return settingsApi.get("technician")
+          .then((r) => {
+            const oldVal = r.data as string;
+            const oldList = oldVal ? parseList(oldVal) : null;
+            if (oldList) setTechnicians(oldList);
+          })
+          .catch(() => {})
+          .finally(() => setLoading(false));
       })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+      .catch(() => setLoading(false));
   }, []);
 
   const save = async (list: TechnicianProfile[]) => {
-    await settingsApi.save("technicians", JSON.stringify(list));
+    const payload = JSON.stringify(list);
+    await settingsApi.save("technicians", payload);
     setTechnicians(list);
   };
 
@@ -96,7 +114,7 @@ function DashboardTechnician(): JSX.Element {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      const resized = await resizeImage(file, 600);
+      const resized = await resizeImage(file, 400);
       setForm((f) => ({ ...f, photoUrl: resized }));
     } catch {
       setMessage({ text: "Failed to process photo.", type: "error" });

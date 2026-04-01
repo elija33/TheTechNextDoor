@@ -16,18 +16,22 @@ function MeetTheTechnician(): JSX.Element | null {
   const [technicians, setTechnicians] = useState<TechnicianProfile[]>([]);
 
   useEffect(() => {
+    const parseList = (val: string): TechnicianProfile[] | null => {
+      try {
+        const parsed = JSON.parse(val);
+        if (Array.isArray(parsed)) return parsed.filter((t) => t.name);
+        if (parsed?.name) return [{ id: "1", ...parsed }];
+      } catch { /* ignore */ }
+      return null;
+    };
+
     settingsApi.get("technicians")
       .then((res) => {
-        const val = res.data as string;
-        if (val) {
-          try {
-            const parsed = JSON.parse(val);
-            const list: TechnicianProfile[] = Array.isArray(parsed)
-              ? parsed
-              : [{ id: "1", ...parsed }];
-            setTechnicians(list.filter((t) => t.name));
-          } catch { /* ignore */ }
-        }
+        const list = res.data ? parseList(res.data as string) : null;
+        if (list?.length) { setTechnicians(list); return; }
+        return settingsApi.get("technician")
+          .then((r) => { const old = r.data ? parseList(r.data as string) : null; if (old?.length) setTechnicians(old); })
+          .catch(() => {});
       })
       .catch(() => {});
   }, []);
