@@ -10,6 +10,7 @@ import GetAQuote from "./getaquote";
 import Schedule from "./Schedule";
 import SEO from "./SEO";
 import MeetTheTechnician from "./MeetTheTechnician";
+import GoogleReviews from "./GoogleReviews";
 
 type Section = "home" | "services" | "contact" | "quote" | "schedule";
 
@@ -45,6 +46,7 @@ function Home(): JSX.Element {
             />
             <Video />
           </section>
+          <GoogleReviews />
           <div>
             <MapSection />
           </div>

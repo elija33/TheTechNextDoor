@@ -114,4 +114,24 @@ export const analyticsApi = {
   getSummary: () => api.get<AnalyticsSummary>('/analytics/summary'),
 };
 
+// Google Reviews API
+export interface GoogleReview {
+  author_name: string;
+  rating: number;
+  text: string;
+  relative_time_description: string;
+  profile_photo_url: string;
+  author_url: string;
+}
+
+export interface GoogleReviewsData {
+  reviews: GoogleReview[];
+  rating: number;
+  totalRatings: number;
+}
+
+export const googleReviewsApi = {
+  get: () => api.get<GoogleReviewsData>('/google-reviews'),
+};
+
 export default api;
