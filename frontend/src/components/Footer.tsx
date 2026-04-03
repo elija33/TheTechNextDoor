@@ -26,6 +26,9 @@ function Footer(): JSX.Element {
             <li>
               <Link to="/contactus">Contact</Link>
             </li>
+            <li>
+              <Link to="/getaquote">Get Free Quote</Link>
+            </li>
           </ul>
         </div>
 
