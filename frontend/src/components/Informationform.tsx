@@ -63,18 +63,6 @@ interface InformationformProps {
   onSuccess?: () => void;
 }
 
-// Service price mapping
-const SERVICE_PRICES: Record<string, string> = {
-  "Screen Repair": "$89.99",
-  "Battery Replacement": "$49.99",
-  "Water Damage Repair": "$129.99",
-  "Charging Port Repair": "$39.99",
-  "Speaker Repair": "$59.99",
-  "Camera Repair": "$69.99",
-  "Back Glass Replacement": "$79.99",
-  "Software Issues": "$29.99",
-  Other: "TBD",
-};
 
 function fileToBase64(file: File): Promise<string> {
   return compressImage(file, 1200, 900, 0.80);
@@ -292,7 +280,7 @@ function Informationform({
         date: calendarData.date,
         time: calendarData.time,
         notes: calendarData.notes,
-        amount: matchedService?.price || SERVICE_PRICES[deviceInfo.service] || "TBD",
+        amount: matchedService?.price || "TBD",
         status: "pending" as const,
         timestamp: Date.now(),
         textConfirmation: formData.textConfirmation,
@@ -320,7 +308,7 @@ function Informationform({
         date: calendarData.date,
         time: calendarData.time,
         notes: calendarData.notes || "",
-        amount: matchedService?.price || SERVICE_PRICES[deviceInfo.service] || "TBD",
+        amount: matchedService?.price || "TBD",
         streetAddress: locationData.streetAddress,
         city: locationData.city,
         zip: locationData.zipPostalCode,
@@ -585,9 +573,7 @@ function Informationform({
                       </p>
                     )}
                     <p className="info-form-modal-price">
-                      {submittedServiceData?.price ||
-                        SERVICE_PRICES[submittedDevice?.service ?? ""] ||
-                        "TBD"}
+                      {submittedServiceData?.price || "TBD"}
                     </p>
                   </div>
                 </div>
