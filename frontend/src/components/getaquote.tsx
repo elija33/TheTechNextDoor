@@ -1,6 +1,7 @@
 import { JSX, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "../style/GetAQuote.css";
+import "../style/Informationform.css";
 import GetAQuoteImage from "./GetAQuoteImage";
 import Footer from "./Footer";
 import Submit from "./submit";
@@ -9,10 +10,9 @@ import {
   saveQuoteRequest,
   QuoteRequest,
   getQuoteOptions,
-  getServiceDetails,
   QuoteOptions,
 } from "../utils/quoteStorage";
-import { Smartphone } from "lucide-react";
+import { getServices, Service } from "../utils/serviceStorage";
 
 function GetAQuote(): JSX.Element {
   const location = useLocation();
@@ -24,12 +24,6 @@ function GetAQuote(): JSX.Element {
   const [availableGroupings, setAvailableGroupings] = useState<string[]>([]);
   const [availableModels, setAvailableModels] = useState<string[]>([]);
   const [availableServices, setAvailableServices] = useState<string[]>([]);
-  const [serviceDescriptions, setServiceDescriptions] = useState<
-    Record<string, string>
-  >({});
-  const [servicePrices, setServicePrices] = useState<Record<string, string>>(
-    {},
-  );
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -43,6 +37,7 @@ function GetAQuote(): JSX.Element {
     model: "",
     service: "",
   });
+  const [submittedServiceData, setSubmittedServiceData] = useState<Service | null>(null);
 
   const isFormEnabled =
     brand !== "" && grouping !== "" && model !== "" && service !== "";
@@ -57,10 +52,6 @@ function GetAQuote(): JSX.Element {
     getQuoteOptions().then((opts) => {
       setOptions(opts);
       setAvailableServices(opts?.services ?? []);
-    });
-    getServiceDetails().then((details) => {
-      setServiceDescriptions(details.descriptions);
-      setServicePrices(details.prices);
     });
   }, [location.pathname]);
 
@@ -266,6 +257,13 @@ function GetAQuote(): JSX.Element {
 
                 await saveQuoteRequest(quote);
 
+                const allServices = await getServices();
+                const serviceLower = service.toLowerCase();
+                const matchedService =
+                  allServices.find((s) => s.name.toLowerCase() === serviceLower) ??
+                  allServices.find((s) => s.name.toLowerCase().includes(serviceLower)) ??
+                  null;
+                setSubmittedServiceData(matchedService);
                 setSubmittedName({ first: firstName, last: lastName });
                 setSubmittedQuote({ brand, grouping, model, service });
                 setBrand("");
@@ -309,27 +307,23 @@ function GetAQuote(): JSX.Element {
             <h3 className="quote-modal-title">
               Thank You {submittedName.first} {submittedName.last}!
             </h3>
-            <div className="quote-selection-card" style={{ margin: "1rem 0" }}>
-              <div className="quote-card-image">
-                <Smartphone size={48} />
+            <div className="info-form-modal-card">
+              <div className="info-form-modal-card-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18" strokeWidth="2.5"></line>
+                </svg>
               </div>
-              <div className="quote-card-body">
-                <div className="quote-card-device">
-                  <span className="quote-card-brand">
-                    {submittedQuote.brand}
-                  </span>
-                  <span className="quote-card-model">
-                    {submittedQuote.grouping} - {submittedQuote.model}
-                  </span>
-                </div>
-                <h3 className="quote-card-service">{submittedQuote.service}</h3>
-                <p className="quote-card-description">
-                  {serviceDescriptions[submittedQuote.service] ||
-                    "Service description"}
+              <div className="info-form-modal-card-body">
+                <p className="info-form-modal-brand">{submittedQuote.brand}</p>
+                <p className="info-form-modal-model">{submittedQuote.grouping} - {submittedQuote.model}</p>
+                <p className="info-form-modal-service">{submittedQuote.service}</p>
+                {submittedServiceData?.description && (
+                  <p className="info-form-modal-description">{submittedServiceData.description}</p>
+                )}
+                <p className="info-form-modal-price">
+                  {submittedServiceData?.price || "Contact for quote"}
                 </p>
-                <div className="quote-card-price">
-                  {servicePrices[submittedQuote.service] || "Contact for quote"}
-                </div>
               </div>
             </div>
             <button
