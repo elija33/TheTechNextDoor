@@ -21,34 +21,6 @@ export interface QuoteOptions {
   services: string[];
 }
 
-const DEFAULT_OPTIONS: QuoteOptions = {
-  brands: ["Apple"],
-  groupings: [
-    {
-      brand: "Apple",
-      groupings: [
-        "iPhone 16 Series", "iPhone 15 Series", "iPhone 14 Series",
-        "iPhone 13 Series", "iPhone 12 Series", "iPhone 11 Series",
-        "iPhone X Series", "iPhone 8 Series", "iPhone 7 Series", "iPhone SE Series",
-      ],
-    },
-  ],
-  models: [
-    { brand: "Apple", grouping: "iPhone 16 Series", models: ["iPhone 16", "iPhone 16 Plus", "iPhone 16 Pro", "iPhone 16 Pro Max"] },
-    { brand: "Apple", grouping: "iPhone 15 Series", models: ["iPhone 15", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max"] },
-    { brand: "Apple", grouping: "iPhone 14 Series", models: ["iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max"] },
-    { brand: "Apple", grouping: "iPhone 13 Series", models: ["iPhone 13", "iPhone 13 Mini", "iPhone 13 Pro", "iPhone 13 Pro Max"] },
-    { brand: "Apple", grouping: "iPhone 12 Series", models: ["iPhone 12", "iPhone 12 Mini", "iPhone 12 Pro", "iPhone 12 Pro Max"] },
-    { brand: "Apple", grouping: "iPhone 11 Series", models: ["iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max"] },
-    { brand: "Apple", grouping: "iPhone X Series", models: ["iPhone X", "iPhone XR", "iPhone XS", "iPhone XS Max"] },
-    { brand: "Apple", grouping: "iPhone 8 Series", models: ["iPhone 8", "iPhone 8 Plus"] },
-    { brand: "Apple", grouping: "iPhone SE Series", models: ["iPhone SE (1st Gen)", "iPhone SE (2nd Gen)", "iPhone SE (3rd Gen)"] },
-  ],
-  services: [
-    "Screen Repair", "Battery Replacement", "Charging Port Repair",
-    "Camera Repair", "Speaker Repair", "Back Glass Replacement", "Software Issues", "Other",
-  ],
-};
 
 export async function getQuoteRequests(): Promise<QuoteRequest[]> {
   try {
@@ -71,30 +43,28 @@ export async function deleteQuoteRequest(id: string): Promise<void> {
   await quoteRequestsApi.delete(id);
 }
 
-export async function getQuoteOptions(): Promise<QuoteOptions> {
+export async function getQuoteOptions(): Promise<QuoteOptions | null> {
   try {
     const response = await settingsApi.get('quoteOptions');
     if (response.data) {
       const saved = (typeof response.data === 'string'
         ? JSON.parse(response.data)
         : response.data) as Partial<QuoteOptions>;
-      return {
-        brands: Array.isArray(saved.brands) ? saved.brands : DEFAULT_OPTIONS.brands,
-        groupings: Array.isArray(saved.groupings) ? saved.groupings : DEFAULT_OPTIONS.groupings,
-        models: Array.isArray(saved.models) ? saved.models : DEFAULT_OPTIONS.models,
-        services: Array.isArray(saved.services) ? saved.services : DEFAULT_OPTIONS.services,
-      };
+      if (saved && (Array.isArray(saved.brands) || Array.isArray(saved.services))) {
+        return {
+          brands: Array.isArray(saved.brands) ? saved.brands : [],
+          groupings: Array.isArray(saved.groupings) ? saved.groupings : [],
+          models: Array.isArray(saved.models) ? saved.models : [],
+          services: Array.isArray(saved.services) ? saved.services : [],
+        };
+      }
     }
-    return DEFAULT_OPTIONS;
+    return null;
   } catch {
-    return DEFAULT_OPTIONS;
+    return null;
   }
 }
 
 export async function saveQuoteOptions(options: QuoteOptions): Promise<void> {
   await settingsApi.save('quoteOptions', JSON.stringify(options));
-}
-
-export function getDefaultOptions(): QuoteOptions {
-  return { ...DEFAULT_OPTIONS };
 }

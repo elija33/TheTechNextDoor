@@ -6,8 +6,36 @@ import {
   getQuoteOptions,
   saveQuoteOptions,
   QuoteOptions,
-  getDefaultOptions,
 } from "../../utils/quoteStorage";
+
+const DEFAULT_OPTIONS: QuoteOptions = {
+  brands: ["Apple"],
+  groupings: [
+    {
+      brand: "Apple",
+      groupings: [
+        "iPhone 16 Series", "iPhone 15 Series", "iPhone 14 Series",
+        "iPhone 13 Series", "iPhone 12 Series", "iPhone 11 Series",
+        "iPhone X Series", "iPhone 8 Series", "iPhone 7 Series", "iPhone SE Series",
+      ],
+    },
+  ],
+  models: [
+    { brand: "Apple", grouping: "iPhone 16 Series", models: ["iPhone 16", "iPhone 16 Plus", "iPhone 16 Pro", "iPhone 16 Pro Max"] },
+    { brand: "Apple", grouping: "iPhone 15 Series", models: ["iPhone 15", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max"] },
+    { brand: "Apple", grouping: "iPhone 14 Series", models: ["iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max"] },
+    { brand: "Apple", grouping: "iPhone 13 Series", models: ["iPhone 13", "iPhone 13 Mini", "iPhone 13 Pro", "iPhone 13 Pro Max"] },
+    { brand: "Apple", grouping: "iPhone 12 Series", models: ["iPhone 12", "iPhone 12 Mini", "iPhone 12 Pro", "iPhone 12 Pro Max"] },
+    { brand: "Apple", grouping: "iPhone 11 Series", models: ["iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max"] },
+    { brand: "Apple", grouping: "iPhone X Series", models: ["iPhone X", "iPhone XR", "iPhone XS", "iPhone XS Max"] },
+    { brand: "Apple", grouping: "iPhone 8 Series", models: ["iPhone 8", "iPhone 8 Plus"] },
+    { brand: "Apple", grouping: "iPhone SE Series", models: ["iPhone SE (1st Gen)", "iPhone SE (2nd Gen)", "iPhone SE (3rd Gen)"] },
+  ],
+  services: [
+    "Screen Repair", "Battery Replacement", "Charging Port Repair",
+    "Camera Repair", "Speaker Repair", "Back Glass Replacement", "Software Issues", "Other",
+  ],
+};
 import { Plus, Trash2, Check, Edit2, X } from "lucide-react";
 import "../../style/DashboardQuotes.css";
 
@@ -84,7 +112,7 @@ function DashboardQuotes(): JSX.Element {
 
   useEffect(() => {
     getQuoteRequests().then(setQuotes);
-    getQuoteOptions().then(setOptions);
+    getQuoteOptions().then((opts) => setOptions(opts ?? { ...DEFAULT_OPTIONS }));
   }, []);
 
   // Auto-hide toast after 3 seconds
@@ -376,7 +404,7 @@ function DashboardQuotes(): JSX.Element {
   };
 
   const handleResetToDefaults = async () => {
-    const defaults = getDefaultOptions();
+    const defaults = { ...DEFAULT_OPTIONS };
     setOptions(defaults);
     await saveQuoteOptions(defaults);
     setHasChanges(false);
