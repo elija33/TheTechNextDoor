@@ -56,7 +56,7 @@ function GetAQuote(): JSX.Element {
   useEffect(() => {
     getQuoteOptions().then((opts) => {
       setOptions(opts);
-      setAvailableServices(opts.services);
+      setAvailableServices(opts?.services ?? []);
     });
     // Load service descriptions and prices from localStorage
     const savedDescriptions = localStorage.getItem("serviceDescriptions");
