@@ -23,8 +23,12 @@ function GetAQuote(): JSX.Element {
   const [availableGroupings, setAvailableGroupings] = useState<string[]>([]);
   const [availableModels, setAvailableModels] = useState<string[]>([]);
   const [availableServices, setAvailableServices] = useState<string[]>([]);
-  const [serviceDescriptions, setServiceDescriptions] = useState<Record<string, string>>({});
-  const [servicePrices, setServicePrices] = useState<Record<string, string>>({});
+  const [serviceDescriptions, setServiceDescriptions] = useState<
+    Record<string, string>
+  >({});
+  const [servicePrices, setServicePrices] = useState<Record<string, string>>(
+    {},
+  );
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -109,7 +113,7 @@ function GetAQuote(): JSX.Element {
               className="text-4xl font-serif font-bold mb-4"
               style={{ textAlign: "center", color: "white" }}
             >
-              Get A Quote
+              Get A Free Quote
               <hr className="getaguotline" />
             </h2>
             <p
@@ -119,7 +123,9 @@ function GetAQuote(): JSX.Element {
                 marginBottom: "2rem",
               }}
             >
-              Tell us about your project and we'll provide a customized quote.
+              Get a free repair estimate for your iPhone. Columbus, Ohio's
+              trusted phone repair — fast turnaround, fair prices, no fix no
+              fee.
             </p>
           </div>
           <div
@@ -328,8 +334,7 @@ function GetAQuote(): JSX.Element {
                     "Service description"}
                 </p>
                 <div className="quote-card-price">
-                  {servicePrices[submittedQuote.service] ||
-                    "Contact for quote"}
+                  {servicePrices[submittedQuote.service] || "Contact for quote"}
                 </div>
               </div>
             </div>
