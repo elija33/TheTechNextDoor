@@ -68,3 +68,28 @@ export async function getQuoteOptions(): Promise<QuoteOptions | null> {
 export async function saveQuoteOptions(options: QuoteOptions): Promise<void> {
   await settingsApi.save('quoteOptions', JSON.stringify(options));
 }
+
+export interface ServiceDetails {
+  descriptions: Record<string, string>;
+  prices: Record<string, string>;
+}
+
+export async function getServiceDetails(): Promise<ServiceDetails> {
+  try {
+    const response = await settingsApi.get('serviceDetails');
+    if (response.data) {
+      const saved = (typeof response.data === 'string'
+        ? JSON.parse(response.data)
+        : response.data) as Partial<ServiceDetails>;
+      return {
+        descriptions: saved.descriptions && typeof saved.descriptions === 'object' ? saved.descriptions : {},
+        prices: saved.prices && typeof saved.prices === 'object' ? saved.prices : {},
+      };
+    }
+  } catch { /* ignore */ }
+  return { descriptions: {}, prices: {} };
+}
+
+export async function saveServiceDetails(details: ServiceDetails): Promise<void> {
+  await settingsApi.save('serviceDetails', JSON.stringify(details));
+}

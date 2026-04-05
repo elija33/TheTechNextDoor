@@ -9,6 +9,7 @@ import {
   saveQuoteRequest,
   QuoteRequest,
   getQuoteOptions,
+  getServiceDetails,
   QuoteOptions,
 } from "../utils/quoteStorage";
 import { Smartphone } from "lucide-react";
@@ -52,21 +53,15 @@ function GetAQuote(): JSX.Element {
     email.trim() !== "" &&
     phone.trim() !== "";
 
-  // Load options from IndexedDB and service details from localStorage
   useEffect(() => {
     getQuoteOptions().then((opts) => {
       setOptions(opts);
       setAvailableServices(opts?.services ?? []);
     });
-    // Load service descriptions and prices from localStorage
-    const savedDescriptions = localStorage.getItem("serviceDescriptions");
-    const savedPrices = localStorage.getItem("servicePrices");
-    if (savedDescriptions) {
-      setServiceDescriptions(JSON.parse(savedDescriptions));
-    }
-    if (savedPrices) {
-      setServicePrices(JSON.parse(savedPrices));
-    }
+    getServiceDetails().then((details) => {
+      setServiceDescriptions(details.descriptions);
+      setServicePrices(details.prices);
+    });
   }, [location.pathname]);
 
   // When brand changes, populate groupings

@@ -6,6 +6,8 @@ import {
   getQuoteOptions,
   saveQuoteOptions,
   QuoteOptions,
+  getServiceDetails,
+  saveServiceDetails,
 } from "../../utils/quoteStorage";
 
 const DEFAULT_OPTIONS: QuoteOptions = {
@@ -97,22 +99,18 @@ function DashboardQuotes(): JSX.Element {
   const [editedServiceName, setEditedServiceName] = useState("");
   const [editedServiceDescription, setEditedServiceDescription] = useState("");
 
-  // Service descriptions stored in localStorage
-  const [serviceDescriptions, setServiceDescriptions] = useState<Record<string, string>>(() => {
-    const saved = localStorage.getItem("serviceDescriptions");
-    return saved ? JSON.parse(saved) : {};
-  });
-  // Service prices stored in localStorage
-  const [servicePrices, setServicePrices] = useState<Record<string, string>>(() => {
-    const saved = localStorage.getItem("servicePrices");
-    return saved ? JSON.parse(saved) : {};
-  });
+  const [serviceDescriptions, setServiceDescriptions] = useState<Record<string, string>>({});
+  const [servicePrices, setServicePrices] = useState<Record<string, string>>({});
   const [editedServicePrice, setEditedServicePrice] = useState("");
   const [hasDescriptionChanges, setHasDescriptionChanges] = useState(false);
 
   useEffect(() => {
     getQuoteRequests().then(setQuotes);
     getQuoteOptions().then((opts) => setOptions(opts ?? { ...DEFAULT_OPTIONS }));
+    getServiceDetails().then((details) => {
+      setServiceDescriptions(details.descriptions);
+      setServicePrices(details.prices);
+    });
   }, []);
 
   // Auto-hide toast after 3 seconds
@@ -381,11 +379,8 @@ function DashboardQuotes(): JSX.Element {
 
   const saveAllServices = async () => {
     if (!options) return;
-    // Save options (services list)
     await saveQuoteOptions(options);
-    // Save descriptions and prices to localStorage
-    localStorage.setItem("serviceDescriptions", JSON.stringify(serviceDescriptions));
-    localStorage.setItem("servicePrices", JSON.stringify(servicePrices));
+    await saveServiceDetails({ descriptions: serviceDescriptions, prices: servicePrices });
     setHasChanges(false);
     setHasDescriptionChanges(false);
     setSaveSuccess(true);
