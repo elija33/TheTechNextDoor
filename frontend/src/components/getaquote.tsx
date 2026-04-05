@@ -123,9 +123,8 @@ function GetAQuote(): JSX.Element {
                 marginBottom: "2rem",
               }}
             >
-              Get a free repair estimate for your iPhone. Columbus, Ohio's
-              trusted phone repair — fast turnaround, fair prices, no fix no
-              fee.
+              Get a free repair estimate for your iPhone. trusted phone repair —
+              fair prices, no fix no fee.
             </p>
           </div>
           <div
