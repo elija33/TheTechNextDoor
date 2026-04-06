@@ -1,5 +1,4 @@
 import { JSX } from "react";
-import { Accessibility } from "lucide-react";
 import "../style/Schedulebuttom.css";
 
 interface ScheduleProps {
@@ -14,7 +13,6 @@ function Schedulebuttom({ onClick, onSeniorTechClick }: ScheduleProps): JSX.Elem
         Schedule A Service
       </button>
       <button className="schedule-button schedule-button--senior" onClick={onSeniorTechClick}>
-        <Accessibility size={18} style={{ marginRight: "0.4rem", verticalAlign: "middle" }} />
         Senior Tech Service
       </button>
     </div>
