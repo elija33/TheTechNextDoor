@@ -1,4 +1,5 @@
 import { JSX, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Carousel from "./Carousel";
 import Services from "./Services";
 import Contact from "./Contact";
@@ -16,6 +17,7 @@ type Section = "home" | "services" | "contact" | "quote" | "schedule";
 
 function Home(): JSX.Element {
   const [activeSection, setActiveSection] = useState<Section>("home");
+  const navigate = useNavigate();
 
   return (
     <main className="min-h-screen bg-white">
@@ -27,7 +29,7 @@ function Home(): JSX.Element {
             <Carousel />
           </div>
           <div style={{ marginBottom: "3rem" }}>
-            <Schedulebutton onClick={() => setActiveSection("schedule")} />
+            <Schedulebutton onClick={() => setActiveSection("schedule")} onSeniorTechClick={() => navigate("/senior-tech-service")} />
           </div>
           <div id="services-section" style={{ marginTop: "2rem" }}>
             <Services />
