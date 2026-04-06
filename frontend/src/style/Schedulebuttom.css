@@ -1,5 +1,17 @@
 /* Schedule Button Styles */
 
+.schedule-button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 3rem auto;
+}
+
+.schedule-button-group .schedule-button {
+  margin: 0;
+}
+
 .schedule-button {
   padding: 0.875rem 2rem;
   margin: 3rem auto;
@@ -17,6 +29,23 @@
   overflow: hidden;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.schedule-button--senior {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.schedule-button--senior:hover {
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+}
+
+.schedule-button--senior:active {
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.schedule-button--senior:focus {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
 }
 
 .schedule-button::before {
@@ -56,10 +85,16 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .schedule-button-group {
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem auto;
+  }
+
   .schedule-button {
     width: calc(100% - 3rem);
     max-width: 300px;
     padding: 1rem 2rem;
-    margin: 2rem auto;
+    margin: 0;
   }
 }

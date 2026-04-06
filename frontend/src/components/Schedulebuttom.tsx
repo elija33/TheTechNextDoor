@@ -3,13 +3,19 @@ import "../style/Schedulebuttom.css";
 
 interface ScheduleProps {
   onClick?: () => void;
+  onSeniorTechClick?: () => void;
 }
 
-function Schedulebuttom({ onClick }: ScheduleProps): JSX.Element {
+function Schedulebuttom({ onClick, onSeniorTechClick }: ScheduleProps): JSX.Element {
   return (
-    <button className="schedule-button" onClick={onClick}>
-      Schedule A Service
-    </button>
+    <div className="schedule-button-group">
+      <button className="schedule-button" onClick={onClick}>
+        Schedule A Service
+      </button>
+      <button className="schedule-button schedule-button--senior" onClick={onSeniorTechClick}>
+        Senior Tech Service
+      </button>
+    </div>
   );
 }
 
