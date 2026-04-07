@@ -34,7 +34,6 @@ function Home(): JSX.Element {
           <div id="services-section" style={{ marginTop: "2rem" }}>
             <Services />
           </div>
-          <MeetTheTechnician />
           <section>
             <h2 style={{ textAlign: "center", color: "white" }}>
               How our services work
@@ -48,6 +47,7 @@ function Home(): JSX.Element {
             />
             <Video />
           </section>
+          <MeetTheTechnician />
           <GoogleReviews />
           <div>
             <MapSection />
