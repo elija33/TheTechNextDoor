@@ -57,7 +57,7 @@ function Footer(): JSX.Element {
               Youtube
             </a>
             <a
-              href="mailto:thetechnextdoors@gmail.com"
+              href="mailto:tthetechnextdoors@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
             >

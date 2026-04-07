@@ -48,7 +48,7 @@ public class EmailService {
             return;
         }
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("thetechnextdoors@gmail.com");
+        message.setTo("tthetechnextdoors@gmail.com");
         message.setSubject("New Service Request - " + customerName);
         message.setText(
             "A new service appointment has been scheduled.\n\n" +
@@ -80,7 +80,7 @@ public class EmailService {
             return;
         }
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo("thetechnextdoors@gmail.com");
+        msg.setTo("tthetechnextdoors@gmail.com");
         msg.setSubject("New Contact Message - " + customerName);
         msg.setText(
             "A new contact message has been submitted.\n\n" +

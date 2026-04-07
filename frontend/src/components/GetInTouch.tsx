@@ -39,7 +39,7 @@ function GetInTouch(): JSX.Element {
             <Phone className="info-icon" size={24} />
             <div className="info-content">
               <h4 className="info-label">Phone</h4>
-              <p className="info-text">(609) 555-0123</p>
+              <p className="info-text">(609) 369-3048</p>
             </div>
           </div>
 
@@ -47,7 +47,7 @@ function GetInTouch(): JSX.Element {
             <Mail className="info-icon" size={24} />
             <div className="info-content">
               <h4 className="info-label">Email</h4>
-              <p className="info-text">TheTechNextDoor@gmail.com</p>
+              <p className="info-text">Tthetechnextdoors@gmail.com</p>
             </div>
           </div>
         </div>
