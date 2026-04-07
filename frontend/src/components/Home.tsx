@@ -47,8 +47,8 @@ function Home(): JSX.Element {
             />
             <Video />
           </section>
-          <MeetTheTechnician />
           <GoogleReviews />
+          <MeetTheTechnician />
           <div>
             <MapSection />
           </div>
