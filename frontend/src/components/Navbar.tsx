@@ -4,21 +4,11 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 const PHONE_NUMBER = "(609) 369-3048";
 
 const Navbar: React.FC = () => {
-  const [showNumber, setShowNumber] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const closeMenu = () => setMenuOpen(false);
-
-  const handleCallClick = (e: React.MouseEvent) => {
-    if (!showNumber) {
-      e.preventDefault();
-      setShowNumber(true);
-    } else {
-      closeMenu();
-    }
-  };
 
   const handleServicesClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -87,10 +77,10 @@ const Navbar: React.FC = () => {
           </Link>
           <a
             href="tel:+16093693048"
-            className={`nav-link call-us-btn ${showNumber ? "showing-number" : ""}`}
-            onClick={handleCallClick}
+            className="nav-link call-us-btn showing-number"
+            onClick={closeMenu}
           >
-            {showNumber ? PHONE_NUMBER : "Call Now!"}
+            {PHONE_NUMBER}
           </a>
         </div>
       </div>
