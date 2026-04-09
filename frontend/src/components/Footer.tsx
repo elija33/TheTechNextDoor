@@ -1,76 +1,69 @@
-import { JSX } from "react";
+import { JSX, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { settingsApi } from "../services/api";
 import "../style/Footer.css";
 
+interface FooterData {
+  description: string;
+  facebook: string;
+  instagram: string;
+  youtube: string;
+  email: string;
+}
+
+const DEFAULTS: FooterData = {
+  description: "Your trusted local tech repair service. Quality repairs at affordable prices.",
+  facebook: "https://www.facebook.com/thetechnextdoors",
+  instagram: "https://www.instagram.com",
+  youtube: "https://www.youtube.com",
+  email: "tthetechnextdoors@gmail.com",
+};
+
 function Footer(): JSX.Element {
+  const [data, setData] = useState<FooterData>(DEFAULTS);
+
+  useEffect(() => {
+    settingsApi.get("footer")
+      .then((res) => {
+        if (res.data) {
+          try { setData({ ...DEFAULTS, ...JSON.parse(res.data) }); } catch { /* use defaults */ }
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <footer className="footer" style={{ fontWeight: 600 }}>
       <div className="footer-content">
         <div className="footer-section">
           <h3 className="footer-title">The Tech Next Door</h3>
-          <p className="footer-description">
-            Your trusted local tech repair service. Quality repairs at
-            affordable prices.
-          </p>
+          <p className="footer-description">{data.description}</p>
         </div>
 
         <div className="footer-section">
           <h4 className="footer-heading">Quick Links</h4>
           <ul className="footer-links">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/">Services</Link>
-            </li>
-            <li>
-              <Link to="/contactus">Contact</Link>
-            </li>
-            <li>
-              <Link to="/getaquote">Get Free Quote</Link>
-            </li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/">Services</Link></li>
+            <li><Link to="/contactus">Contact</Link></li>
+            <li><Link to="/getaquote">Get Free Quote</Link></li>
           </ul>
         </div>
 
         <div className="footer-section">
           <h4 className="footer-heading">Connect With Us</h4>
           <div className="footer-social">
-            <a
-              href="https://www.facebook.com/thetechnextdoors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Facebook
-            </a>
-            <a
-              href="https://www.instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Instagram
-            </a>
-            <a
-              href="https://www.youtube.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Youtube
-            </a>
-            <a
-              href="mailto:tthetechnextdoors@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Email
-            </a>
+            {data.facebook && <a href={data.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>}
+            {data.instagram && <a href={data.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>}
+            {data.youtube && <a href={data.youtube} target="_blank" rel="noopener noreferrer">Youtube</a>}
+            {data.email && <a href={`mailto:${data.email}`} target="_blank" rel="noopener noreferrer">Email</a>}
           </div>
         </div>
       </div>
 
       <div className="footer-bottom">
         <p>
-          &copy; {new Date().getFullYear()} The Tech Next Door | All rights
-          reserved
+          &copy; {new Date().getFullYear()} The Tech Next Door | All rights reserved
         </p>
       </div>
     </footer>
