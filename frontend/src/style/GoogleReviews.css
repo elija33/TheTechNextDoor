@@ -161,6 +161,13 @@
   color: #90caf9;
 }
 
+.gr-no-reviews {
+  text-align: center;
+  color: #aaa;
+  font-size: 1rem;
+  margin: 1.5rem 0;
+}
+
 /* Mobile */
 @media (max-width: 700px) {
   .gr-section {

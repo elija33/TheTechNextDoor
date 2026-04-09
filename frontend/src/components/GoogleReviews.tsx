@@ -33,7 +33,7 @@ function GoogleReviews(): JSX.Element | null {
     googleReviewsApi.get()
       .then((res) => {
         const d = res.data as { reviews: GoogleReview[]; rating: number; totalRatings: number };
-        if (d?.reviews?.length) setData(d);
+        if (d?.rating > 0 || d?.reviews?.length) setData(d);
       })
       .catch(() => {});
   }, []);
@@ -57,28 +57,32 @@ function GoogleReviews(): JSX.Element | null {
           </div>
         </div>
 
-        <div className="gr-grid">
-          {data.reviews.map((review, i) => (
-            <div key={i} className="gr-card">
-              <div className="gr-card-top">
-                <img
-                  src={review.profile_photo_url}
-                  alt={review.author_name}
-                  className="gr-avatar"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
-                />
-                <div className="gr-author-info">
-                  <p className="gr-author-name">{review.author_name}</p>
-                  <p className="gr-time">{review.relative_time_description}</p>
+        {data.reviews.length > 0 ? (
+          <div className="gr-grid">
+            {data.reviews.map((review, i) => (
+              <div key={i} className="gr-card">
+                <div className="gr-card-top">
+                  <img
+                    src={review.profile_photo_url}
+                    alt={review.author_name}
+                    className="gr-avatar"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                  <div className="gr-author-info">
+                    <p className="gr-author-name">{review.author_name}</p>
+                    <p className="gr-time">{review.relative_time_description}</p>
+                  </div>
                 </div>
+                <StarRating rating={review.rating} />
+                {review.text && <p className="gr-text">{review.text}</p>}
               </div>
-              <StarRating rating={review.rating} />
-              {review.text && <p className="gr-text">{review.text}</p>}
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="gr-no-reviews">Be the first to leave a written review!</p>
+        )}
 
         <a
           className="gr-cta"
