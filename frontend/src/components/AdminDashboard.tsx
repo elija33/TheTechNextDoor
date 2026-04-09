@@ -12,8 +12,8 @@ import DashboardQuotes from "./dashboard/DashboardQuotes";
 import DashboardSeniorTech from "./dashboard/DashboardSeniorTech";
 import DashboardVideo from "./dashboard/DashboardVideo";
 import DashboardTechnician from "./dashboard/DashboardTechnician";
-import "../style/AdminDashboard.css";
 import DashboardFooter from "./dashboard/DashboardFooter";
+import "../style/AdminDashboard.css";
 
 const sectionTitles: Record<string, string> = {
   overview: "Dashboard",
@@ -90,7 +90,6 @@ function AdminDashboard(): JSX.Element {
         />
 
         <div className="admin-dashboard-content">{renderSection()}</div>
-        <DashboardFooter />
       </div>
     </div>
   );
