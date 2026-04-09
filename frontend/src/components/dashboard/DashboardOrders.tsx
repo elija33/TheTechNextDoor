@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { JSX } from "react";
 import "../../style/DashboardOrders.css";
-import { getOrders, updateOrderStatus, Order } from "../../utils/orderStorage";
+import { getOrders, updateOrderStatus, deleteOrder, Order } from "../../utils/orderStorage";
 import LocationMap from "../locationMap";
 
 const filters = ["All", "Pending", "Confirmed", "Completed", "Cancelled"];
@@ -25,6 +25,7 @@ function DashboardOrders(): JSX.Element {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [distance, setDistance] = useState<string | null>(null);
   const [distanceLoading, setDistanceLoading] = useState(false);
+  const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     getOrders().then(setOrders);
@@ -89,6 +90,30 @@ function DashboardOrders(): JSX.Element {
     }
   };
 
+  const toggleCheck = (id: string) => {
+    setCheckedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    if (checkedIds.size === filteredOrders.length) {
+      setCheckedIds(new Set());
+    } else {
+      setCheckedIds(new Set(filteredOrders.map((o) => o.id)));
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (checkedIds.size === 0) return;
+    if (!confirm(`Delete ${checkedIds.size} order(s)?`)) return;
+    await Promise.all([...checkedIds].map((id) => deleteOrder(id)));
+    setOrders((prev) => prev.filter((o) => !checkedIds.has(o.id)));
+    setCheckedIds(new Set());
+  };
+
   const handleStatusChange = async (id: string, newStatus: Order["status"]) => {
     const order = orders.find((o) => o.id === id);
 
@@ -117,12 +142,24 @@ function DashboardOrders(): JSX.Element {
             {filter}
           </button>
         ))}
+        {checkedIds.size > 0 && (
+          <button className="orders-delete-btn" onClick={handleDeleteSelected}>
+            Delete ({checkedIds.size})
+          </button>
+        )}
       </div>
 
       <div className="orders-table-container">
         <table className="orders-table">
           <thead>
             <tr>
+              <th>
+                <input
+                  type="checkbox"
+                  checked={filteredOrders.length > 0 && checkedIds.size === filteredOrders.length}
+                  onChange={toggleAll}
+                />
+              </th>
               <th>Order ID</th>
               <th>Customer</th>
               <th>Phone Number</th>
@@ -137,14 +174,21 @@ function DashboardOrders(): JSX.Element {
           <tbody>
             {filteredOrders.length === 0 ? (
               <tr>
-                <td colSpan={9} className="orders-empty-row">
+                <td colSpan={10} className="orders-empty-row">
                   No orders found. Orders from Schedule A Service will appear
                   here.
                 </td>
               </tr>
             ) : (
               filteredOrders.map((order) => (
-                <tr key={order.id}>
+                <tr key={order.id} className={checkedIds.has(order.id) ? "orders-row-checked" : ""}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={checkedIds.has(order.id)}
+                      onChange={() => toggleCheck(order.id)}
+                    />
+                  </td>
                   <td>{order.id}</td>
                   <td>
                     <div className="order-customer-name">{order.customer}</div>
