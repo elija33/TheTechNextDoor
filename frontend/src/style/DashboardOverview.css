@@ -336,3 +336,81 @@
     font-size: 12px;
   }
 }
+
+/* Google Analytics Card */
+.ga-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+
+.ga-card-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ga-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.ga-card-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #111827;
+  margin: 0;
+}
+
+.ga-card-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 2px 0 0;
+}
+
+.ga-open-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #4285F4;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.ga-open-btn:hover {
+  background: #2563eb;
+}
+
+.ga-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ga-link {
+  padding: 6px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #4285F4;
+  text-decoration: none;
+  background: #f9fafb;
+  transition: all 0.2s;
+}
+
+.ga-link:hover {
+  background: #4285F4;
+  color: #fff;
+  border-color: #4285F4;
+}
