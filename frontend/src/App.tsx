@@ -9,6 +9,8 @@ const Home              = lazy(() => import("./components/Home"));
 const Contact           = lazy(() => import("./components/Contact"));
 const GetAQuote         = lazy(() => import("./components/getaquote"));
 const SeniorTechService = lazy(() => import("./components/SeniorTechService"));
+const Blog              = lazy(() => import("./components/Blog"));
+const BlogPost          = lazy(() => import("./components/BlogPost"));
 const AdminLogin        = lazy(() => import("./components/AdminLogin"));
 const AdminRegister     = lazy(() => import("./components/AdminRegister"));
 const AdminDashboard    = lazy(() => import("./components/AdminDashboard"));
@@ -35,6 +37,8 @@ const AppContent: React.FC = () => {
             <Route path="/contactus" element={<Contact />} />
             <Route path="/getaquote" element={<GetAQuote />} />
             <Route path="/senior-tech-service" element={<SeniorTechService />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/register" element={<AdminRegister />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />

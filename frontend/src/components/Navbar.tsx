@@ -75,6 +75,13 @@ const Navbar: React.FC = () => {
           >
             Get Free Quote
           </Link>
+          <Link
+            to="/blog"
+            className={`nav-link ${location.pathname.startsWith("/blog") ? "nav-link-active" : ""}`}
+            onClick={closeMenu}
+          >
+            Blog
+          </Link>
           <a
             href="tel:+16093693048"
             className="nav-link call-us-btn showing-number"

@@ -50,6 +50,7 @@ function Footer(): JSX.Element {
             <li><Link to="/">Services</Link></li>
             <li><Link to="/contactus">Contact</Link></li>
             <li><Link to="/getaquote">Get Free Quote</Link></li>
+            <li><Link to="/blog">Blog</Link></li>
           </ul>
         </div>
 

@@ -12,6 +12,7 @@ import Schedule from "./Schedule";
 import SEO from "./SEO";
 import MeetTheTechnician from "./MeetTheTechnician";
 import GoogleReviews from "./GoogleReviews";
+import BlogPreview from "./BlogPreview";
 
 type Section = "home" | "services" | "contact" | "quote" | "schedule";
 
@@ -49,6 +50,7 @@ function Home(): JSX.Element {
           </section>
           <GoogleReviews />
           <MeetTheTechnician />
+          <BlogPreview />
           <div>
             <MapSection />
           </div>
