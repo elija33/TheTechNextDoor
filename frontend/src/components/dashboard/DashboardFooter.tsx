@@ -102,6 +102,37 @@ function DashboardFooter(): JSX.Element {
       <button className="df-save-btn" onClick={handleSave}>
         {saved ? "Saved!" : "Save Changes"}
       </button>
+
+      <h3 className="df-section-title">Live Preview</h3>
+      <div className="df-preview">
+        <div className="df-preview-content">
+          <div className="df-preview-section">
+            <div className="df-preview-brand">The Tech Next Door</div>
+            <p className="df-preview-description">{data.description}</p>
+          </div>
+          <div className="df-preview-section">
+            <div className="df-preview-heading">Quick Links</div>
+            <div className="df-preview-links">
+              <span>Home</span>
+              <span>Services</span>
+              <span>Contact</span>
+              <span>Get Free Quote</span>
+            </div>
+          </div>
+          <div className="df-preview-section">
+            <div className="df-preview-heading">Connect With Us</div>
+            <div className="df-preview-social">
+              {data.facebook && <span>Facebook</span>}
+              {data.instagram && <span>Instagram</span>}
+              {data.youtube && <span>Youtube</span>}
+              {data.email && <span>Email</span>}
+            </div>
+          </div>
+        </div>
+        <div className="df-preview-bottom">
+          &copy; {new Date().getFullYear()} The Tech Next Door | All rights reserved
+        </div>
+      </div>
     </div>
   );
 }
