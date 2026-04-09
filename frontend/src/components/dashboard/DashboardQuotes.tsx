@@ -2,6 +2,7 @@ import { JSX, useState, useEffect } from "react";
 import {
   getQuoteRequests,
   updateQuoteStatus,
+  deleteQuoteRequest,
   QuoteRequest,
   getQuoteOptions,
   saveQuoteOptions,
@@ -79,6 +80,7 @@ function DashboardQuotes(): JSX.Element {
   const [quotes, setQuotes] = useState<QuoteRequest[]>([]);
   const [selectedQuote, setSelectedQuote] = useState<QuoteRequest | null>(null);
   const [filter, setFilter] = useState<"all" | QuoteRequest["status"]>("all");
+  const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set());
 
   // Options state
   const [options, setOptions] = useState<QuoteOptions | null>(null);
@@ -133,6 +135,31 @@ function DashboardQuotes(): JSX.Element {
   const filteredQuotes =
     filter === "all" ? quotes : quotes.filter((q) => q.status === filter);
   const pendingCount = quotes.filter((q) => q.status === "pending").length;
+
+  const toggleCheck = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCheckedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    if (checkedIds.size === filteredQuotes.length) {
+      setCheckedIds(new Set());
+    } else {
+      setCheckedIds(new Set(filteredQuotes.map((q) => q.id)));
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (checkedIds.size === 0) return;
+    if (!confirm(`Delete ${checkedIds.size} quote request(s)?`)) return;
+    await Promise.all([...checkedIds].map((id) => deleteQuoteRequest(id)));
+    setQuotes((prev) => prev.filter((q) => !checkedIds.has(q.id)));
+    setCheckedIds(new Set());
+  };
 
   const handleStatusChange = async (
     id: string,
@@ -529,6 +556,11 @@ function DashboardQuotes(): JSX.Element {
       {activeTab === "requests" && (
         <>
           <div className="quotes-filter">
+            {checkedIds.size > 0 && (
+              <button className="orders-delete-btn" onClick={handleDeleteSelected}>
+                Delete ({checkedIds.size})
+              </button>
+            )}
             <button
               className={`filter-btn ${filter === "all" ? "active" : ""}`}
               onClick={() => setFilter("all")}
@@ -562,13 +594,31 @@ function DashboardQuotes(): JSX.Element {
               will appear here.
             </div>
           ) : (
+            <>
+              <div className="quotes-select-all">
+                <label className="quotes-select-all-label">
+                  <input
+                    type="checkbox"
+                    checked={checkedIds.size === filteredQuotes.length}
+                    onChange={toggleAll}
+                  />
+                  Select all
+                </label>
+              </div>
             <div className="quotes-list">
               {filteredQuotes.map((quote) => (
                 <div
-                  className="quote-item"
+                  className={`quote-item ${checkedIds.has(quote.id) ? "quote-item-checked" : ""}`}
                   key={quote.id}
                   onClick={() => handleQuoteClick(quote)}
                 >
+                  <input
+                    type="checkbox"
+                    className="quote-checkbox"
+                    checked={checkedIds.has(quote.id)}
+                    onChange={() => {}}
+                    onClick={(e) => toggleCheck(quote.id, e)}
+                  />
                   <div className="quote-avatar">
                     {getInitials(quote.firstName, quote.lastName)}
                   </div>
@@ -596,6 +646,7 @@ function DashboardQuotes(): JSX.Element {
                 </div>
               ))}
             </div>
+            </>
           )}
         </>
       )}
