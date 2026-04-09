@@ -26,7 +26,10 @@ function Footer(): JSX.Element {
     settingsApi.get("footer")
       .then((res) => {
         if (res.data) {
-          try { setData({ ...DEFAULTS, ...JSON.parse(res.data) }); } catch { /* use defaults */ }
+          try {
+            const parsed = typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
+            setData({ ...DEFAULTS, ...parsed });
+          } catch { /* use defaults */ }
         }
       })
       .catch(() => {});
