@@ -1,0 +1,89 @@
+.admin-header {
+  position: sticky;
+  top: 0;
+  height: 64px;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 50;
+}
+
+.admin-header-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.admin-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-notification-btn {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #606770;
+  transition: color 0.2s;
+}
+
+.admin-notification-btn:hover {
+  color: #2c3e50;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  background-color: #e74c3c;
+  border-radius: 50%;
+}
+
+.admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #3498db;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.admin-name {
+  font-size: 14px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.admin-header-logout {
+  background: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: #606770;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-header-logout:hover {
+  border-color: #e74c3c;
+  color: #e74c3c;
+}

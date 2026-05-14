@@ -1,0 +1,99 @@
+"use client";
+
+import { JSX, useState } from "react";
+import { useRouter } from "next/navigation";
+import Carousel from "./Carousel";
+import Services from "./Services";
+import Contact from "./Contact";
+import Footer from "./Footer";
+import Video from "./video";
+import Schedulebutton from "./Schedulebuttom";
+import MapSection from "./GetInTouch";
+import GetAQuote from "./getaquote";
+import Schedule from "./Schedule";
+import SEO from "./SEO";
+import MeetTheTechnician from "./MeetTheTechnician";
+import GoogleReviews from "./GoogleReviews";
+import BlogPreview from "./BlogPreview";
+
+type Section = "home" | "services" | "contact" | "quote" | "schedule";
+
+function Home(): JSX.Element {
+  const [activeSection, setActiveSection] = useState<Section>("home");
+  const router = useRouter();
+
+  return (
+    <main className="min-h-screen bg-white">
+      <SEO />
+      {/* Home Section */}
+      {activeSection === "home" && (
+        <div>
+          <div id="home-section">
+            <Carousel />
+          </div>
+          <div style={{ marginBottom: "3rem" }}>
+            <Schedulebutton onClick={() => setActiveSection("schedule")} onSeniorTechClick={() => router.push("/senior-tech-service")} />
+          </div>
+          <div id="services-section" style={{ marginTop: "2rem" }}>
+            <Services />
+          </div>
+          <section>
+            <h2 style={{ textAlign: "center", color: "white" }}>
+              How our services work
+            </h2>
+            <hr
+              style={{
+                width: "200px",
+                margin: "0 auto 20px",
+                borderColor: "white",
+              }}
+            />
+            <Video />
+          </section>
+          <GoogleReviews />
+          <MeetTheTechnician />
+          <BlogPreview />
+          <div>
+            <MapSection />
+          </div>
+          <div>
+            <Footer />
+          </div>
+        </div>
+      )}
+
+      {/* Services Section */}
+      {activeSection === "services" && (
+        <div className="pt-20">
+          <Services />
+          <Video src="https://www.youtube.com/watch?v=saZuQhPeVqU" />
+          <Footer />
+        </div>
+      )}
+
+      {/* Contact Section */}
+      {activeSection === "contact" && (
+        <div className="pt-20">
+          <Contact />
+        </div>
+      )}
+
+      {/* Get A Quote Section */}
+      {activeSection === "quote" && (
+        <div className="pt-20">
+          <GetAQuote />
+        </div>
+      )}
+
+      {/* Schedule Section */}
+      {activeSection === "schedule" && (
+        <div className="pt-20">
+          <Schedule />
+          <Footer />
+        </div>
+      )}
+    </main>
+  );
+}
+
+export default Home;
