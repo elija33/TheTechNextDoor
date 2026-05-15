@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
-const PHONE_NUMBER = "(609) 369-3048";
+const PHONE_NUMBER = "(614) 418-6756";
 
 const Navbar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
             Blog
           </Link>
           <a
-            href="tel:+16093693048"
+            href="tel:+16144186756"
             className="nav-link call-us-btn showing-number"
             onClick={closeMenu}
           >

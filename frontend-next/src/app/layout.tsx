@@ -101,7 +101,7 @@ const localBusinessSchema = {
   description:
     "Fast and affordable phone repair services in Columbus, Ohio. Screen repair, battery replacement, and more. Mobile service - we come to you and fix your phone in about 1 hour.",
   url: "https://thetechnextdoors.com",
-  telephone: "+1-609-369-3048",
+  telephone: "+1-614-418-6756",
   email: "tthetechnextdoors@gmail.com",
   address: {
     "@type": "PostalAddress",

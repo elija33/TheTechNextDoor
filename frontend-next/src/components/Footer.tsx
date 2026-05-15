@@ -43,6 +43,9 @@ function Footer(): JSX.Element {
         <div className="footer-section">
           <h3 className="footer-title">The Tech Next Door</h3>
           <p className="footer-description">{data.description}</p>
+          <p className="footer-phone">
+            <a href="tel:+16144186756">(614) 418-6756</a>
+          </p>
         </div>
 
         <div className="footer-section">
