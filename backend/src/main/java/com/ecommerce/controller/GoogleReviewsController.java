@@ -58,7 +58,7 @@ public class GoogleReviewsController {
                     .toUriString();
 
             Map<String, Object> raw = restTemplate.getForObject(url, Map.class);
-            if (raw == null) return ResponseEntity.ok(emptyResponse());
+            if (raw == null) return ResponseEntity.ok(emptyResponse());//
 
             Map<String, Object> result = (Map<String, Object>) raw.get("result");
             if (result == null) return ResponseEntity.ok(emptyResponse());
