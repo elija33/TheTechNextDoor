@@ -1,12 +1,11 @@
 const HOURS = {
-  0: null,
+  0: { open: 9, close: 19 },
   1: { open: 9, close: 18 },
   2: { open: 9, close: 18 },
   3: { open: 9, close: 18 },
   4: { open: 9, close: 18 },
   5: { open: 9, close: 18 },
   6: { open: 9, close: 19 },
-  7: { open: 9, close: 19 },
 };
 
 export function isOpen(now = new Date()) {
@@ -28,7 +27,6 @@ export function isOpen(now = new Date()) {
     Thu: 4,
     Fri: 5,
     Sat: 6,
-    Sun: 7,
   };
   const day = dayMap[parts.weekday];
   const hour = parseInt(parts.hour, 10);
