@@ -16,7 +16,7 @@ router.post("/voice", (_req, res) => {
   if (!isOpen()) {
     twiml.say(
       VOICE,
-      "We are currently closed. Our hours are Monday through Friday, nine to six, and Saturday, ten to four. Please leave a message after the tone and we'll call you back."
+      "We are currently closed. Our hours are Monday through Friday, nine to six, and Saturday and Sunday, nine to seven. Please leave a message after the tone and we'll call you back."
     );
     twiml.record({
       action: "/voicemail/complete",
