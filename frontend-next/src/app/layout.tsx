@@ -11,7 +11,7 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-ZMFDMFSPSX";
 const DEFAULT_TITLE =
   "TheTechNextDoor | Professional Phone Repair Services in Columbus, Ohio";
 const DEFAULT_DESCRIPTION =
-  "Expert phone repair services in Columbus, Ohio. Screen repair, battery replacement, and more. Fast, reliable, and affordable repairs for all iPhone models. We come to you.";
+  "Cracked screen? Dead battery? The Tech Next Door comes to your home or office in Columbus, OH and nearby areas. Same-day iPhone & phone repair. Call (614) 418-6756.";
 const DEFAULT_KEYWORDS = [
   "phone repair Columbus Ohio",
   "screen repair",
