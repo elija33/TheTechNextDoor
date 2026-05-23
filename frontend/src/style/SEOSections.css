@@ -1,0 +1,330 @@
+/* SEOSections.css */
+
+/* ── Shared ── */
+.seosec-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.seosec-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  margin-bottom: 0.75rem;
+}
+
+.seosec-h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  color: #f8fafc;
+  line-height: 1.2;
+  margin: 0 0 1.2rem;
+}
+.seosec-h2 em {
+  font-style: normal;
+  color: #38bdf8;
+}
+
+.seosec-lead {
+  font-size: 1.05rem;
+  color: rgba(248, 250, 252, 0.72);
+  line-height: 1.75;
+  max-width: 680px;
+  margin: 0 0 2.5rem;
+}
+
+.seosec-cta-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+}
+
+.seosec-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.85rem 1.8rem;
+  border-radius: 9px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
+}
+.seosec-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(59, 130, 246, 0.5);
+}
+.seosec-btn-outline {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  box-shadow: none;
+  color: #e2e8f0;
+}
+.seosec-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: none;
+}
+
+/* ── WHY CHOOSE US ── */
+.seosec-why {
+  background: linear-gradient(180deg, #0a0f1e 0%, #0d1b2a 100%);
+  padding: 5rem 1.5rem;
+}
+.seosec-why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+.seosec-why-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.8rem 1.5rem;
+  transition:
+    transform 0.25s,
+    border-color 0.25s;
+}
+.seosec-why-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(56, 189, 248, 0.35);
+}
+.seosec-why-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.8rem;
+}
+.seosec-why-card h3 {
+  color: #f8fafc;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+.seosec-why-card p {
+  color: rgba(248, 250, 252, 0.62);
+  font-size: 0.93rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── SERVICES ── */
+.seosec-services {
+  background: #080d18;
+  padding: 5rem 1.5rem;
+}
+.seosec-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.seosec-service-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 2rem 1.5rem;
+  transition:
+    transform 0.25s,
+    border-color 0.25s;
+}
+.seosec-service-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+.seosec-service-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+.seosec-service-title {
+  color: #f8fafc;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 0.6rem;
+}
+.seosec-service-desc {
+  color: rgba(248, 250, 252, 0.6);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── HOW IT WORKS ── */
+.seosec-how {
+  background: linear-gradient(180deg, #080d18 0%, #0a1628 100%);
+  padding: 5rem 1.5rem;
+}
+.seosec-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  max-width: 700px;
+}
+.seosec-step {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+.seosec-step-num {
+  font-family: Georgia, serif;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: rgba(56, 189, 248, 0.25);
+  line-height: 1;
+  min-width: 60px;
+  padding-top: 0.1rem;
+}
+.seosec-step-body h3 {
+  color: #f8fafc;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+}
+.seosec-step-body p {
+  color: rgba(248, 250, 252, 0.62);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── COVERAGE ── */
+.seosec-coverage {
+  background: #080d18;
+  padding: 5rem 1.5rem;
+}
+.seosec-areas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.seosec-area-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  color: #bae6fd;
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+}
+.seosec-area-dot {
+  width: 6px;
+  height: 6px;
+  background: #38bdf8;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.seosec-coverage-note {
+  color: rgba(248, 250, 252, 0.55);
+  font-size: 0.92rem;
+  margin: 0;
+}
+.seosec-coverage-note a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+.seosec-coverage-note a:hover {
+  text-decoration: underline;
+}
+
+/* ── FAQ ── */
+.seosec-faq {
+  background: linear-gradient(180deg, #0a1628 0%, #0a0f1e 100%);
+  padding: 5rem 1.5rem;
+}
+.seosec-faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.seosec-faq-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.seosec-faq-q {
+  color: #f8fafc;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+.seosec-faq-a {
+  color: rgba(248, 250, 252, 0.62);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── CLOSING CTA ── */
+.seosec-closing {
+  background: linear-gradient(135deg, #0f2744 0%, #1e3a5f 50%, #0f2744 100%);
+  padding: 5rem 1.5rem;
+  text-align: center;
+  border-top: 1px solid rgba(56, 189, 248, 0.15);
+}
+.seosec-closing-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.seosec-closing-h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  color: #f8fafc;
+  margin: 0 0 1rem;
+}
+.seosec-closing-sub {
+  font-size: 1.05rem;
+  color: rgba(248, 250, 252, 0.7);
+  max-width: 580px;
+  line-height: 1.7;
+  margin: 0 0 0.5rem;
+}
+.seosec-closing .seosec-cta-row {
+  justify-content: center;
+}
+.seosec-closing-areas {
+  margin-top: 2rem;
+  font-size: 0.82rem;
+  color: rgba(248, 250, 252, 0.4);
+  letter-spacing: 0.04em;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .seosec-why,
+  .seosec-services,
+  .seosec-how,
+  .seosec-coverage,
+  .seosec-faq,
+  .seosec-closing {
+    padding: 3.5rem 1rem;
+  }
+  .seosec-cta-row {
+    flex-direction: column;
+  }
+  .seosec-step {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .seosec-step-num {
+    font-size: 2rem;
+  }
+}

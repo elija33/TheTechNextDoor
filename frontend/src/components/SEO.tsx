@@ -10,7 +10,8 @@ interface SEOProps {
 }
 
 const DEFAULT_TITLE =
-  "TheTechNextDoor | Professional Mobile Phone Repair Services";
+  "TheTechNextDoor | Professional Mobile Phone Repair Services in Columbus, Ohio | We Come to You";
+
 const DEFAULT_DESCRIPTION =
   "Mobile Phone and cell phone repair in Columbus, Ohio and nearby areas including Westerville, Dublin, Upper Arlington, Worthington, Grandview Heights, and Bexley. The Tech Next Door offers on-site repair, bringing fast, same-day service to your home or office—no store visit needed. Services include screen repair, battery replacement, charging port repair, and water damage recovery for most devices. We also provide in-home tech support for seniors, including setup and troubleshooting. Reliable, affordable service with transparent pricing. Schedule today at thetechnextdoors.com.";
 const DEFAULT_KEYWORDS =

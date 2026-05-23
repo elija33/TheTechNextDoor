@@ -1,0 +1,244 @@
+/* HeroSEO.css */
+
+.heroseo {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0a0f1e 0%, #0d1b2a 40%, #0f2744 100%);
+  padding: 5rem 1.5rem 4rem;
+}
+
+/* Animated blobs */
+.heroseo-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  animation: blobFloat 8s ease-in-out infinite;
+}
+.heroseo-blob-1 {
+  width: 500px;
+  height: 500px;
+  background: #3b82f6;
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+.heroseo-blob-2 {
+  width: 400px;
+  height: 400px;
+  background: #06b6d4;
+  bottom: -80px;
+  right: -80px;
+  animation-delay: 3s;
+}
+.heroseo-blob-3 {
+  width: 300px;
+  height: 300px;
+  background: #6366f1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 5s;
+}
+
+@keyframes blobFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.05);
+  }
+}
+.heroseo-blob-3 {
+  animation: blobFloat3 8s ease-in-out infinite;
+  animation-delay: 5s;
+}
+@keyframes blobFloat3 {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -60%) scale(1.08);
+  }
+}
+
+/* Inner content */
+.heroseo-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 780px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  animation: heroFadeIn 0.9s ease both;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Badge */
+.heroseo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: #93c5fd;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+.heroseo-badge-dot {
+  width: 7px;
+  height: 7px;
+  background: #22d3ee;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.4);
+  }
+}
+
+/* Headline */
+.heroseo-h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+  font-weight: 800;
+  color: #f8fafc;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.heroseo-h1-accent {
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subheadline */
+.heroseo-sub {
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  color: rgba(248, 250, 252, 0.72);
+  line-height: 1.7;
+  max-width: 620px;
+  margin: 0;
+}
+
+/* CTA Buttons */
+.heroseo-ctas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.4rem;
+}
+.heroseo-btn-primary {
+  display: inline-block;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(59, 130, 246, 0.4);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.heroseo-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.55);
+}
+.heroseo-btn-secondary {
+  display: inline-block;
+  background: transparent;
+  color: #e2e8f0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+  backdrop-filter: blur(4px);
+}
+.heroseo-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Trust bar */
+.heroseo-trust {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem 2rem;
+  margin-top: 0.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+}
+.heroseo-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(248, 250, 252, 0.75);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.heroseo-trust-icon {
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .heroseo {
+    min-height: auto;
+    padding: 4rem 1rem 3rem;
+  }
+  .heroseo-ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .heroseo-btn-primary,
+  .heroseo-btn-secondary {
+    text-align: center;
+  }
+}
