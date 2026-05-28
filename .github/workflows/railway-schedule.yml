@@ -1,15 +1,80 @@
+# name: Railway Auto Schedule
+
+# on:
+#   schedule:
+#     - cron: '0 11 * * *'   # 6 AM EST (UTC-5) → Resume
+#     - cron: '0 4 * * *'    # 11 PM EST (UTC-5) → Suspend
+#   workflow_dispatch:
+#     inputs:
+#       action:
+#         description: 'Action to perform'
+#         required: true
+#         default: 'resume'
+#         type: choice
+#         options:
+#           - resume
+#           - suspend
+
+# jobs:
+#   manage-railway:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Determine action
+#         id: action
+#         run: |
+#           if [ "${{ github.event_name }}" = "schedule" ]; then
+#             HOUR=$(date -u +%H)
+#             if [ "$HOUR" = "11" ]; then
+#               echo "action=resume" >> $GITHUB_OUTPUT
+#             else
+#               echo "action=suspend" >> $GITHUB_OUTPUT
+#             fi
+#           else
+#             echo "action=${{ inputs.action }}" >> $GITHUB_OUTPUT
+#           fi
+
+#       - name: Resume Railway services
+#         if: steps.action.outputs.action == 'resume'
+#         run: |
+#           echo "Resuming backend service..."
+#           curl -s -X POST https://backboard.railway.app/graphql/v2 \
+#             -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+#             -H "Content-Type: application/json" \
+#             -d "{\"query\":\"mutation { serviceInstanceResume(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_BACKEND }}\\\") }\"}"
+
+#           echo "Resuming MySQL service..."
+#           curl -s -X POST https://backboard.railway.app/graphql/v2 \
+#             -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+#             -H "Content-Type: application/json" \
+#             -d "{\"query\":\"mutation { serviceInstanceResume(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_MYSQL }}\\\") }\"}"
+
+#       - name: Suspend Railway services
+#         if: steps.action.outputs.action == 'suspend'
+#         run: |
+#           echo "Suspending backend service..."
+#           curl -s -X POST https://backboard.railway.app/graphql/v2 \
+#             -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+#             -H "Content-Type: application/json" \
+#             -d "{\"query\":\"mutation { serviceInstanceSuspend(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_BACKEND }}\\\") }\"}"
+
+#           echo "Suspending MySQL service..."
+#           curl -s -X POST https://backboard.railway.app/graphql/v2 \
+#             -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+#             -H "Content-Type: application/json" \
+#             -d "{\"query\":\"mutation { serviceInstanceSuspend(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_MYSQL }}\\\") }\"}"
+
 name: Railway Auto Schedule
 
 on:
   schedule:
-    - cron: '0 11 * * *'   # 6 AM EST (UTC-5) → Resume
-    - cron: '0 4 * * *'    # 11 PM EST (UTC-5) → Suspend
+    - cron: "0 12 * * *" # 7 AM EST (UTC-5) → Resume
+    - cron: "0 4 * * *" # 11 PM EST (UTC-5) → Suspend
   workflow_dispatch:
     inputs:
       action:
-        description: 'Action to perform'
+        description: "Action to perform"
         required: true
-        default: 'resume'
+        default: "resume"
         type: choice
         options:
           - resume
@@ -24,7 +89,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then
             HOUR=$(date -u +%H)
-            if [ "$HOUR" = "11" ]; then
+            if [ "$HOUR" = "12" ]; then
               echo "action=resume" >> $GITHUB_OUTPUT
             else
               echo "action=suspend" >> $GITHUB_OUTPUT
@@ -36,28 +101,52 @@ jobs:
       - name: Resume Railway services
         if: steps.action.outputs.action == 'resume'
         run: |
-          echo "Resuming backend service..."
-          curl -s -X POST https://backboard.railway.app/graphql/v2 \
-            -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "{\"query\":\"mutation { serviceInstanceResume(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_BACKEND }}\\\") }\"}"
-
-          echo "Resuming MySQL service..."
+          echo "Resuming MySQL..."
           curl -s -X POST https://backboard.railway.app/graphql/v2 \
             -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d "{\"query\":\"mutation { serviceInstanceResume(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_MYSQL }}\\\") }\"}"
 
+          echo "Resuming Backend..."
+          curl -s -X POST https://backboard.railway.app/graphql/v2 \
+            -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"query\":\"mutation { serviceInstanceResume(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_BACKEND }}\\\") }\"}"
+
+          echo "Resuming Frontend..."
+          curl -s -X POST https://backboard.railway.app/graphql/v2 \
+            -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"query\":\"mutation { serviceInstanceResume(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_FRONTEND }}\\\") }\"}"
+
+          echo "Resuming Achievement..."
+          curl -s -X POST https://backboard.railway.app/graphql/v2 \
+            -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"query\":\"mutation { serviceInstanceResume(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_ACHIEVEMENT }}\\\") }\"}"
+
       - name: Suspend Railway services
         if: steps.action.outputs.action == 'suspend'
         run: |
-          echo "Suspending backend service..."
+          echo "Suspending Frontend..."
+          curl -s -X POST https://backboard.railway.app/graphql/v2 \
+            -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"query\":\"mutation { serviceInstanceSuspend(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_FRONTEND }}\\\") }\"}"
+
+          echo "Suspending Achievement..."
+          curl -s -X POST https://backboard.railway.app/graphql/v2 \
+            -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"query\":\"mutation { serviceInstanceSuspend(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_ACHIEVEMENT }}\\\") }\"}"
+
+          echo "Suspending Backend..."
           curl -s -X POST https://backboard.railway.app/graphql/v2 \
             -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d "{\"query\":\"mutation { serviceInstanceSuspend(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"${{ secrets.RAILWAY_SERVICE_ID_BACKEND }}\\\") }\"}"
 
-          echo "Suspending MySQL service..."
+          echo "Suspending MySQL last (database always last)..."
           curl -s -X POST https://backboard.railway.app/graphql/v2 \
             -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
             -H "Content-Type: application/json" \
