@@ -41,7 +41,7 @@ jobs:
             RESPONSE=$(curl -s -X POST https://backboard.railway.app/graphql/v2 \
               -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
               -H "Content-Type: application/json" \
-              -d "{\"query\":\"mutation { serviceInstanceUpdate(serviceId: \\\"$SERVICE_ID\\\", environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", input: { numReplicas: 1 }) }\"}")
+              -d "{\"query\":\"mutation { serviceInstanceResume(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"$SERVICE_ID\\\") }\"}")
             echo "Response: $RESPONSE"
           done
 
@@ -53,6 +53,6 @@ jobs:
             RESPONSE=$(curl -s -X POST https://backboard.railway.app/graphql/v2 \
               -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
               -H "Content-Type: application/json" \
-              -d "{\"query\":\"mutation { serviceInstanceUpdate(serviceId: \\\"$SERVICE_ID\\\", environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", input: { numReplicas: 0 }) }\"}")
+              -d "{\"query\":\"mutation { serviceInstanceSuspend(environmentId: \\\"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\\\", serviceId: \\\"$SERVICE_ID\\\") }\"}")
             echo "Response: $RESPONSE"
           done
