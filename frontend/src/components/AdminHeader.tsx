@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import { Bell, LogOut } from "lucide-react";
+import { Bell } from "lucide-react";
 import "../style/AdminHeader.css";
 
 interface AdminInfo {
@@ -35,7 +35,7 @@ function AdminHeader({ title, adminInfo, onLogout }: AdminHeaderProps): JSX.Elem
         </div>
 
         <button className="admin-header-logout" onClick={onLogout}>
-          <LogOut size={14} />
+          Log out
         </button>
       </div>
     </header>
