@@ -70,7 +70,6 @@ public class AdminAccountService {
             emailService.sendAdminCredentialsEmail(email, firstName, username, finalPassword);
         }
 
-        saved.setPasswordHash(null);
         return saved;
     }
 
@@ -83,7 +82,6 @@ public class AdminAccountService {
             throw new RuntimeException("Invalid username/email or password");
         }
 
-        admin.setPasswordHash(null);
         return admin;
     }
 
@@ -98,9 +96,7 @@ public class AdminAccountService {
 
         admin.setPasswordHash(passwordEncoder.encode(newPassword));
         admin.setMustChangePassword(false);
-        Admin saved = adminRepository.save(admin);
-        saved.setPasswordHash(null);
-        return saved;
+        return adminRepository.save(admin);
     }
 
     @Transactional
@@ -113,8 +109,6 @@ public class AdminAccountService {
         admin.setAge(age);
         admin.setGender(gender);
 
-        Admin saved = adminRepository.save(admin);
-        saved.setPasswordHash(null);
-        return saved;
+        return adminRepository.save(admin);
     }
 }
