@@ -54,11 +54,7 @@ public class AdminAccountController {
                 request.get("password")
             );
 
-            Map<String, Object> response = toSummary(admin);
-            if (admin.isMustChangePassword()) {
-                response.put("temporaryPassword", admin.getPasswordHash());
-            }
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            return ResponseEntity.status(HttpStatus.CREATED).body(toSummary(admin));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { JSX } from "react";
 import { useRouter } from "next/navigation";
+import { AdminAccount } from "../services/api";
 import AdminSidebar from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
 import DashboardOverview from "./dashboard/DashboardOverview";
@@ -32,24 +33,38 @@ const sectionTitles: Record<string, string> = {
   administration: "Administration",
 };
 
-interface AdminInfo {
-  firstName: string;
-  lastName: string;
-  age: string;
-  gender: string;
-  emailOrPhone: string;
-}
-
 function AdminDashboard(): JSX.Element {
   const [activeSection, setActiveSection] = useState("overview");
+  const [adminInfo, setAdminInfo] = useState<AdminAccount | null>(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const router = useRouter();
 
-  const stored = localStorage.getItem("adminInfo");
-  const adminInfo: AdminInfo | null = stored ? JSON.parse(stored) : null;
+  useEffect(() => {
+    const stored = localStorage.getItem("adminInfo");
+    let parsed: AdminAccount | null = null;
+    try {
+      parsed = stored ? JSON.parse(stored) : null;
+    } catch {
+      parsed = null;
+    }
+
+    if (!parsed || !parsed.id) {
+      router.replace("/admin");
+      return;
+    }
+
+    setAdminInfo(parsed);
+    setCheckingAuth(false);
+  }, [router]);
 
   const handleLogout = () => {
+    localStorage.removeItem("adminInfo");
     router.push("/admin");
   };
+
+  if (checkingAuth) {
+    return <div className="admin-auth-checking" />;
+  }
 
   const renderSection = () => {
     switch (activeSection) {

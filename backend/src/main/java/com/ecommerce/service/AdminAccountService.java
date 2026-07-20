@@ -70,7 +70,7 @@ public class AdminAccountService {
             emailService.sendAdminCredentialsEmail(email, firstName, username, finalPassword);
         }
 
-        saved.setPasswordHash(finalPassword);
+        saved.setPasswordHash(null);
         return saved;
     }
 

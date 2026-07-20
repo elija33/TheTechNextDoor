@@ -89,7 +89,6 @@ export interface AdminAccount {
   gender: string | null;
   mustChangePassword: boolean;
   createdAt: number;
-  temporaryPassword?: string;
 }
 
 export const adminAccountsApi = {

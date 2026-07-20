@@ -4,6 +4,11 @@
   overflow: hidden;
 }
 
+.admin-auth-checking {
+  height: 100vh;
+  background-color: #f0f2f5;
+}
+
 .admin-dashboard-main {
   margin-left: 250px;
   flex: 1;

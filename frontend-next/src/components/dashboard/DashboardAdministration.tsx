@@ -50,7 +50,7 @@ function DashboardAdministration(): JSX.Element {
   const [newAdmin, setNewAdmin] = useState(NEW_ADMIN_DEFAULTS);
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState("");
-  const [createdCredentials, setCreatedCredentials] = useState<{ username: string; email: string; temporaryPassword: string } | null>(null);
+  const [createdConfirmation, setCreatedConfirmation] = useState<{ username: string; email: string } | null>(null);
 
   const [loading, setLoading] = useState(true);
 
@@ -153,11 +153,7 @@ function DashboardAdministration(): JSX.Element {
     setCreating(true);
     try {
       const res = await adminAccountsApi.create(newAdmin);
-      setCreatedCredentials({
-        username: res.data.username,
-        email: res.data.email,
-        temporaryPassword: res.data.temporaryPassword || "",
-      });
+      setCreatedConfirmation({ username: res.data.username, email: res.data.email });
       setNewAdmin(NEW_ADMIN_DEFAULTS);
       loadAdmins();
     } catch (err) {
@@ -289,8 +285,8 @@ function DashboardAdministration(): JSX.Element {
       <h2 className="df-title da-section-gap">Admin Accounts</h2>
       <p className="df-subtitle">
         Create accounts for other admins. A username and temporary password are generated
-        automatically, shown once below, and emailed to them — they can change the password
-        after logging in.
+        automatically and emailed directly to them — you won&apos;t see their password. They can
+        log in with the username or their email, and change the password anytime.
       </p>
 
       <div className="da-row">
@@ -330,15 +326,15 @@ function DashboardAdministration(): JSX.Element {
         {creating ? "Creating..." : "Create Admin Account"}
       </button>
 
-      {createdCredentials && (
+      {createdConfirmation && (
         <div className="da-credentials-box">
           <p>
-            <strong>Admin account created.</strong> Save these now — the password won&apos;t be
-            shown again (it&apos;s also been emailed to {createdCredentials.email}).
+            <strong>Admin account created.</strong> Username{" "}
+            <strong>{createdConfirmation.username}</strong> — their login details have been
+            emailed to {createdConfirmation.email}. For security, the temporary password is only
+            ever shown to them, not here.
           </p>
-          <p>Username: <strong>{createdCredentials.username}</strong></p>
-          <p>Temporary password: <strong>{createdCredentials.temporaryPassword}</strong></p>
-          <button className="da-dismiss-btn" onClick={() => setCreatedCredentials(null)}>
+          <button className="da-dismiss-btn" onClick={() => setCreatedConfirmation(null)}>
             Dismiss
           </button>
         </div>

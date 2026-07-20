@@ -1,18 +1,11 @@
 import { JSX } from "react";
 import { Bell } from "lucide-react";
+import { AdminAccount } from "../services/api";
 import "../style/AdminHeader.css";
-
-interface AdminInfo {
-  firstName: string;
-  lastName: string;
-  age: string;
-  gender: string;
-  emailOrPhone: string;
-}
 
 interface AdminHeaderProps {
   title: string;
-  adminInfo: AdminInfo | null;
+  adminInfo: AdminAccount | null;
   onLogout: () => void;
 }
 
