@@ -1,0 +1,18 @@
+.da-editor {
+  max-width: 700px;
+}
+
+.da-row {
+  display: flex;
+  gap: 16px;
+}
+
+.da-row .df-field {
+  flex: 1;
+}
+
+.da-section-gap {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}

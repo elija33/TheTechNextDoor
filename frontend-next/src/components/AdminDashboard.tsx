@@ -15,6 +15,7 @@ import DashboardSeniorTech from "./dashboard/DashboardSeniorTech";
 import DashboardVideo from "./dashboard/DashboardVideo";
 import DashboardTechnician from "./dashboard/DashboardTechnician";
 import DashboardFooter from "./dashboard/DashboardFooter";
+import DashboardAdministration from "./dashboard/DashboardAdministration";
 import "../style/AdminDashboard.css";
 
 const sectionTitles: Record<string, string> = {
@@ -28,6 +29,7 @@ const sectionTitles: Record<string, string> = {
   carousel: "Carousel Images",
   video: "Video",
   footer: "Footer",
+  administration: "Administration",
 };
 
 interface AdminInfo {
@@ -71,6 +73,8 @@ function AdminDashboard(): JSX.Element {
         return <DashboardTechnician />;
       case "footer":
         return <DashboardFooter />;
+      case "administration":
+        return <DashboardAdministration />;
       default:
         return <DashboardOverview />;
     }

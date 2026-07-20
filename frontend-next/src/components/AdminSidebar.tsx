@@ -13,6 +13,7 @@ import {
   Video,
   PanelBottom,
   UserCircle,
+  Settings,
 } from "lucide-react";
 import "../style/AdminSidebar.css";
 
@@ -33,6 +34,7 @@ const navItems = [
   { id: "carousel", label: "Carousel Images", icon: ImageIcon },
   { id: "video", label: "Video", icon: Video },
   { id: "footer", label: "Footer", icon: PanelBottom },
+  { id: "administration", label: "Administration", icon: Settings },
 ];
 
 function AdminSidebar({
