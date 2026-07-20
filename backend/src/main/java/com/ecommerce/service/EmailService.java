@@ -38,6 +38,28 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendAdminCredentialsEmail(String to, String firstName, String username, String temporaryPassword) {
+        if (!isConfigured()) {
+            System.out.println("Email not sent - mail not configured. Would send admin credentials to: " + to);
+            return;
+        }
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Your Admin Account - The Tech Next Door");
+        message.setText(
+            "Hello " + firstName + ",\n\n" +
+            "An admin account has been created for you at The Tech Next Door.\n\n" +
+            "Username: " + username + "\n" +
+            "Temporary password: " + temporaryPassword + "\n\n" +
+            "You can log in with either your username or this email address. " +
+            "Please change your password after logging in.\n\n" +
+            "Best regards,\n" +
+            "The Tech Next Door Team"
+        );
+
+        mailSender.send(message);
+    }
+
     public void sendScheduleNotification(String customerName, String email, String phone,
                                           String brand, String grouping, String model,
                                           String service, String date, String time,

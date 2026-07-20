@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { JSX } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { emailApi } from "../services/api";
+import { emailApi, adminAccountsApi } from "../services/api";
 import "../style/AdminRegister.css";
 
 function AdminRegister(): JSX.Element {
@@ -47,24 +47,27 @@ function AdminRegister(): JSX.Element {
     setSending(true);
 
     try {
-      await emailApi.sendConfirmation({
+      const res = await adminAccountsApi.create({
+        firstName,
+        lastName,
         email: emailOrPhone,
-        firstName,
-        lastName,
-      });
-
-      const adminInfo = {
-        firstName,
-        lastName,
         age,
         gender,
-        emailOrPhone,
-      };
+        password,
+      });
 
-      localStorage.setItem("adminInfo", JSON.stringify(adminInfo));
+      localStorage.setItem("adminInfo", JSON.stringify(res.data));
+
+      try {
+        await emailApi.sendConfirmation({ email: emailOrPhone, firstName, lastName });
+      } catch {
+        // confirmation email is best-effort; account creation already succeeded
+      }
+
       router.push("/admin");
-    } catch {
-      alert("Failed to send confirmation email. Please try again.");
+    } catch (err) {
+      const message = (err as { response?: { data?: { error?: string } } })?.response?.data?.error;
+      alert(message || "Failed to create account. Please try again.");
     } finally {
       setSending(false);
     }

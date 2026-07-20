@@ -78,6 +78,33 @@ export const quoteRequestsApi = {
   delete: (id: string) => api.delete(`/quote-requests/${encodeURIComponent(id)}`),
 };
 
+// Admin Accounts API
+export interface AdminAccount {
+  id: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  age: string | null;
+  gender: string | null;
+  mustChangePassword: boolean;
+  createdAt: number;
+  temporaryPassword?: string;
+}
+
+export const adminAccountsApi = {
+  getAll: () => api.get<AdminAccount[]>('/admin/accounts'),
+  create: (data: { firstName: string; lastName: string; email: string; age?: string; gender?: string; password?: string }) =>
+    api.post<AdminAccount>('/admin/accounts', data),
+  login: (data: { identifier: string; password: string }) =>
+    api.post<AdminAccount>('/admin/accounts/login', data),
+  changePassword: (id: number, data: { currentPassword: string; newPassword: string }) =>
+    api.put<AdminAccount>(`/admin/accounts/${id}/password`, data),
+  updateProfile: (id: number, data: { firstName: string; lastName: string; age?: string; gender?: string }) =>
+    api.put<AdminAccount>(`/admin/accounts/${id}`, data),
+  delete: (id: number) => api.delete(`/admin/accounts/${id}`),
+};
+
 // Settings API (video URL, quote options, etc.)
 export const settingsApi = {
   get: (key: string) => api.get<string>(`/settings/${key}`),

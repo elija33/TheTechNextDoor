@@ -1,5 +1,5 @@
 .da-editor {
-  max-width: 700px;
+  max-width: 800px;
 }
 
 .da-row {
@@ -15,4 +15,85 @@
   margin-top: 40px;
   padding-top: 24px;
   border-top: 1px solid #e5e7eb;
+}
+
+.da-warning {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.da-error {
+  color: #dc2626;
+  font-size: 13px;
+  margin: -8px 0 12px;
+}
+
+.da-credentials-box {
+  margin-top: 16px;
+  padding: 16px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 8px;
+}
+
+.da-credentials-box p {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #065f46;
+}
+
+.da-credentials-box p:last-of-type {
+  margin-bottom: 12px;
+}
+
+.da-dismiss-btn {
+  background: none;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.da-admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.da-admin-table th,
+.da-admin-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.da-admin-table th {
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.da-delete-btn {
+  background: none;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.da-delete-btn:hover {
+  background: #fef2f2;
 }

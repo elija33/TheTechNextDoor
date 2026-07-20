@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { JSX } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { adminAccountsApi } from "../services/api";
 import "../style/AdminLogin.css";
 
 declare global {
@@ -31,6 +32,8 @@ function AdminLogin(): JSX.Element {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
 
   const handleGoogleLogin = () => {
@@ -61,7 +64,7 @@ function AdminLogin(): JSX.Element {
     setShowGoogleModal(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email.trim()) {
@@ -70,9 +73,18 @@ function AdminLogin(): JSX.Element {
     }
 
     setEmailError(false);
-    // TODO: Add actual authentication logic here
-    console.log("Login attempt:", { email, password });
-    router.push("/admin/dashboard");
+    setAuthError("");
+    setSubmitting(true);
+
+    try {
+      const res = await adminAccountsApi.login({ identifier: email.trim(), password });
+      localStorage.setItem("adminInfo", JSON.stringify(res.data));
+      router.push("/admin/dashboard");
+    } catch {
+      setAuthError("Incorrect username, email, or password.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -107,8 +119,10 @@ function AdminLogin(): JSX.Element {
             className="admin-input"
           />
 
-          <button type="submit" className="admin-login-btn">
-            Log In
+          {authError && <p className="admin-error-message">{authError}</p>}
+
+          <button type="submit" className="admin-login-btn" disabled={submitting}>
+            {submitting ? "Logging In..." : "Log In"}
           </button>
 
           {emailError && (
