@@ -34,8 +34,8 @@ function DashboardOverview(): JSX.Element {
 
     contactMessagesApi.getAll()
       .then((res) => {
-        const msgs = res.data as { read?: boolean }[];
-        setUnreadMessages(msgs.filter((m) => !m.read).length);
+        const msgs = res.data as { unread?: boolean }[];
+        setUnreadMessages(msgs.filter((m) => m.unread).length);
       })
       .catch(() => setUnreadMessages(0));
 
