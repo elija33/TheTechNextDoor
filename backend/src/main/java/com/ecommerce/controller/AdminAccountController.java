@@ -22,6 +22,11 @@ public class AdminAccountController {
     private final AdminAccountService adminAccountService;
     private final AdminRepository adminRepository;
 
+    private Map<String, String> errorBody(Exception e) {
+        String message = e.getMessage();
+        return Map.of("error", message != null ? message : e.getClass().getSimpleName());
+    }
+
     private Map<String, Object> toSummary(Admin admin) {
         Map<String, Object> summary = new LinkedHashMap<>();
         summary.put("id", admin.getId());
@@ -58,8 +63,8 @@ public class AdminAccountController {
             Map<String, Object> response = toSummary(result.admin());
             response.put("emailSent", result.emailSent());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(errorBody(e));
         }
     }
 
@@ -70,8 +75,8 @@ public class AdminAccountController {
             Map<String, Object> response = toSummary(result.admin());
             response.put("emailSent", result.emailSent());
             return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(errorBody(e));
         }
     }
 
@@ -80,8 +85,8 @@ public class AdminAccountController {
         try {
             Admin admin = adminAccountService.login(request.get("identifier"), request.get("password"));
             return ResponseEntity.ok(toSummary(admin));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody(e));
         }
     }
 
@@ -90,8 +95,8 @@ public class AdminAccountController {
         try {
             Admin admin = adminAccountService.changePassword(id, request.get("currentPassword"), request.get("newPassword"));
             return ResponseEntity.ok(toSummary(admin));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(errorBody(e));
         }
     }
 
@@ -106,14 +111,18 @@ public class AdminAccountController {
                 request.get("gender")
             );
             return ResponseEntity.ok(toSummary(admin));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(errorBody(e));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        adminRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
+            adminRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(errorBody(e));
+        }
     }
 }

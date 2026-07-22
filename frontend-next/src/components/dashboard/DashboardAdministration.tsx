@@ -14,8 +14,12 @@ function formatDate(ts: number): string {
 }
 
 function extractError(err: unknown, fallback: string): string {
-  const message = (err as { response?: { data?: { error?: string } } })?.response?.data?.error;
-  return message || fallback;
+  const axiosErr = err as { response?: { status?: number; data?: { error?: string } }; request?: unknown };
+  const message = axiosErr?.response?.data?.error;
+  if (message) return message;
+  if (axiosErr?.response) return `${fallback} (server responded with status ${axiosErr.response.status}).`;
+  if (axiosErr?.request) return `${fallback} (couldn't reach the server — check your connection).`;
+  return fallback;
 }
 
 function DashboardAdministration(): JSX.Element {
