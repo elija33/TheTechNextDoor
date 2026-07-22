@@ -1,21 +1,7 @@
 import { JSX, useState, useEffect } from "react";
-import { settingsApi, adminAccountsApi, AdminAccount } from "../../services/api";
+import { adminAccountsApi, AdminAccount } from "../../services/api";
 import "../../style/DashboardFooter.css";
 import "../../style/DashboardAdministration.css";
-
-interface SiteSettings {
-  businessPhone: string;
-  businessEmail: string;
-  businessAddress: string;
-  businessHours: string;
-}
-
-const SITE_DEFAULTS: SiteSettings = {
-  businessPhone: "",
-  businessEmail: "",
-  businessAddress: "",
-  businessHours: "",
-};
 
 const PROFILE_DEFAULTS = { firstName: "", lastName: "", age: "", gender: "" };
 const NEW_ADMIN_DEFAULTS = { firstName: "", lastName: "", email: "", age: "", gender: "" };
@@ -41,16 +27,11 @@ function DashboardAdministration(): JSX.Element {
   const [passwordSaved, setPasswordSaved] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
-  const [siteSettings, setSiteSettings] = useState<SiteSettings>(SITE_DEFAULTS);
-  const [siteSaved, setSiteSaved] = useState(false);
-
   const [admins, setAdmins] = useState<AdminAccount[]>([]);
   const [newAdmin, setNewAdmin] = useState(NEW_ADMIN_DEFAULTS);
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState("");
   const [createdConfirmation, setCreatedConfirmation] = useState<{ username: string; email: string } | null>(null);
-
-  const [loading, setLoading] = useState(true);
 
   const loadAdmins = () => {
     adminAccountsApi.getAll().then((res) => setAdmins(res.data)).catch(() => {});
@@ -74,18 +55,6 @@ function DashboardAdministration(): JSX.Element {
     }
 
     loadAdmins();
-
-    settingsApi.get("siteSettings")
-      .then((res) => {
-        if (res.data) {
-          try {
-            const parsed = typeof res.data === "string" ? JSON.parse(res.data) : res.data;
-            setSiteSettings({ ...SITE_DEFAULTS, ...parsed });
-          } catch { /* use defaults */ }
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
   }, []);
 
   const handleSaveProfile = async () => {
@@ -136,12 +105,6 @@ function DashboardAdministration(): JSX.Element {
     }
   };
 
-  const handleSaveSite = async () => {
-    await settingsApi.save("siteSettings", JSON.stringify(siteSettings));
-    setSiteSaved(true);
-    setTimeout(() => setSiteSaved(false), 3000);
-  };
-
   const handleCreateAdmin = async () => {
     if (!newAdmin.firstName.trim() || !newAdmin.lastName.trim() || !newAdmin.email.trim()) {
       setCreateError("First name, last name, and email are required.");
@@ -166,8 +129,6 @@ function DashboardAdministration(): JSX.Element {
     await adminAccountsApi.delete(id);
     loadAdmins();
   };
-
-  if (loading) return <div className="df-loading">Loading...</div>;
 
   return (
     <div className="df-editor da-editor">
@@ -361,54 +322,6 @@ function DashboardAdministration(): JSX.Element {
 
       <button className="df-save-btn" onClick={handleChangePassword}>
         {passwordSaved ? "Saved!" : "Change Password"}
-      </button>
-
-      <h2 className="df-title da-section-gap">Site Settings</h2>
-      <p className="df-subtitle">Business contact info and hours shown across the site.</p>
-
-      <div className="df-field">
-        <label>Business Phone</label>
-        <input
-          type="text"
-          value={siteSettings.businessPhone}
-          onChange={(e) => setSiteSettings({ ...siteSettings, businessPhone: e.target.value })}
-          className="df-input"
-        />
-      </div>
-
-      <div className="df-field">
-        <label>Business Email</label>
-        <input
-          type="text"
-          value={siteSettings.businessEmail}
-          onChange={(e) => setSiteSettings({ ...siteSettings, businessEmail: e.target.value })}
-          className="df-input"
-        />
-      </div>
-
-      <div className="df-field">
-        <label>Business Address</label>
-        <input
-          type="text"
-          value={siteSettings.businessAddress}
-          onChange={(e) => setSiteSettings({ ...siteSettings, businessAddress: e.target.value })}
-          className="df-input"
-        />
-      </div>
-
-      <div className="df-field">
-        <label>Business Hours</label>
-        <textarea
-          value={siteSettings.businessHours}
-          onChange={(e) => setSiteSettings({ ...siteSettings, businessHours: e.target.value })}
-          rows={4}
-          className="df-textarea"
-          placeholder={"Mon-Fri: 9am - 7pm\nSat-Sun: 9am - 7pm"}
-        />
-      </div>
-
-      <button className="df-save-btn" onClick={handleSaveSite}>
-        {siteSaved ? "Saved!" : "Save Site Settings"}
       </button>
     </div>
   );
