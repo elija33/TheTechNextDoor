@@ -38,10 +38,14 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendAdminCredentialsEmail(String to, String firstName, String username, String temporaryPassword) {
+    /**
+     * Never throws — a failed/unconfigured send must not take down the caller (e.g. account
+     * creation). Returns whether the email actually went out, so the caller can report it.
+     */
+    public boolean sendAdminCredentialsEmail(String to, String firstName, String username, String temporaryPassword) {
         if (!isConfigured()) {
             System.out.println("Email not sent - mail not configured. Would send admin credentials to: " + to);
-            return;
+            return false;
         }
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -57,7 +61,13 @@ public class EmailService {
             "The Tech Next Door Team"
         );
 
-        mailSender.send(message);
+        try {
+            mailSender.send(message);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Email not sent - send failed for " + to + ": " + e.getMessage());
+            return false;
+        }
     }
 
     public void sendScheduleNotification(String customerName, String email, String phone,

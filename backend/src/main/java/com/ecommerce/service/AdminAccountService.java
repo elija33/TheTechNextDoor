@@ -21,6 +21,8 @@ public class AdminAccountService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
+    public record AdminCreationResult(Admin admin, boolean emailSent) {}
+
     public String generateUsername(String firstName, String lastName) {
         String base = ((firstName == null ? "" : firstName) + "." + (lastName == null ? "" : lastName))
             .toLowerCase()
@@ -44,7 +46,7 @@ public class AdminAccountService {
     }
 
     @Transactional
-    public Admin createAdmin(String firstName, String lastName, String email, String age, String gender, String rawPassword) {
+    public AdminCreationResult createAdmin(String firstName, String lastName, String email, String age, String gender, String rawPassword) {
         if (adminRepository.existsByEmail(email)) {
             throw new RuntimeException("An admin with this email already exists: " + email);
         }
@@ -66,11 +68,34 @@ public class AdminAccountService {
 
         Admin saved = adminRepository.save(admin);
 
-        if (generatedPassword) {
-            emailService.sendAdminCredentialsEmail(email, firstName, username, finalPassword);
+        boolean emailSent = generatedPassword
+            && emailService.sendAdminCredentialsEmail(email, firstName, username, finalPassword);
+
+        return new AdminCreationResult(saved, emailSent);
+    }
+
+    /**
+     * Re-generates and re-sends credentials for an account that's still on its original
+     * system-issued password (mustChangePassword). Refused once the admin has set their own
+     * password, since silently overwriting that would lock them out without warning.
+     */
+    @Transactional
+    public AdminCreationResult resendCredentials(Long id) {
+        Admin admin = adminRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Admin not found: " + id));
+
+        if (!admin.isMustChangePassword()) {
+            throw new RuntimeException("This admin has already set their own password; resend isn't available.");
         }
 
-        return saved;
+        String newPassword = generateRandomPassword();
+        admin.setPasswordHash(passwordEncoder.encode(newPassword));
+        Admin saved = adminRepository.save(admin);
+
+        boolean emailSent = emailService.sendAdminCredentialsEmail(
+            saved.getEmail(), saved.getFirstName(), saved.getUsername(), newPassword);
+
+        return new AdminCreationResult(saved, emailSent);
     }
 
     // Password check is temporarily disabled on login (username/email alone is enough).

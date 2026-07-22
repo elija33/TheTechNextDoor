@@ -33,7 +33,9 @@ function DashboardAdministration(): JSX.Element {
   const [newAdmin, setNewAdmin] = useState(NEW_ADMIN_DEFAULTS);
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState("");
-  const [createdConfirmation, setCreatedConfirmation] = useState<{ username: string; email: string } | null>(null);
+  const [createdConfirmation, setCreatedConfirmation] = useState<{ username: string; email: string; emailSent: boolean } | null>(null);
+  const [resendingId, setResendingId] = useState<number | null>(null);
+  const [resendMessage, setResendMessage] = useState("");
 
   const loadAdmins = () => {
     adminAccountsApi.getAll().then((res) => setAdmins(res.data)).catch(() => {});
@@ -116,7 +118,11 @@ function DashboardAdministration(): JSX.Element {
     setCreating(true);
     try {
       const res = await adminAccountsApi.create(newAdmin);
-      setCreatedConfirmation({ username: res.data.username, email: res.data.email });
+      setCreatedConfirmation({
+        username: res.data.username,
+        email: res.data.email,
+        emailSent: res.data.emailSent ?? false,
+      });
       setNewAdmin(NEW_ADMIN_DEFAULTS);
       loadAdmins();
     } catch (err) {
@@ -130,6 +136,23 @@ function DashboardAdministration(): JSX.Element {
     if (!confirm("Remove this admin account? This cannot be undone.")) return;
     await adminAccountsApi.delete(id);
     loadAdmins();
+  };
+
+  const handleResendCredentials = async (id: number) => {
+    setResendMessage("");
+    setResendingId(id);
+    try {
+      const res = await adminAccountsApi.resendCredentials(id);
+      setResendMessage(
+        res.data.emailSent
+          ? `New temporary password emailed to ${res.data.email}.`
+          : `Couldn't send the email to ${res.data.email} — mail delivery may not be configured right now.`
+      );
+    } catch (err) {
+      setResendMessage(extractError(err, "Failed to resend credentials."));
+    } finally {
+      setResendingId(null);
+    }
   };
 
   return (
@@ -179,18 +202,30 @@ function DashboardAdministration(): JSX.Element {
       </button>
 
       {createdConfirmation && (
-        <div className="da-credentials-box">
-          <p>
-            <strong>Admin account created.</strong> Username{" "}
-            <strong>{createdConfirmation.username}</strong> — their login details have been
-            emailed to {createdConfirmation.email}. For security, the temporary password is only
-            ever shown to them, not here.
-          </p>
+        <div className={createdConfirmation.emailSent ? "da-credentials-box" : "da-credentials-box da-credentials-box--warn"}>
+          {createdConfirmation.emailSent ? (
+            <p>
+              <strong>Admin account created.</strong> Username{" "}
+              <strong>{createdConfirmation.username}</strong> — their login details have been
+              emailed to {createdConfirmation.email}. For security, the temporary password is
+              only ever shown to them, not here.
+            </p>
+          ) : (
+            <p>
+              <strong>Admin account created</strong> (username{" "}
+              <strong>{createdConfirmation.username}</strong>), but the email to{" "}
+              {createdConfirmation.email} could not be sent — mail delivery may not be configured
+              right now. Once it's fixed, use <strong>Resend</strong> below to send them a fresh
+              temporary password.
+            </p>
+          )}
           <button className="da-dismiss-btn" onClick={() => setCreatedConfirmation(null)}>
             Dismiss
           </button>
         </div>
       )}
+
+      {resendMessage && <p className="da-error">{resendMessage}</p>}
 
       {admins.length > 0 && (
         <table className="da-admin-table">
@@ -210,7 +245,16 @@ function DashboardAdministration(): JSX.Element {
                 <td>{a.username}</td>
                 <td>{a.email}</td>
                 <td>{formatDate(a.createdAt)}</td>
-                <td>
+                <td className="da-actions">
+                  {a.mustChangePassword && (
+                    <button
+                      className="da-resend-btn"
+                      onClick={() => handleResendCredentials(a.id)}
+                      disabled={resendingId === a.id}
+                    >
+                      {resendingId === a.id ? "Sending..." : "Resend"}
+                    </button>
+                  )}
                   <button className="da-delete-btn" onClick={() => handleDeleteAdmin(a.id)}>
                     Remove
                   </button>

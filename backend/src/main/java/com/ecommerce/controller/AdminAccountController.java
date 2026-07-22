@@ -3,6 +3,7 @@ package com.ecommerce.controller;
 import com.ecommerce.entity.Admin;
 import com.ecommerce.repository.AdminRepository;
 import com.ecommerce.service.AdminAccountService;
+import com.ecommerce.service.AdminAccountService.AdminCreationResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class AdminAccountController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Map<String, String> request) {
         try {
-            Admin admin = adminAccountService.createAdmin(
+            AdminCreationResult result = adminAccountService.createAdmin(
                 request.get("firstName"),
                 request.get("lastName"),
                 request.get("email"),
@@ -54,7 +55,21 @@ public class AdminAccountController {
                 request.get("password")
             );
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(toSummary(admin));
+            Map<String, Object> response = toSummary(result.admin());
+            response.put("emailSent", result.emailSent());
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/{id}/resend-credentials")
+    public ResponseEntity<?> resendCredentials(@PathVariable Long id) {
+        try {
+            AdminCreationResult result = adminAccountService.resendCredentials(id);
+            Map<String, Object> response = toSummary(result.admin());
+            response.put("emailSent", result.emailSent());
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }

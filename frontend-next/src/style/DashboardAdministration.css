@@ -61,6 +61,20 @@
   cursor: pointer;
 }
 
+.da-credentials-box--warn {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.da-credentials-box--warn p {
+  color: #92400e;
+}
+
+.da-credentials-box--warn .da-dismiss-btn {
+  border-color: #fde68a;
+  color: #92400e;
+}
+
 .da-admin-table {
   width: 100%;
   border-collapse: collapse;
@@ -96,4 +110,28 @@
 
 .da-delete-btn:hover {
   background: #fef2f2;
+}
+
+.da-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.da-resend-btn {
+  background: none;
+  border: 1px solid #bfdbfe;
+  color: #2563eb;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.da-resend-btn:hover {
+  background: #eff6ff;
+}
+
+.da-resend-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
 }

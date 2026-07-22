@@ -92,6 +92,7 @@ export interface AdminAccount {
   gender: string | null;
   mustChangePassword: boolean;
   createdAt: number;
+  emailSent?: boolean;
 }
 
 export const adminAccountsApi = {
@@ -104,6 +105,7 @@ export const adminAccountsApi = {
     api.put<AdminAccount>(`/admin/accounts/${id}/password`, data),
   updateProfile: (id: number, data: { firstName: string; lastName: string; age?: string; gender?: string }) =>
     api.put<AdminAccount>(`/admin/accounts/${id}`, data),
+  resendCredentials: (id: number) => api.post<AdminAccount>(`/admin/accounts/${id}/resend-credentials`),
   delete: (id: number) => api.delete(`/admin/accounts/${id}`),
 };
 
