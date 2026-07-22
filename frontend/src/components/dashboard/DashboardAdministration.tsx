@@ -223,7 +223,7 @@ function DashboardAdministration(): JSX.Element {
         </div>
       )}
 
-      {resendMessage && <p className="da-error">{resendMessage}</p>}
+      {resendMessage && <p className="da-resend-message">{resendMessage}</p>}
 
       {admins.length > 0 && (
         <table className="da-admin-table">

@@ -33,6 +33,12 @@
   margin: -8px 0 12px;
 }
 
+.da-resend-message {
+  color: #dc2626;
+  font-size: 13px;
+  margin: 16px 0 0;
+}
+
 .da-credentials-box {
   margin-top: 16px;
   padding: 16px;
