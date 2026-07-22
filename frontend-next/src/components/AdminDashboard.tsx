@@ -40,17 +40,13 @@ function AdminDashboard(): JSX.Element {
   const router = useRouter();
 
   useEffect(() => {
+    // Login gate is temporarily disabled — the dashboard is reachable without a session.
     const stored = localStorage.getItem("adminInfo");
     let parsed: AdminAccount | null = null;
     try {
       parsed = stored ? JSON.parse(stored) : null;
     } catch {
       parsed = null;
-    }
-
-    if (!parsed || !parsed.id) {
-      router.replace("/admin");
-      return;
     }
 
     setAdminInfo(parsed);
