@@ -1,5 +1,6 @@
 package com.ecommerce.service;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,6 +15,23 @@ public class EmailService {
 
     @Value("${spring.mail.username:}")
     private String mailUsername;
+
+    @PostConstruct
+    void logMailConfigStatus() {
+        String envUser = System.getenv("MAIL_USERNAME");
+        String envPass = System.getenv("MAIL_PASSWORD");
+        System.out.println(
+            "Mail config check - OS env MAIL_USERNAME: " + describe(envUser) +
+            ", OS env MAIL_PASSWORD: " + describe(envPass) +
+            ", Spring-resolved spring.mail.username: " + describe(mailUsername)
+        );
+    }
+
+    private String describe(String value) {
+        if (value == null) return "absent";
+        if (value.isEmpty()) return "present but empty";
+        return "present (length " + value.length() + ")";
+    }
 
     private boolean isConfigured() {
         return mailUsername != null && !mailUsername.isEmpty();
