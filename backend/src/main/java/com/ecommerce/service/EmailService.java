@@ -1,74 +1,78 @@
 package com.ecommerce.service;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Sends email via the Resend HTTP API rather than SMTP - hosting platforms commonly block
+ * outbound SMTP ports, which made direct JavaMail/Gmail SMTP unreliable in production.
+ */
 @Service
 @RequiredArgsConstructor
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    private final RestTemplate restTemplate;
 
-    @Value("${spring.mail.username:}")
-    private String mailUsername;
+    @Value("${resend.api-key:}")
+    private String resendApiKey;
 
-    @PostConstruct
-    void logMailConfigStatus() {
-        String envUser = System.getenv("MAIL_USERNAME");
-        String envPass = System.getenv("MAIL_PASSWORD");
-        System.out.println(
-            "Mail config check - OS env MAIL_USERNAME: " + describe(envUser) +
-            ", OS env MAIL_PASSWORD: " + describe(envPass) +
-            ", Spring-resolved spring.mail.username: " + describe(mailUsername)
-        );
-    }
-
-    private String describe(String value) {
-        if (value == null) return "absent";
-        if (value.isEmpty()) return "present but empty";
-        return "present (length " + value.length() + ")";
-    }
+    @Value("${resend.from-email:onboarding@resend.dev}")
+    private String fromEmail;
 
     private boolean isConfigured() {
-        return mailUsername != null && !mailUsername.isEmpty();
+        return resendApiKey != null && !resendApiKey.isEmpty();
+    }
+
+    /**
+     * Never throws — a failed/unconfigured send must not take down the caller. Returns whether
+     * the email actually went out.
+     */
+    private boolean send(String to, String subject, String text) {
+        if (!isConfigured()) {
+            System.out.println("Email not sent - Resend not configured. Would send to: " + to);
+            return false;
+        }
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(resendApiKey);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            Map<String, Object> body = Map.of(
+                "from", fromEmail,
+                "to", List.of(to),
+                "subject", subject,
+                "text", text
+            );
+
+            restTemplate.postForEntity("https://api.resend.com/emails", new HttpEntity<>(body, headers), String.class);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Email not sent - Resend send failed for " + to + ": " + e.getMessage());
+            return false;
+        }
     }
 
     public void sendConfirmationEmail(String to, String firstName, String lastName) {
-        if (!isConfigured()) {
-            System.out.println("Email not sent - mail not configured. Would send to: " + to);
-            return;
-        }
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject("Confirm Your Account - The Tech Next Door");
-        message.setText(
+        send(to, "Confirm Your Account - The Tech Next Door",
             "Hello " + firstName + " " + lastName + ",\n\n" +
             "Can you please confirm your account at The Tech Next Door.\n\n" +
             "Thank you for registering with us!\n\n" +
             "Best regards,\n" +
             "The Tech Next Door Team"
         );
-
-        mailSender.send(message);
     }
 
-    /**
-     * Never throws — a failed/unconfigured send must not take down the caller (e.g. account
-     * creation). Returns whether the email actually went out, so the caller can report it.
-     */
     public boolean sendAdminCredentialsEmail(String to, String firstName, String username, String temporaryPassword) {
-        if (!isConfigured()) {
-            System.out.println("Email not sent - mail not configured. Would send admin credentials to: " + to);
-            return false;
-        }
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject("Your Admin Account - The Tech Next Door");
-        message.setText(
+        return send(to, "Your Admin Account - The Tech Next Door",
             "Hello " + firstName + ",\n\n" +
             "An admin account has been created for you at The Tech Next Door.\n\n" +
             "Username: " + username + "\n" +
@@ -78,14 +82,6 @@ public class EmailService {
             "Best regards,\n" +
             "The Tech Next Door Team"
         );
-
-        try {
-            mailSender.send(message);
-            return true;
-        } catch (Exception e) {
-            System.out.println("Email not sent - send failed for " + to + ": " + e.getMessage());
-            return false;
-        }
     }
 
     public void sendScheduleNotification(String customerName, String email, String phone,
@@ -93,14 +89,7 @@ public class EmailService {
                                           String service, String date, String time,
                                           String notes, String amount,
                                           String streetAddress, String city, String zip) {
-        if (!isConfigured()) {
-            System.out.println("Email not sent - mail not configured. New schedule from: " + customerName);
-            return;
-        }
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("tthetechnextdoors@gmail.com");
-        message.setSubject("New Service Request - " + customerName);
-        message.setText(
+        send("tthetechnextdoors@gmail.com", "New Service Request - " + customerName,
             "A new service appointment has been scheduled.\n\n" +
             "--- Customer ---\n" +
             "Name:    " + customerName + "\n" +
@@ -120,19 +109,11 @@ public class EmailService {
             (notes != null && !notes.isBlank() ? "--- Notes ---\n" + notes + "\n\n" : "") +
             "Log in to the dashboard to view and manage this request."
         );
-        mailSender.send(message);
     }
 
     public void sendContactNotification(String customerName, String email, String phone,
                                          String contactMethod, String message) {
-        if (!isConfigured()) {
-            System.out.println("Email not sent - mail not configured. New contact from: " + customerName);
-            return;
-        }
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo("tthetechnextdoors@gmail.com");
-        msg.setSubject("New Contact Message - " + customerName);
-        msg.setText(
+        send("tthetechnextdoors@gmail.com", "New Contact Message - " + customerName,
             "A new contact message has been submitted.\n\n" +
             "--- Customer ---\n" +
             "Name:             " + customerName + "\n" +
@@ -142,19 +123,10 @@ public class EmailService {
             "--- Message ---\n" + message + "\n\n" +
             "Log in to the dashboard to view and respond to this message."
         );
-        mailSender.send(msg);
     }
 
     public void sendStatusUpdateEmail(String to, String customerName, String model, String service, String date, String time, String status) {
-        if (!isConfigured()) {
-            System.out.println("Email not sent - mail not configured. Would send to: " + to);
-            return;
-        }
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-
         String capitalizedStatus = status.substring(0, 1).toUpperCase() + status.substring(1);
-        message.setSubject("Appointment " + capitalizedStatus + " - The Tech Next Door");
 
         String body = "Hello " + customerName + ", your " + model + " " + service +
             " appointment at " + date + " " + time + " is " + capitalizedStatus + ".";
@@ -163,7 +135,6 @@ public class EmailService {
         }
         body += "\n\nBest regards,\nThe Tech Next Door Team";
 
-        message.setText(body);
-        mailSender.send(message);
+        send(to, "Appointment " + capitalizedStatus + " - The Tech Next Door", body);
     }
 }
