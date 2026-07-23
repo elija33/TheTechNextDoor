@@ -15,6 +15,7 @@ import DashboardVideo from "./dashboard/DashboardVideo";
 import DashboardTechnician from "./dashboard/DashboardTechnician";
 import DashboardFooter from "./dashboard/DashboardFooter";
 import DashboardAdministration from "./dashboard/DashboardAdministration";
+import ChangePasswordPrompt from "./ChangePasswordPrompt";
 import "../style/AdminDashboard.css";
 
 const SUPER_ADMIN_EMAIL = "amponsaeli@gmail.com";
@@ -45,6 +46,7 @@ function AdminDashboard(): JSX.Element {
   const [activeSection, setActiveSection] = useState("overview");
   const [adminInfo, setAdminInfo] = useState<AdminAccount | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [skipPasswordPrompt, setSkipPasswordPrompt] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,6 +77,12 @@ function AdminDashboard(): JSX.Element {
   }
 
   const canManageAdmins = isSuperAdmin(adminInfo);
+
+  const handlePasswordChanged = (updated: AdminAccount) => {
+    const merged = { ...adminInfo, ...updated };
+    setAdminInfo(merged);
+    localStorage.setItem("adminInfo", JSON.stringify(merged));
+  };
 
   const renderSection = () => {
     switch (activeSection) {
@@ -107,6 +115,14 @@ function AdminDashboard(): JSX.Element {
 
   return (
     <div className="admin-dashboard">
+      {adminInfo?.mustChangePassword && !skipPasswordPrompt && (
+        <ChangePasswordPrompt
+          adminId={adminInfo.id}
+          onChanged={handlePasswordChanged}
+          onSkip={() => setSkipPasswordPrompt(true)}
+        />
+      )}
+
       <AdminSidebar
         activeSection={activeSection}
         onSectionChange={setActiveSection}
