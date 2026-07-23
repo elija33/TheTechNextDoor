@@ -17,6 +17,16 @@ import DashboardFooter from "./dashboard/DashboardFooter";
 import DashboardAdministration from "./dashboard/DashboardAdministration";
 import "../style/AdminDashboard.css";
 
+const SUPER_ADMIN_EMAIL = "amponsaeli@gmail.com";
+const SUPER_ADMIN_NAME = "elija amponsah";
+
+function isSuperAdmin(admin: AdminAccount | null): boolean {
+  if (!admin) return false;
+  if (admin.email?.toLowerCase() === SUPER_ADMIN_EMAIL) return true;
+  const fullName = `${admin.firstName ?? ""} ${admin.lastName ?? ""}`.trim().toLowerCase();
+  return fullName === SUPER_ADMIN_NAME;
+}
+
 const sectionTitles: Record<string, string> = {
   overview: "Dashboard",
   orders: "Orders",
@@ -64,6 +74,8 @@ function AdminDashboard(): JSX.Element {
     return <div className="admin-auth-checking" />;
   }
 
+  const canManageAdmins = isSuperAdmin(adminInfo);
+
   const renderSection = () => {
     switch (activeSection) {
       case "overview":
@@ -87,7 +99,7 @@ function AdminDashboard(): JSX.Element {
       case "footer":
         return <DashboardFooter />;
       case "administration":
-        return <DashboardAdministration />;
+        return canManageAdmins ? <DashboardAdministration /> : <DashboardOverview />;
       default:
         return <DashboardOverview />;
     }
@@ -99,6 +111,7 @@ function AdminDashboard(): JSX.Element {
         activeSection={activeSection}
         onSectionChange={setActiveSection}
         onLogout={handleLogout}
+        showAdministration={canManageAdmins}
       />
 
       <div className="admin-dashboard-main">

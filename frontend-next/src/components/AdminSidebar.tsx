@@ -21,6 +21,7 @@ interface AdminSidebarProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
   onLogout: () => void;
+  showAdministration: boolean;
 }
 
 const navItems = [
@@ -41,13 +42,18 @@ function AdminSidebar({
   activeSection,
   onSectionChange,
   onLogout,
+  showAdministration,
 }: AdminSidebarProps): JSX.Element {
+  const visibleNavItems = navItems.filter(
+    (item) => item.id !== "administration" || showAdministration
+  );
+
   return (
     <aside className="admin-sidebar">
       <div className="sidebar-brand">The Tech Next Door</div>
 
       <nav className="sidebar-nav">
-        {navItems.map((item) => (
+        {visibleNavItems.map((item) => (
           <button
             key={item.id}
             className={`sidebar-nav-item ${activeSection === item.id ? "active" : ""}`}
