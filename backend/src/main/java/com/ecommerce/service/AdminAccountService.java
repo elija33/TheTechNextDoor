@@ -98,12 +98,16 @@ public class AdminAccountService {
         return new AdminCreationResult(saved, emailSent);
     }
 
-    // Password check is temporarily disabled on login (username/email alone is enough).
-    // Account creation still generates/hashes real passwords for when this is turned back on.
     public Admin login(String identifier, String password) {
-        return adminRepository.findByUsername(identifier)
+        Admin admin = adminRepository.findByUsername(identifier)
             .or(() -> adminRepository.findByEmail(identifier))
             .orElseThrow(() -> new RuntimeException("Invalid username/email or password"));
+
+        if (!passwordEncoder.matches(password, admin.getPasswordHash())) {
+            throw new RuntimeException("Invalid username/email or password");
+        }
+
+        return admin;
     }
 
     @Transactional

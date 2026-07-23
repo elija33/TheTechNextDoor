@@ -38,13 +38,17 @@ function AdminDashboard(): JSX.Element {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Login gate is temporarily disabled — the dashboard is reachable without a session.
     const stored = localStorage.getItem("adminInfo");
     let parsed: AdminAccount | null = null;
     try {
       parsed = stored ? JSON.parse(stored) : null;
     } catch {
       parsed = null;
+    }
+
+    if (!parsed || !parsed.id) {
+      navigate("/admin", { replace: true });
+      return;
     }
 
     setAdminInfo(parsed);
