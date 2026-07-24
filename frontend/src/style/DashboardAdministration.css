@@ -39,6 +39,10 @@
   margin: 16px 0 0;
 }
 
+.da-resend-message--success {
+  color: #16a34a;
+}
+
 .da-credentials-box {
   margin-top: 16px;
   padding: 16px;

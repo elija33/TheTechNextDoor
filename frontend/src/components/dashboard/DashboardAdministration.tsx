@@ -32,7 +32,7 @@ function DashboardAdministration(): JSX.Element {
   const [createError, setCreateError] = useState("");
   const [createdConfirmation, setCreatedConfirmation] = useState<{ username: string; email: string; emailSent: boolean } | null>(null);
   const [resendingId, setResendingId] = useState<number | null>(null);
-  const [resendMessage, setResendMessage] = useState("");
+  const [resendMessage, setResendMessage] = useState<{ text: string; success: boolean } | null>(null);
 
   const loadAdmins = () => {
     adminAccountsApi.getAll().then((res) => setAdmins(res.data)).catch(() => {});
@@ -106,17 +106,17 @@ function DashboardAdministration(): JSX.Element {
   };
 
   const handleResendCredentials = async (id: number) => {
-    setResendMessage("");
+    setResendMessage(null);
     setResendingId(id);
     try {
       const res = await adminAccountsApi.resendCredentials(id);
       setResendMessage(
         res.data.emailSent
-          ? `New temporary password emailed to ${res.data.email}.`
-          : `Couldn't send the email to ${res.data.email} — mail delivery may not be configured right now.`
+          ? { text: `New temporary password emailed to ${res.data.email}.`, success: true }
+          : { text: `Couldn't send the email to ${res.data.email} — mail delivery may not be configured right now.`, success: false }
       );
     } catch (err) {
-      setResendMessage(extractError(err, "Failed to resend credentials."));
+      setResendMessage({ text: extractError(err, "Failed to resend credentials."), success: false });
     } finally {
       setResendingId(null);
     }
@@ -192,7 +192,11 @@ function DashboardAdministration(): JSX.Element {
         </div>
       )}
 
-      {resendMessage && <p className="da-resend-message">{resendMessage}</p>}
+      {resendMessage && (
+        <p className={resendMessage.success ? "da-resend-message da-resend-message--success" : "da-resend-message"}>
+          {resendMessage.text}
+        </p>
+      )}
 
       {admins.length > 0 && (
         <table className="da-admin-table">
