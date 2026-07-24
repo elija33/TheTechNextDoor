@@ -77,6 +77,14 @@ function AdminDashboard(): JSX.Element {
   }
 
   const canManageAdmins = isSuperAdmin(adminInfo);
+  const allowedSections = adminInfo?.allowedSections ?? [];
+
+  const canAccessSection = (section: string): boolean => {
+    if (section === "overview") return true;
+    if (section === "administration") return canManageAdmins;
+    if (canManageAdmins) return true;
+    return allowedSections.includes(section);
+  };
 
   const handlePasswordChanged = (updated: AdminAccount) => {
     const merged = { ...adminInfo, ...updated };
@@ -85,7 +93,8 @@ function AdminDashboard(): JSX.Element {
   };
 
   const renderSection = () => {
-    switch (activeSection) {
+    const section = canAccessSection(activeSection) ? activeSection : "overview";
+    switch (section) {
       case "overview":
         return <DashboardOverview />;
       case "orders":
@@ -107,7 +116,7 @@ function AdminDashboard(): JSX.Element {
       case "footer":
         return <DashboardFooter />;
       case "administration":
-        return canManageAdmins ? <DashboardAdministration /> : <DashboardOverview />;
+        return <DashboardAdministration />;
       default:
         return <DashboardOverview />;
     }
@@ -127,7 +136,8 @@ function AdminDashboard(): JSX.Element {
         activeSection={activeSection}
         onSectionChange={setActiveSection}
         onLogout={handleLogout}
-        showAdministration={canManageAdmins}
+        isSuperAdmin={canManageAdmins}
+        allowedSections={allowedSections}
       />
 
       <div className="admin-dashboard-main">

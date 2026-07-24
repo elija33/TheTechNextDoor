@@ -90,11 +90,12 @@ export interface AdminAccount {
   mustChangePassword: boolean;
   createdAt: number;
   emailSent?: boolean;
+  allowedSections: string[];
 }
 
 export const adminAccountsApi = {
   getAll: () => api.get<AdminAccount[]>('/admin/accounts'),
-  create: (data: { firstName: string; lastName: string; email: string; age?: string; gender?: string; password?: string }) =>
+  create: (data: { firstName: string; lastName: string; email: string; age?: string; gender?: string; password?: string; allowedSections?: string[] }) =>
     api.post<AdminAccount>('/admin/accounts', data),
   login: (data: { identifier: string; password: string }) =>
     api.post<AdminAccount>('/admin/accounts/login', data),
@@ -102,6 +103,8 @@ export const adminAccountsApi = {
     api.put<AdminAccount>(`/admin/accounts/${id}/password`, data),
   updateProfile: (id: number, data: { firstName: string; lastName: string; age?: string; gender?: string }) =>
     api.put<AdminAccount>(`/admin/accounts/${id}`, data),
+  updatePermissions: (id: number, allowedSections: string[]) =>
+    api.put<AdminAccount>(`/admin/accounts/${id}/permissions`, { allowedSections }),
   resendCredentials: (id: number) => api.post<AdminAccount>(`/admin/accounts/${id}/resend-credentials`),
   delete: (id: number) => api.delete(`/admin/accounts/${id}`),
 };

@@ -21,7 +21,8 @@ interface AdminSidebarProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
   onLogout: () => void;
-  showAdministration: boolean;
+  isSuperAdmin: boolean;
+  allowedSections: string[];
 }
 
 const navItems = [
@@ -42,11 +43,15 @@ function AdminSidebar({
   activeSection,
   onSectionChange,
   onLogout,
-  showAdministration,
+  isSuperAdmin,
+  allowedSections,
 }: AdminSidebarProps): JSX.Element {
-  const visibleNavItems = navItems.filter(
-    (item) => item.id !== "administration" || showAdministration
-  );
+  const visibleNavItems = navItems.filter((item) => {
+    if (item.id === "overview") return true;
+    if (item.id === "administration") return isSuperAdmin;
+    if (isSuperAdmin) return true;
+    return allowedSections.includes(item.id);
+  });
 
   return (
     <aside className="admin-sidebar">

@@ -8,8 +8,26 @@ import "../../style/DashboardAdministration.css";
 const PROFILE_DEFAULTS = { firstName: "", lastName: "", age: "", gender: "" };
 const NEW_ADMIN_DEFAULTS = { firstName: "", lastName: "", email: "", age: "", gender: "" };
 
+const SECTION_OPTIONS = [
+  { id: "orders", label: "Orders" },
+  { id: "services", label: "Services" },
+  { id: "messages", label: "Messages" },
+  { id: "quotes", label: "Get A Quote" },
+  { id: "seniortech", label: "Senior Tech" },
+  { id: "technician", label: "Technician" },
+  { id: "carousel", label: "Carousel Images" },
+  { id: "video", label: "Video" },
+  { id: "footer", label: "Footer" },
+];
+
+const SUPER_ADMIN_EMAIL = "amponsaeli@gmail.com";
+
 function formatDate(ts: number): string {
   return new Date(ts).toLocaleDateString();
+}
+
+function toggleSection(sections: string[], id: string): string[] {
+  return sections.includes(id) ? sections.filter((s) => s !== id) : [...sections, id];
 }
 
 function extractError(err: unknown, fallback: string): string {
@@ -30,11 +48,17 @@ function DashboardAdministration(): JSX.Element {
 
   const [admins, setAdmins] = useState<AdminAccount[]>([]);
   const [newAdmin, setNewAdmin] = useState(NEW_ADMIN_DEFAULTS);
+  const [newAdminSections, setNewAdminSections] = useState<string[]>([]);
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState("");
   const [createdConfirmation, setCreatedConfirmation] = useState<{ username: string; email: string; emailSent: boolean } | null>(null);
   const [resendingId, setResendingId] = useState<number | null>(null);
   const [resendMessage, setResendMessage] = useState<{ text: string; success: boolean } | null>(null);
+
+  const [editingPermissionsFor, setEditingPermissionsFor] = useState<AdminAccount | null>(null);
+  const [editingSections, setEditingSections] = useState<string[]>([]);
+  const [savingPermissions, setSavingPermissions] = useState(false);
+  const [permissionsError, setPermissionsError] = useState("");
 
   const loadAdmins = () => {
     adminAccountsApi.getAll().then((res) => setAdmins(res.data)).catch(() => {});
@@ -86,13 +110,14 @@ function DashboardAdministration(): JSX.Element {
     setCreateError("");
     setCreating(true);
     try {
-      const res = await adminAccountsApi.create(newAdmin);
+      const res = await adminAccountsApi.create({ ...newAdmin, allowedSections: newAdminSections });
       setCreatedConfirmation({
         username: res.data.username,
         email: res.data.email,
         emailSent: res.data.emailSent ?? false,
       });
       setNewAdmin(NEW_ADMIN_DEFAULTS);
+      setNewAdminSections([]);
       loadAdmins();
     } catch (err) {
       setCreateError(extractError(err, "Failed to create admin account."));
@@ -121,6 +146,27 @@ function DashboardAdministration(): JSX.Element {
       setResendMessage({ text: extractError(err, "Failed to resend credentials."), success: false });
     } finally {
       setResendingId(null);
+    }
+  };
+
+  const handleOpenPermissions = (admin: AdminAccount) => {
+    setPermissionsError("");
+    setEditingSections(admin.allowedSections ?? []);
+    setEditingPermissionsFor(admin);
+  };
+
+  const handleSavePermissions = async () => {
+    if (!editingPermissionsFor) return;
+    setPermissionsError("");
+    setSavingPermissions(true);
+    try {
+      await adminAccountsApi.updatePermissions(editingPermissionsFor.id, editingSections);
+      setEditingPermissionsFor(null);
+      loadAdmins();
+    } catch (err) {
+      setPermissionsError(extractError(err, "Failed to save access."));
+    } finally {
+      setSavingPermissions(false);
     }
   };
 
@@ -162,6 +208,22 @@ function DashboardAdministration(): JSX.Element {
           onChange={(e) => setNewAdmin({ ...newAdmin, email: e.target.value })}
           className="df-input"
         />
+      </div>
+
+      <div className="df-field">
+        <label>Dashboard Access</label>
+        <div className="da-checkbox-grid">
+          {SECTION_OPTIONS.map((section) => (
+            <label key={section.id} className="da-checkbox">
+              <input
+                type="checkbox"
+                checked={newAdminSections.includes(section.id)}
+                onChange={() => setNewAdminSections(toggleSection(newAdminSections, section.id))}
+              />
+              {section.label}
+            </label>
+          ))}
+        </div>
       </div>
 
       {createError && <p className="da-error">{createError}</p>}
@@ -207,6 +269,7 @@ function DashboardAdministration(): JSX.Element {
               <th>Name</th>
               <th>Username</th>
               <th>Email</th>
+              <th>Access</th>
               <th>Created</th>
               <th></th>
             </tr>
@@ -217,8 +280,22 @@ function DashboardAdministration(): JSX.Element {
                 <td>{a.firstName} {a.lastName}</td>
                 <td>{a.username}</td>
                 <td>{a.email}</td>
+                <td>
+                  {a.email?.toLowerCase() === SUPER_ADMIN_EMAIL
+                    ? "Full access"
+                    : a.allowedSections?.length
+                      ? a.allowedSections
+                          .map((id) => SECTION_OPTIONS.find((s) => s.id === id)?.label ?? id)
+                          .join(", ")
+                      : "None"}
+                </td>
                 <td>{formatDate(a.createdAt)}</td>
                 <td className="da-actions">
+                  {a.email?.toLowerCase() !== SUPER_ADMIN_EMAIL && (
+                    <button className="da-resend-btn" onClick={() => handleOpenPermissions(a)}>
+                      Edit Access
+                    </button>
+                  )}
                   {a.mustChangePassword && (
                     <button
                       className="da-resend-btn"
@@ -299,6 +376,39 @@ function DashboardAdministration(): JSX.Element {
       <button className="df-save-btn" onClick={handleSaveProfile}>
         {profileSaved ? "Saved!" : "Save Profile"}
       </button>
+
+      {editingPermissionsFor && (
+        <div className="da-modal-overlay">
+          <div className="da-modal">
+            <h3 className="da-modal-title">
+              Edit access for {editingPermissionsFor.firstName} {editingPermissionsFor.lastName}
+            </h3>
+            <div className="da-checkbox-grid">
+              {SECTION_OPTIONS.map((section) => (
+                <label key={section.id} className="da-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={editingSections.includes(section.id)}
+                    onChange={() => setEditingSections(toggleSection(editingSections, section.id))}
+                  />
+                  {section.label}
+                </label>
+              ))}
+            </div>
+
+            {permissionsError && <p className="da-error">{permissionsError}</p>}
+
+            <div className="da-modal-actions">
+              <button className="df-save-btn" onClick={handleSavePermissions} disabled={savingPermissions}>
+                {savingPermissions ? "Saving..." : "Save Access"}
+              </button>
+              <button className="da-dismiss-btn" onClick={() => setEditingPermissionsFor(null)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

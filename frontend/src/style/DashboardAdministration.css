@@ -125,6 +125,7 @@
 .da-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .da-resend-btn {
@@ -144,4 +145,58 @@
 .da-resend-btn:disabled {
   opacity: 0.6;
   cursor: default;
+}
+
+.da-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 16px;
+  margin-top: 4px;
+}
+
+.da-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.da-checkbox input {
+  cursor: pointer;
+}
+
+.da-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.da-modal {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.da-modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 16px;
+}
+
+.da-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
 }

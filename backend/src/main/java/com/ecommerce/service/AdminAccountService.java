@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +48,7 @@ public class AdminAccountService {
     }
 
     @Transactional
-    public AdminCreationResult createAdmin(String firstName, String lastName, String email, String age, String gender, String rawPassword) {
+    public AdminCreationResult createAdmin(String firstName, String lastName, String email, String age, String gender, String rawPassword, List<String> allowedSections) {
         if (adminRepository.existsByEmail(email)) {
             throw new RuntimeException("An admin with this email already exists: " + email);
         }
@@ -65,6 +67,7 @@ public class AdminAccountService {
         admin.setPasswordHash(passwordEncoder.encode(finalPassword));
         admin.setMustChangePassword(generatedPassword);
         admin.setCreatedAt(System.currentTimeMillis());
+        admin.setAllowedSections(allowedSections != null ? allowedSections : new ArrayList<>());
 
         Admin saved = adminRepository.save(admin);
 
@@ -121,6 +124,15 @@ public class AdminAccountService {
 
         admin.setPasswordHash(passwordEncoder.encode(newPassword));
         admin.setMustChangePassword(false);
+        return adminRepository.save(admin);
+    }
+
+    @Transactional
+    public Admin updatePermissions(Long id, List<String> allowedSections) {
+        Admin admin = adminRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Admin not found: " + id));
+
+        admin.setAllowedSections(allowedSections != null ? allowedSections : new ArrayList<>());
         return adminRepository.save(admin);
     }
 

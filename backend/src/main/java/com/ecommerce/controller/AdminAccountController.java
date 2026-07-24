@@ -38,7 +38,14 @@ public class AdminAccountController {
         summary.put("gender", admin.getGender());
         summary.put("mustChangePassword", admin.isMustChangePassword());
         summary.put("createdAt", admin.getCreatedAt());
+        summary.put("allowedSections", admin.getAllowedSections());
         return summary;
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<String> extractAllowedSections(Map<String, Object> request) {
+        Object raw = request.get("allowedSections");
+        return raw instanceof List ? (List<String>) raw : null;
     }
 
     @GetMapping
@@ -49,20 +56,31 @@ public class AdminAccountController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Map<String, String> request) {
+    public ResponseEntity<?> create(@RequestBody Map<String, Object> request) {
         try {
             AdminCreationResult result = adminAccountService.createAdmin(
-                request.get("firstName"),
-                request.get("lastName"),
-                request.get("email"),
-                request.get("age"),
-                request.get("gender"),
-                request.get("password")
+                (String) request.get("firstName"),
+                (String) request.get("lastName"),
+                (String) request.get("email"),
+                (String) request.get("age"),
+                (String) request.get("gender"),
+                (String) request.get("password"),
+                extractAllowedSections(request)
             );
 
             Map<String, Object> response = toSummary(result.admin());
             response.put("emailSent", result.emailSent());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(errorBody(e));
+        }
+    }
+
+    @PutMapping("/{id}/permissions")
+    public ResponseEntity<?> updatePermissions(@PathVariable Long id, @RequestBody Map<String, Object> request) {
+        try {
+            Admin admin = adminAccountService.updatePermissions(id, extractAllowedSections(request));
+            return ResponseEntity.ok(toSummary(admin));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(errorBody(e));
         }

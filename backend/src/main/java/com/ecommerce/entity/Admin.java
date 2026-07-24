@@ -1,9 +1,12 @@
 package com.ecommerce.entity;
 
+import com.ecommerce.config.StringListConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "admins")
@@ -33,4 +36,13 @@ public class Admin {
     private boolean mustChangePassword;
 
     private Long createdAt;
+
+    /**
+     * Dashboard sections (e.g. "orders", "messages") this admin can access, beyond the always-
+     * available Dashboard overview. The super-admin (Elija Amponsah) bypasses this entirely and
+     * always has full access, enforced client-side.
+     */
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "LONGTEXT")
+    private List<String> allowedSections;
 }
