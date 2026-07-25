@@ -79,6 +79,7 @@ public class EmailService {
             "Temporary password: " + temporaryPassword + "\n\n" +
             "You can log in with either your username or this email address. " +
             "Please change your password after logging in.\n\n" +
+            "Log in here: https://thetechnextdoors.com/admin\n\n" +
             "Best regards,\n" +
             "The Tech Next Door Team"
         );
