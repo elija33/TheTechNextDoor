@@ -73,12 +73,13 @@ public class EmailController {
         try {
             String email = request.get("email");
             String customerName = request.get("customerName");
+            String brand = request.get("brand");
             String model = request.get("model");
             String service = request.get("service");
             String date = request.get("date");
             String time = request.get("time");
             String status = request.get("status");
-            emailService.sendStatusUpdateEmail(email, customerName, model, service, date, time, status);
+            emailService.sendStatusUpdateEmail(email, customerName, brand, model, service, date, time, status);
             return ResponseEntity.ok(Map.of("message", "Status update email sent to " + email));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));

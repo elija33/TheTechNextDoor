@@ -6,6 +6,7 @@ import lombok.Data;
 public class SmsRequest {
     private String phoneNumber;
     private String customerName;
+    private String brand;
     private String model;
     private String service;
     private String date;

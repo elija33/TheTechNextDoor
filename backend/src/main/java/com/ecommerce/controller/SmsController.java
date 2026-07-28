@@ -47,6 +47,7 @@ public class SmsController {
             smsService.sendStatusUpdateSms(
                 request.getPhoneNumber(),
                 request.getCustomerName(),
+                request.getBrand(),
                 request.getModel(),
                 request.getService(),
                 request.getDate(),

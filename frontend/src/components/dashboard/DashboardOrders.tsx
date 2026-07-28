@@ -66,6 +66,7 @@ function DashboardOrders(): JSX.Element {
   const sendStatusNotifications = async (order: Order, newStatus: Order["status"]) => {
     const body = {
       customerName: order.customer,
+      brand: order.brand,
       model: order.model,
       service: order.service,
       date: order.date,

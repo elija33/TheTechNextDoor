@@ -126,11 +126,12 @@ public class EmailService {
         );
     }
 
-    public void sendStatusUpdateEmail(String to, String customerName, String model, String service, String date, String time, String status) {
+    public void sendStatusUpdateEmail(String to, String customerName, String brand, String model, String service, String date, String time, String status) {
         String capitalizedStatus = status.substring(0, 1).toUpperCase() + status.substring(1);
+        String device = ((brand == null ? "" : brand) + " " + (model == null ? "" : model)).trim();
 
-        String body = "Hello " + customerName + ", your " + model + " " + service +
-            " appointment at " + date + " " + time + " is " + capitalizedStatus + ".";
+        String body = "Hello " + customerName + ", your " + device + " " + service +
+            " appointment is scheduled and " + status.toLowerCase() + " at " + date + " at " + time + " EST.";
         if (status.equalsIgnoreCase("confirmed")) {
             body += " See you!";
         }

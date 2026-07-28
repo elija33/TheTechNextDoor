@@ -65,10 +65,10 @@ public class SmsService {
         System.out.println("SMS sent with SID: " + message.getSid());
     }
 
-    public void sendStatusUpdateSms(String toPhoneNumber, String customerName, String model, String service, String date, String time, String status) {
-        String capitalizedStatus = status.substring(0, 1).toUpperCase() + status.substring(1);
-        String messageBody = "Hello " + customerName + ", your " + model + " " + service +
-            " appointment at " + date + " " + time + " is " + capitalizedStatus + ".";
+    public void sendStatusUpdateSms(String toPhoneNumber, String customerName, String brand, String model, String service, String date, String time, String status) {
+        String device = ((brand == null ? "" : brand) + " " + (model == null ? "" : model)).trim();
+        String messageBody = "Hello " + customerName + ", your " + device + " " + service +
+            " appointment is scheduled and " + status.toLowerCase() + " at " + date + " at " + time + " EST.";
         if (status.equalsIgnoreCase("confirmed")) {
             messageBody += " See you!";
         }
@@ -79,12 +79,15 @@ public class SmsService {
             return;
         }
 
-        Message message = Message.creator(
-            new PhoneNumber(toPhoneNumber),
-            new PhoneNumber(twilioPhoneNumber),
-            messageBody
-        ).create();
-
-        System.out.println("SMS sent with SID: " + message.getSid());
+        try {
+            Message message = Message.creator(
+                new PhoneNumber(toPhoneNumber),
+                new PhoneNumber(twilioPhoneNumber),
+                messageBody
+            ).create();
+            System.out.println("SMS sent with SID: " + message.getSid());
+        } catch (Exception e) {
+            System.out.println("SMS not sent - send failed for " + toPhoneNumber + ": " + e.getMessage());
+        }
     }
 }
